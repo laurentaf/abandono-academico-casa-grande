@@ -4,7 +4,7 @@ Architecture Decision Records for this project.
 
 | Number | Title | Status | Date |
 |--------|-------|--------|------|
-| (vazio) | — | — | — |
+| 001 | Classificador Baseline com RandomForestClassifier | Accepted | 2026-06-06 |
 
 > **Nota:** Este índice começa vazio. ADRs reais (numerados a partir de `001-*.md`)
 > são adicionados após o primeiro estágio decisório (data-model, design, ou build).

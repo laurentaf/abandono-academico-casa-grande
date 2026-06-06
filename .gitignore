@@ -1,0 +1,10 @@
+data/*.parquet
+models/*.pkl
+reports/*.md
+!data/.gitkeep
+!models/.gitkeep
+!reports/.gitkeep
+.env
+__pycache__/
+*.pyc
+.venv/

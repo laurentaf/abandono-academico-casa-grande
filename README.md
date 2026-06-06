@@ -22,6 +22,7 @@ python src/main.py
 |---------|-----------|
 | `src/main.py` | Entry point: fetch, train, evaluate |
 | `data/` | Dataset baixado da API (parquet) |
+| `models/` | Modelo treinado (model.pkl) |
 | `reports/` | Métricas do modelo |
 | `spec/` | SDD scaffold (constitution, ADRs, specs) |
 | `contract.md` | Contrato do projeto em prosa |

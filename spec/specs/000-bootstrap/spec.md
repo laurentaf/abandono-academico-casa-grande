@@ -7,7 +7,7 @@
 
 ---
 
-## 1. Contexto
+## Contexto
 
 Pipeline de previsão de abandono acadêmico para a Universidade Casa Grande,
 via DataMission (project ID: 2e4ce469-1a75-45fb-a41e-160196c7b989).
@@ -15,14 +15,14 @@ Dataset: 1000 registros, 7 colunas (student_id, timestamp, course_name,
 enrollment_status, grade_point_average, attendance_rate, scholarship_percent).
 Target: enrollment_status (SUSPENDED = possível abandono).
 
-## 2. Decisão inicial
+## Decisão inicial
 
 - Stack: Python (pandas, scikit-learn, requests, dbt)
 - Ingestão: API DataMission → parquet local
 - Modelagem: classificador scikit-learn (baseline)
 - 3 fases + fase 4 opcional (dashboard + simulação)
 
-## 3. Critérios de pronto
+## Critérios de pronto
 
 - [ ] src/main.py com main(), fetch_dataset(), train_model()
 - [ ] requirements.txt com pandas, scikit-learn, requests, dbt
