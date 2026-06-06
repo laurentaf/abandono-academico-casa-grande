@@ -11,7 +11,7 @@ da Universidade Casa Grande, usando dataset da DataMission. 3 fases estruturadas
 pip install -r requirements.txt
 
 # 2. Configurar API token
-export DATAMISSION_APIKEY="seu_token_aqui"
+export DATAMISSION_APIKEY=<seu_token_aqui>
 
 # 3. Executar pipeline
 python src/main.py
