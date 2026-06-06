@@ -32,7 +32,8 @@ METRICS_PATH = REPORTS_DIR / "model_metrics.md"
 
 def _guard_empty_df(df: pd.DataFrame, context: str) -> None:
     if df is None or df.empty:
-        raise ValueError(f"DataFrame vazio em: {context}. Abortando para evitar IndexError.")
+        print(f"Erro: DataFrame vazio em: {context}. Verifique a fonte de dados e tente novamente.", file=sys.stderr)
+        sys.exit(1)
 
 
 def fetch_dataset(project_id: str = PROJECT_ID, token: str | None = None) -> Path:
