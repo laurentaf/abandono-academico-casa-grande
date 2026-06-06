@@ -4,15 +4,17 @@
 
 ## Stage 0: SDD Scaffold (Missão 0)
 
-- [ ] Criar estrutura de pastas (src, data, reports)
-- [ ] Criar constitution, contract, README, ADR template, harness template, bootstrap spec
+- [x] Criar estrutura de pastas (src, data, reports)
+- [x] Criar constitution, contract, README, ADR template, harness template, bootstrap spec
 
 ## Fase 1: Preparar ambiente e dependências
 
-- [ ] Criar requirements.txt com pandas, scikit-learn, requests, dbt
-- [ ] Implementar fetch_dataset() em src/main.py
-- [ ] Implementar train_model() em src/main.py
-- [ ] Implementar main() em src/main.py
+- [x] Criar requirements.txt com pandas, scikit-learn, requests, dbt
+- [x] Implementar fetch_dataset() em src/main.py
+- [x] Implementar train_model() em src/main.py
+- [x] Implementar main() em src/main.py
+- [x] ADR-001: RandomForestClassifier como baseline
+- [ ] Validar pipeline end-to-end (rodar `python src/main.py`)
 
 ## Fase 2: (aguardar briefing DataMission)
 
