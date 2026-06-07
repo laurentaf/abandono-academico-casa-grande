@@ -26,8 +26,11 @@ MODELS_DIR = BASE_DIR / "models"
 REPORTS_DIR = BASE_DIR / "reports"
 
 DATA_PATH = DATA_DIR / "dataset.parquet"
+RAW_CSV_PATH = DATA_DIR / "raw.csv"
 MODEL_PATH = MODELS_DIR / "model.pkl"
 METRICS_PATH = REPORTS_DIR / "model_metrics.md"
+
+SUPPORTED_FORMATS = ("parquet", "json", "csv")
 
 
 def _guard_empty_df(df: pd.DataFrame, context: str) -> None:
@@ -36,27 +39,44 @@ def _guard_empty_df(df: pd.DataFrame, context: str) -> None:
         sys.exit(1)
 
 
-def fetch_dataset(project_id: str = PROJECT_ID, token: str | None = None) -> Path:
+def fetch_dataset(project_id: str = PROJECT_ID, fmt: str = "parquet", token: str | None = None) -> Path:
+    if fmt not in SUPPORTED_FORMATS:
+        print(f"Erro: formato '{fmt}' nao suportado. Use um de: {SUPPORTED_FORMATS}", file=sys.stderr)
+        sys.exit(1)
+
     if token is None:
         token = os.environ.get("DATAMISSION_APIKEY")
     if not token:
-        raise EnvironmentError(
-            "DATAMISSION_APIKEY nao encontrada. Defina a variavel de ambiente ou passe o token explicitamente."
-        )
+        print("Erro: DATAMISSION_APIKEY nao encontrada. Defina a variavel de ambiente ou passe o token explicitamente.", file=sys.stderr)
+        sys.exit(1)
 
-    url = f"{API_BASE}/projects/{project_id}/dataset?format=parquet"
+    url = f"{API_BASE}/projects/{project_id}/dataset?format={fmt}"
     headers = {"Authorization": f"Bearer {token}"}
 
     response = requests.get(url, headers=headers, timeout=60)
-    response.raise_for_status()
+
+    if response.status_code >= 400:
+        reason = response.text[:200] if response.text else "(sem corpo)"
+        print(
+            f"Erro: API retornou HTTP {response.status_code} ao buscar dataset. "
+            f"Resposta: {reason}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     DATA_PATH.write_bytes(response.content)
 
+    file_size_kb = len(response.content) / 1024
+    print(f"Dataset baixado: {file_size_kb:.1f} KB (formato={fmt}, HTTP {response.status_code})")
+
     df = pd.read_parquet(DATA_PATH)
     _guard_empty_df(df, "fetch_dataset — dataset baixado esta vazio")
 
-    print(f"Dataset salvo em {DATA_PATH} — {len(df)} rows, {len(df.columns)} cols")
+    RAW_CSV_PATH.write_text(df.to_csv(index=False), encoding="utf-8")
+    csv_size_kb = RAW_CSV_PATH.stat().st_size / 1024
+    print(f"Dados crus salvos em {RAW_CSV_PATH} — {csv_size_kb:.1f} KB, {len(df)} rows, {len(df.columns)} cols")
+
     return DATA_PATH
 
 
@@ -137,10 +157,10 @@ _Generated automatically by `src/main.py`._
 
 
 def main() -> None:
-    print("=== Pipeline Abandono Academico — Fase 1 ===")
+    print("=== Pipeline Abandono Academico — Fase 2 ===")
 
     print("\n[1/3] Baixando dataset...")
-    data_path = fetch_dataset()
+    data_path = fetch_dataset(fmt="parquet")
 
     print("\n[2/3] Treinando modelo...")
     metrics = train_model(data_path)
