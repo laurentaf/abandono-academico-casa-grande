@@ -14,7 +14,7 @@
 - [x] Implementar train_model() em src/main.py
 - [x] Implementar main() em src/main.py
 - [x] ADR-001: RandomForestClassifier como baseline
-- [ ] Validar pipeline end-to-end (rodar `python src/main.py`)
+- [x] Validar pipeline end-to-end (rodar `python src/main.py`) — Acc=0.665, F1=0.152 (baseline, melhorar em F2)
 
 ## Fase 2: (aguardar briefing DataMission)
 
