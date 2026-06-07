@@ -22,7 +22,7 @@
 - [x] Tratamento de status HTTP (4xx/5xx) com mensagem amigável
 - [x] Salvar dados crus em data/raw.csv
 - [x] Print registra tamanho do arquivo baixado
-- [ ] Validar pipeline end-to-end com novas mudanças
+- [x] Validar pipeline end-to-end com novas mudanças — 62.0 KB baixados, raw.csv 98.8 KB, F1=0.220
 
 ## Fase 3: (aguardar briefing DataMission)
 
