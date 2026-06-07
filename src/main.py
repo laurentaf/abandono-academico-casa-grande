@@ -25,12 +25,24 @@ DATA_DIR = BASE_DIR / "data"
 MODELS_DIR = BASE_DIR / "models"
 REPORTS_DIR = BASE_DIR / "reports"
 
-DATA_PATH = DATA_DIR / "dataset.parquet"
-RAW_CSV_PATH = DATA_DIR / "raw.csv"
 MODEL_PATH = MODELS_DIR / "model.pkl"
 METRICS_PATH = REPORTS_DIR / "model_metrics.md"
 
 SUPPORTED_FORMATS = ("parquet", "json", "csv")
+
+FILE_EXTENSIONS = {"parquet": ".parquet", "json": ".json", "csv": ".csv"}
+
+
+def _read_df(path: Path, fmt: str) -> pd.DataFrame:
+    if fmt == "parquet":
+        return pd.read_parquet(path)
+    elif fmt == "csv":
+        return pd.read_csv(path)
+    elif fmt == "json":
+        return pd.read_json(path)
+    else:
+        print(f"Erro: formato '{fmt}' nao suportado para leitura. Use um de: {SUPPORTED_FORMATS}", file=sys.stderr)
+        sys.exit(1)
 
 
 def _guard_empty_df(df: pd.DataFrame, context: str) -> None:
@@ -39,7 +51,11 @@ def _guard_empty_df(df: pd.DataFrame, context: str) -> None:
         sys.exit(1)
 
 
-def fetch_dataset(project_id: str = PROJECT_ID, fmt: str = "parquet", token: str | None = None) -> Path:
+def fetch_dataset(project_id: str = PROJECT_ID, fmt: str = "parquet", token: str | None = None) -> tuple[bytes, Path]:
+    """Baixa o dataset da API e retorna (conteudo_bruto, caminho_do_arquivo).
+
+    O chamador decide o que fazer com os bytes — salvar como raw.csv, etc.
+    """
     if fmt not in SUPPORTED_FORMATS:
         print(f"Erro: formato '{fmt}' nao suportado. Use um de: {SUPPORTED_FORMATS}", file=sys.stderr)
         sys.exit(1)
@@ -64,24 +80,22 @@ def fetch_dataset(project_id: str = PROJECT_ID, fmt: str = "parquet", token: str
         )
         sys.exit(1)
 
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    DATA_PATH.write_bytes(response.content)
-
     file_size_kb = len(response.content) / 1024
     print(f"Dataset baixado: {file_size_kb:.1f} KB (formato={fmt}, HTTP {response.status_code})")
 
-    df = pd.read_parquet(DATA_PATH)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    ext = FILE_EXTENSIONS[fmt]
+    data_path = DATA_DIR / f"dataset{ext}"
+    data_path.write_bytes(response.content)
+
+    df = _read_df(data_path, fmt)
     _guard_empty_df(df, "fetch_dataset — dataset baixado esta vazio")
 
-    RAW_CSV_PATH.write_text(df.to_csv(index=False), encoding="utf-8")
-    csv_size_kb = RAW_CSV_PATH.stat().st_size / 1024
-    print(f"Dados crus salvos em {RAW_CSV_PATH} — {csv_size_kb:.1f} KB, {len(df)} rows, {len(df.columns)} cols")
-
-    return DATA_PATH
+    return response.content, data_path
 
 
-def train_model(data_path: Path = DATA_PATH) -> dict:
-    df = pd.read_parquet(data_path)
+def train_model(data_path: Path, fmt: str = "parquet") -> dict:
+    df = _read_df(data_path, fmt)
     _guard_empty_df(df, "train_model — dataset carregado esta vazio")
 
     target_col = "enrollment_status"
@@ -157,15 +171,23 @@ _Generated automatically by `src/main.py`._
 
 
 def main() -> None:
+    fmt = "parquet"
     print("=== Pipeline Abandono Academico — Fase 2 ===")
 
-    print("\n[1/3] Baixando dataset...")
-    data_path = fetch_dataset(fmt="parquet")
+    print("\n[1/4] Baixando dataset...")
+    raw_content, data_path = fetch_dataset(fmt=fmt)
 
-    print("\n[2/3] Treinando modelo...")
-    metrics = train_model(data_path)
+    print("\n[2/4] Salvando dados crus em raw.csv...")
+    df_raw = _read_df(data_path, fmt)
+    raw_csv_path = DATA_DIR / "raw.csv"
+    raw_csv_path.write_text(df_raw.to_csv(index=False), encoding="utf-8")
+    csv_size_kb = raw_csv_path.stat().st_size / 1024
+    print(f"Dados crus salvos em {raw_csv_path} — {csv_size_kb:.1f} KB, {len(df_raw)} rows, {len(df_raw.columns)} cols")
 
-    print("\n[3/3] Salvando metricas...")
+    print("\n[3/4] Treinando modelo...")
+    metrics = train_model(data_path, fmt=fmt)
+
+    print("\n[4/4] Salvando metricas...")
     _save_metrics(metrics)
 
     print("\n=== Pipeline concluido com sucesso ===")
