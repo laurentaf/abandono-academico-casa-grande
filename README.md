@@ -336,7 +336,6 @@ Este projeto está licenciado sob a **Licença MIT** — veja o arquivo [LICENSE
 ## 🙏 Agradecimentos
 
 - **[DataMission](https://datamission.com.br)** — Pela API e dataset de estudantes
-- **[DataMission](https://datamission.com.br)** — Pelo dataset de estudantes
 - **[scikit-learn](https://scikit-learn.org/)** — Pela biblioteca de Machine Learning
 - **[pandas](https://pandas.pydata.org/)** — Pela manipulação de dados
 
