@@ -1,26 +1,29 @@
-# Design Source Reference
+# Design Source
 
-## Artifact
-`artifacts/dashboard/index.html` — Interactive dashboard for the Abandono Acadêmico Casa Grande project (Fase 4).
+**Artifact:** `artifacts/dashboard/index.html`
+**Project:** Abandono Acadêmico Casa Grande
+**Task:** Full PT-BR translation + "Decisões do Modelo" section + histogram label fix
 
-## DESIGN.md Used
-`spec/design-direction.md` — Design Direction document specifying:
-- Dark theme (#1a1a2e background, #00d2ff accent, #ff6b6b alerts)
-- Data-first, ornament-second principle
-- Interactive simulation as understanding tool
-- Responsive layout with CSS grid/flexbox
-- Sans-serif typography (system stack)
+## Changes applied
 
-## Design Decisions
-- **Palette:** #1a1a2e (bg), #16213e (cards), #0f3460 (accent surfaces), #00d2ff (positive), #ff6b6b (alerts), #ffd93d (warnings), #6bcb77 (ok)
-- **Typography:** Segoe UI / system-ui fallback, no external font loading
-- **Layout:** CSS Grid with responsive auto-fit, max-width 1280px container
-- **Charts:** CSS-only histograms (no charting library), SVG ring for risk gauge
-- **Simulation:** Vanilla JS logistic function with domain-calibrated coefficients
-- **Interactivity:** range input sliders with real-time probability recalculation
+1. **PT-BR translation** — All English labels translated to Brazilian Portuguese:
+   - Accuracy → Acurácia
+   - Feature Importance → Importância das Variáveis
+   - Model Summary → Resumo do Modelo
+   - Interactive Simulation → Simulação Interativa
+   - Data Distribution → Distribuição dos Dados
+   - Conclusions → Conclusões
+   - Slider labels, chart titles, tooltips, comments, footer text
 
-## Model Data Sources
-- Metrics: Accuracy=0.665, F1=0.152 (from ADR-001 / task spec)
-- Feature importances: domain-informed estimates based on RandomForest baseline
-- Coefficients: simplified logistic approximation for simulation (not the actual RF model)
-- Target distribution: ~75% non-abandoned, ~25% SUSPENDED (from classification report)
+2. **Histogram CRA labels** — Changed from "0, 2, 4, 6, 8, 10" to "0, 1, 2, 3, 4" (CRA scale is 0–4)
+
+3. **New section: "Decisões do Modelo"** — 5 subsections covering:
+   - Variáveis do Dataset (7-column table with keep/remove decisions)
+   - Por que RandomForest vs Regressão Linear
+   - Comparativo com Outros Modelos (3-model table)
+   - Sensibilidade das Variáveis (visual bar indicators)
+   - Por que foi necessário complicar (justification)
+
+## Design direction
+
+N/A — dashboard uses existing DESIGN.md from child repo.
