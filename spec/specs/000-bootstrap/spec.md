@@ -9,7 +9,7 @@
 
 ## Contexto
 
-Pipeline de previsão de abandono acadêmico para a Universidade Casa Grande,
+Pipeline de previsão de abandono acadêmico,
 via DataMission (project ID: 2e4ce469-1a75-45fb-a41e-160196c7b989).
 Dataset: 1000 registros, 7 colunas (student_id, timestamp, course_name,
 enrollment_status, grade_point_average, attendance_rate, scholarship_percent).

@@ -14,7 +14,7 @@
 
 ## Scope
 
-Pipeline de previsão de abandono acadêmico para a Universidade Casa Grande, consumindo dataset via API DataMission. 3 fases estruturadas + fase 4 opcional (dashboard + simulação).
+Pipeline de previsão de abandono acadêmico, consumindo dataset via API DataMission. 3 fases estruturadas + fase 4 opcional (dashboard + simulação).
 
 ## Non-goals
 

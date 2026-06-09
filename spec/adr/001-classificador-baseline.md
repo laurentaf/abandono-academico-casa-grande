@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-Precisamos de um modelo preditivo para identificar estudantes em risco de abandono academico na Universidade Casa Grande. O dataset possui 1000 registros com 7 colunas (student_id, timestamp, course_name, enrollment_status, grade_point_average, attendance_rate, scholarship_percent). O target e binario: SUSPENDED = 1 (abandono), demais status = 0.
+Precisamos de um modelo preditivo para identificar estudantes em risco de abandono academico. O dataset possui 1000 registros com 7 colunas (student_id, timestamp, course_name, enrollment_status, grade_point_average, attendance_rate, scholarship_percent). O target e binario: SUSPENDED = 1 (abandono), demais status = 0.
 
 Esta e a Fase 1 do pipeline, onde o objetivo e estabelecer uma baseline funcional antes de iterar com modelos mais sofisticados.
 

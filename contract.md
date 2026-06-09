@@ -1,7 +1,7 @@
 # Contract — Abandono Acadêmico Casa Grande
 
 ## Brief
-Pipeline de Previsão de Abandono Acadêmico para a Universidade Casa Grande.
+Pipeline de Previsão de Abandono Acadêmico, consumindo dataset via API DataMission.
 Consome dataset via API DataMission, treina modelo de classificação
 (scikit-learn) para prever enrollment_status, e gera relatórios de métricas.
 

@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Dashboard interativo em HTML que apresenta as conclusões do modelo preditivo de abandono acadêmico da Universidade Casa Grande, com simulação interativa que permite ao usuário ajustar variáveis e observar impacto em tempo real na probabilidade de abandono.
+Dashboard interativo em HTML que apresenta as conclusões do modelo preditivo de abandono acadêmico, com simulação interativa que permite ao usuário ajustar variáveis e observar impacto em tempo real na probabilidade de abandono.
 
 ## Princípios de Design
 

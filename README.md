@@ -1,6 +1,6 @@
 # 🎓 Pipeline de Previsão de Abandono Acadêmico
 
-### Universidade Casa Grande — DataMission
+### Projeto DataMission
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 📖 Sobre o Projeto
 
-Este projeto implementa um **pipeline completo de Machine Learning** para prever o risco de **abandono acadêmico** de estudantes da Universidade Casa Grande.
+Este projeto implementa um **pipeline completo de Machine Learning** para prever o risco de **abandono acadêmico** de estudantes, utilizando dados do projeto DataMission.
 
 O pipeline consome um dataset via API da **DataMission**, executa verificações de qualidade de dados (DQ baseline), treina um modelo de classificação **RandomForestClassifier** e gera relatórios de métricas. Uma fase opcional (Fase 4) inclui um **dashboard interativo** com simulação de cenários.
 
@@ -323,7 +323,7 @@ Ou acesse via [GitHub Pages](https://laurentaf.github.io/abandono-academico-casa
 **Laurent** — Data Architect & ML Engineer
 
 - GitHub: [@laurentaf](https://github.com/laurentaf)
-- LinkedIn: [Laurent](https://linkedin.com/in/laurent)
+- LinkedIn: [lauferreira](https://linkedin.com/in/lauferreira)
 
 ---
 
@@ -336,7 +336,7 @@ Este projeto está licenciado sob a **Licença MIT** — veja o arquivo [LICENSE
 ## 🙏 Agradecimentos
 
 - **[DataMission](https://datamission.com.br)** — Pela API e dataset de estudantes
-- **[Universidade Casa Grande](https://www.casagrande.edu.br)** — Pelo contexto acadêmico e dados
+- **[DataMission](https://datamission.com.br)** — Pelo dataset de estudantes
 - **[scikit-learn](https://scikit-learn.org/)** — Pela biblioteca de Machine Learning
 - **[pandas](https://pandas.pydata.org/)** — Pela manipulação de dados
 
@@ -344,7 +344,7 @@ Este projeto está licenciado sob a **Licença MIT** — veja o arquivo [LICENSE
 
 <div align="center">
 
-Feito com ❤️ para a Universidade Casa Grande
+Feito com ❤️
 
 [⬆ Voltar ao topo](#-pipeline-de-previsão-de-abandono-acadêmico)
 
