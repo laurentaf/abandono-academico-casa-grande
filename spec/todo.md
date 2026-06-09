@@ -24,9 +24,16 @@
 - [x] Print registra tamanho do arquivo baixado
 - [x] Validar pipeline end-to-end com novas mudanças — 62.0 KB baixados, raw.csv 98.8 KB, F1=0.220
 
-## Fase 3: (aguardar briefing DataMission)
+## Fase 3: Preprocessamento + DQ baseline checks + pipeline reestruturada
 
-- [ ] TBD
+- [x] Extrair `preprocess_data(df)` de `train_model()` — separação de concerns
+- [x] Implementar limpeza de nulls em `preprocess_data` (drop/fill + logging)
+- [x] Substituir sklearn LabelEncoder por pandas encoding (get_dummies ou .cat.codes)
+- [x] Implementar 6 DQ baseline checks em `src/main.py` (check_nulls, check_columns, check_types, check_duplicates, check_target_balance, check_bounds)
+- [x] Encadear pipeline: `fetch_dataset -> DQ checks -> preprocess_data -> train_model`
+- [x] Atualizar `artifacts/dq/checks.md` com implementação dos 6 checks (DQ-01 a DQ-06)
+- [x] Decidir path de modelo: `src/model.pkl` (ADR-002 documenta decisao)
+- [x] Validar pipeline end-to-end com `python src/main.py` — metrics no console
 
 ## Fase 4 (opcional): Dashboard + Simulação
 
