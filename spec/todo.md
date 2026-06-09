@@ -37,4 +37,4 @@
 
 ## Fase 4 (opcional): Dashboard + Simulação
 
-- [ ] Dashboard com conclusões e simulação interativa
+- [x] Dashboard com conclusões e simulação interativa (artifacts/dashboard/index.html, 25.9KB self-contained)
