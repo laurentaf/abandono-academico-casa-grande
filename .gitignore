@@ -1,11 +1,29 @@
-data/*.parquet
-models/*.pkl
+# OULAD data files (too large for GitHub — download from https://analyse.kmi.open.ac.uk/open_dataset)
+data/oulad/*.csv
+data/oulad.zip
+!data/oulad/.gitkeep
+
+# SynEdu-HEDL (rejected dataset, not needed)
+data/synedu-hedl/
+
+# DuckDB (binary, large)
+artifacts/data/oulad.duckdb
+
+# Model (trained, binary)
 src/model.pkl
-reports/*.md
-!data/.gitkeep
-!models/.gitkeep
-!reports/.gitkeep
+
+# Old DataMission paths (no longer used)
+data/*.parquet
+data/raw.csv
+data/dataset.csv
+data/dataset.json
+
+# Env and cache
 .env
 __pycache__/
 *.pyc
 .venv/
+
+# OS
+Thumbs.db
+.DS_Store
