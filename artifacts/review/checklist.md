@@ -1,187 +1,179 @@
-# Review Checklist — Abandono Acadêmico Casa Grande
+# Review: abandono-academico-casa-grande
 
 **project_name:** abandono-academico-casa-grande
 **review_date:** 2026-06-09
+**reviewer:** delivery-reviewer (Round 6)
 **verdict:** NOT DELIVERABLE
-**review_round:** 5 (OULAD migration validation)
 
 ---
 
-## Stage 0: PASS
+## Stage 0: PASS (wdl_gate exit_code=N/A)
 
-**Preflight:** PASS (0 findings, 6 checks). Orchestrator confirmed.
-**Boot check:** PASS.
-**WDL gate:** N/A (pre-WDL project, no workflow-decomposer dispatch recorded).
-**Preflight JSON consumido:** `PREFLIGHT_PASS (0 findings, 6 checks). Boot check: PASS.`
+Preflight consumed from orchestrator: **PASS (0 findings)**.
+Boot check: **PASS**.
 
----
-
-## Stage 1: P0 walk
-
-### Estrutura do projeto (SDD scaffold — Missão 0)
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 1 | SDD scaffold existe (8 fixed + 1 conditional) | PASS | All 9 files exist in child repo: spec/constitution.md, spec/todo.md, spec/adr/{_template.md,README.md}, spec/harness/_template.md, spec/specs/000-bootstrap/spec.md, contract.md, README.md, spec/design-direction.md (conditional — `dashboard` in needs) |
-| 2 | `spec/todo.md` populado desde Stage 0 | PASS | `spec/todo.md:7-8` — Missão 0 task `[x]` |
-| 3 | `contract.md` existe, ≥ 250 chars | PASS | Child repo `contract.md` — 23 lines, espelha project.yaml (DataMission-era, stale content — see FAIL in Stage 2) |
-
-### Validação obrigatória
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 4 | delivery-reviewer validated | N/A_justified | This IS the current validation |
-| 5 | project.yaml valid with needs + deliverables | PASS | `project.yaml:1-111`, needs L16-22 (data, etl, ml, predictive-modeling, data-quality, dashboard), deliverables L24-35 |
-| 6 | All deliverables exist | **FAIL** | project.yaml declares 3 deliverables that DO NOT exist in child repo: (a) `data/oulad/` (7 CSVs OULAD) — path does not exist; (b) `artifacts/data/etl_oulad.sql` — does not exist; (c) `artifacts/data/oulad.duckdb` — does not exist. Child repo has `data/dataset.csv` (DataMission) and `data/raw.csv` (DataMission), not OULAD data. |
-| 7 | No secrets in versioned files | PASS | `src/main.py:69-73` reads DATAMISSION_APIKEY from env var; `.gitignore:7` excludes `.env`; no hardcoded keys found |
-| 8 | Git sync structural changes | N/A | No structural LAOS changes in this cycle |
-
-### Artefatos por subclasse
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 9 | Data spec in `artifacts/data/` + ≥1 DQ rule | PASS | `artifacts/data/model.md` (GitHub SHA 0696776) + `artifacts/dq/checks.md` (GitHub SHA 1f0fd41) — both present with content |
-| 10 | DataFrame empty guards (no ValueError/IndexError) | PASS | `src/main.py:63-68` — `_guard_empty_df()` uses `sys.exit(1)` + stderr (not ValueError). Called at 3 sites: fetch_dataset L76, preprocess_data L99, train_model L134 |
-| 11 | Visual DESIGN.md referenced in `artifacts/design/source.md` | PASS | `artifacts/design/source.md` (GitHub SHA c78ebc1) references design direction for dashboard |
-| 12 | Automation trigger + SLA documented | N/A_justified | No automation deliverables in this project |
-
-### Decisões (ADRs)
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 13 | ADR-mínimo-1 após 1º estágio decisório | PASS | `spec/adr/001-classificador-baseline.md` (GitHub SHA 484ffa3) — full ADR with Context/Decision/Alternatives/Consequences |
-| 14 | Path único de ADRs | PASS | ADRs in `spec/adr/`; no `artifacts/decisions/` directory |
-
-### Synthetic data (Hard Rule #11, P0-15)
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 15 | P0-15 data policy compliance | **FAIL** | project.yaml declares `data/oulad/` (7 CSVs OULAD) as deliverable but these files do NOT exist. The existing `data/dataset.csv` (99 KB, 500 rows) is DataMission data, NOT OULAD. project.yaml description claims "Dataset OULAD (32.593 alunos, CC-BY 4.0)" but the actual code and data still reference DataMission (API URL `api.datamission.com.br`, PROJECT_ID `2e4ce469...`). No synthetic data frontmatter exists because no data artifacts carry OULAD metadata at all. The declared OULAD data is absent — not synthetic, not real, just missing. |
-| 16 | Default = per-ask | PASS | No synthetic data was generated; the issue is missing data, not synthetic data |
-| 17 | Project-scoped is opt-in | N/A_justified | `project.yaml` does not declare `data_policy` |
-
-### Reprodução e legibilidade
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 18 | README ≥ 400 chars with 3 sections | **FAIL** | Child repo README (GitHub SHA 5dd9db2) is the OLD DataMission version — references "DataMission", "500 estudantes", `DATAMISSION_APIKEY`, `models/` path. The Round 5 context claims "README completamente reescrito para OULAD (32.593 alunos, 87.5% accuracy, src/model.pkl)" but the GitHub README does NOT reflect this. The LAOS local README is ALSO stale — still says "DataMission". Neither version was actually updated. |
-| 19 | No implementation code in LAOS | PASS | Glob for `*.py,*.sql,*.dax,*.pbix` in LAOS project dir returned empty |
-
-### Calibração e pré-flight
-
-| # | Rule | Verdict | Evidence |
-|---|------|---------|----------|
-| 20 | PR-1 Calibration principle | PASS | Level-A rigor applied |
-| 21 | Preflight mecânico passed | PASS | Orchestrator confirmed: exit_code=0, 0 findings, 6 checks |
-| 22 | Boot check 6ª dimensão passed | PASS | Orchestrator confirmed: PASS |
+> **Note on WDL gate:** This project was created before WDL v1 (LACOUNCIL `a4fe9faa` + `7fd94c1a`, 2026-06-06). No `artifacts/wdl/` directory exists in the child repo, and the project predates the mandatory WDL gate. Per DR-E8, this is not a retroactive violation — WDL applies to new dispatches after 2026-06-06. The 6 findings below are all stale-reference P0 violations, not WDL gate violations.
 
 ---
 
-## Stage 2: Project criteria
+## Stage 1: P0 Walk
 
-Criteria derived from `project.yaml` deliverables (L24-35) + stage acceptance criteria.
+### SDD Scaffold (Mission 0)
 
-| # | Criterion | Verdict | Evidence |
-|---|-----------|---------|----------|
-| 1 | src/main.py com função main | PASS | `src/main.py:225` — `def main()` exists in child repo |
-| 2 | src/model.pkl exists | PASS | Listed in `.gitignore:2-3`; model saved at runtime by `train_model()` |
-| 3 | requirements.txt lists dependencies | PASS | `requirements.txt` (GitHub SHA c6aa94a): pandas, scikit-learn, requests, pyarrow, dbt-core |
-| 4 | .gitignore exists | PASS | `.gitignore` (GitHub SHA 6a81c24) — covers data/*.parquet, models/*.pkl, src/model.pkl, .env, etc. |
-| 5 | data/oulad/ (7 CSVs OULAD) exists | **FAIL** | Path `data/oulad/` does NOT exist in child repo. `data/` contains only `.gitkeep`, `dataset.csv`, `dataset.json`, `raw.csv` — all DataMission data |
-| 6 | artifacts/data/model.md exists | PASS | Present in child repo (GitHub SHA 0696776) — BUT content is DataMission-era (1000 rows, DataMission API URL) |
-| 7 | artifacts/data/etl_oulad.sql exists | **FAIL** | Does NOT exist in child repo |
-| 8 | artifacts/data/oulad.duckdb exists | **FAIL** | Does NOT exist in child repo |
-| 9 | artifacts/dq/checks.md exists | PASS | Present (GitHub SHA 1f0fd41) — DQ-01 to DQ-06 documented |
-| 10 | README.md reflects OULAD | **FAIL** | Child repo README references DataMission throughout (badges, API URL, dataset description, 500 students). LAOS local README also references DataMission. Neither was updated. |
-| 11 | artifacts/dashboard/index.html exists | PASS | Present (GitHub SHA 7414e7a) — 40 KB, self-contained, interactive simulation with sliders |
-| 12 | Dashboard mostra conclusões + feature importance | PASS | Dashboard includes: Resumo do Modelo (4 metric cards), Importância das Variáveis (bar chart), Simulação Interativa (3 sliders + risk gauge), Distribuição dos Dados (histograms), Conclusões (6 insights), Decisões do Modelo (5 subsections) |
-| 13 | Dashboard tem simulação interativa | PASS | 3 sliders (CRA, attendance, scholarship) + risk gauge + logistic formula `P = σ(β₀ + β₁·CRA + β₂·Presença + β₃·Bolsa)` + real-time update |
-| 14 | Dashboard responsivo | PASS | CSS `@media(max-width:768px)` and `@media(max-width:600px)` breakpoints; sim-panel stacks vertically on mobile |
-| 15 | contract.md mirrors project.yaml | **FAIL** | `contract.md` (GitHub SHA b39922b) references "API DataMission", lists old deliverables (data/dataset.parquet, reports/model_metrics.md), does NOT mention OULAD, does NOT mention etl_oulad.sql, oulad.duckdb, or data/oulad/ |
+- [PASS] **SDD scaffold exists.** `spec/constitution.md`, `spec/todo.md`, `spec/adr/{_template.md,README.md}`, `spec/harness/_template.md`, `spec/specs/000-bootstrap/spec.md`, `spec/design-direction.md`, `contract.md`, `README.md` — all present in child repo. Per-file minimum sizes met.
+- [PASS] **`spec/todo.md` populated since Stage 0.** First task is Mission 0; all stages checked off.
+
+### Validation
+
+- [PASS] **delivery-reviewer validated.** This is the sign-off document.
+- [PASS] **project.yaml exists, valid, declares needs + deliverables.** 6 needs, 11 deliverables.
+- [PASS] **All deliverables exist in `artifacts/`.** Confirmed: `src/main.py`, `requirements.txt`, `.gitignore`, `artifacts/data/model.md`, `artifacts/data/etl_oulad.sql`, `artifacts/dashboard/index.html`, `artifacts/dq/checks.md`, `artifacts/design/source.md`, `README.md`, `contract.md` — all on GitHub. Gitignored items (`src/model.pkl`, `data/oulad/*.csv`, `artifacts/data/oulad.duckdb`) are expected to be absent from GitHub per `.gitignore`.
+- [PASS] **No secrets in versioned files.** No API keys, tokens, or connection strings found. `.env` in `.gitignore`.
+- [PASS] **Git sync.** Round 5 corrections committed and pushed (SHA `1f522e4`).
+
+### Artifacts by subclass
+
+- [PASS] **Data artifact: spec exists.** `artifacts/data/model.md` — comprehensive (35+ KB), includes schema, ML results, feature importance, statistical tests.
+- [PASS] **Data artifact: DQ rule documented.** `artifacts/dq/checks.md` — 6 DQ baseline checks documented (DQ-01 through DQ-06), all PASS.
+- [FAIL] **Empty DataFrame guard incomplete.** Constitution principle 4: "Nenhuma etapa do pipeline crasha com dados vazios — produz mensagem amigável." `_guard_empty()` exists and is called in `engineer_features()`, but is NOT called in `load_gold_table()`, `prepare_ml_data()`, `train_models()`, `evaluate_on_test()`, or `save_model()`. These stages would crash (KeyError, ValueError, or pickle empty) on empty input.
+  - **Fix:** Add `_guard_empty(df, ...)` calls at the entry of every pipeline function that receives a DataFrame or derived data. Specifically: `load_gold_table` after `fetchdf()`, `prepare_ml_data` after receiving `df`, `evaluate_on_test` after receiving `X_test`/`y_test`. For `train_models` and `save_model`, add `if len(y_train) == 0` / `if model is None` guards. **Owner:** data-architect.
+- [FAIL] **Visual artifact: DESIGN.md reference is stale.** `artifacts/design/source.md` references "CRA scale is 0–4" and "7-column table" — these are DataMission-era descriptions. The OULAD dashboard uses OULAD features (engagement_intensity, days_active, weighted_avg_score), not CRA or 7 columns. The "Decisões do Modelo" section's "Variáveis do Dataset (7-column table with keep/remove decisions)" describes the old dataset.
+  - **Fix:** Rewrite `artifacts/design/source.md` to describe the actual OULAD dashboard changes (feature importance bars, OULAD simulation variables, PT-BR translations of OULAD-specific terms). Remove all CRA / 7-column references. **Owner:** dashboard-designer.
+- [N/A] **Automation trigger + SLA.** No automation deliverable. Project is batch ML pipeline, not n8n workflow.
+
+### Decisions (ADRs)
+
+- [PASS] **ADR-mínimo-1 with temporal gate.** 3 ADRs exist (001 Superseded, 002 Accepted, 003 Accepted), all after first decision stage. Path `spec/adr/NNN-*.md` correct. `_template.md` + `README.md` present.
+
+### Synthetic Data
+
+- [PASS] **P0-15 data policy compliance.** No synthetic data artifacts detected. All data is from OULAD (real, published, CC-BY 4.0). No frontmatter marking needed.
+
+### Reproduction and legibility
+
+- [PASS] **README ≥ 400 chars.** Comprehensive (32,593 students, 87.5% accuracy, "Como Rodar", "Onde está o quê").
+- [PASS] **No implementation code in LAOS.** `Get-ChildItem projects -Recurse -Include *.sql,*.dax,*.pbix` returns empty.
+
+### Calibration and pre-flight
+
+- [PASS] **PR-1 calibration.** Level-A rigor applied (permutation test for significance, 5-fold CV, stratified split — appropriate for 32K row dataset, not PhD-overkill).
+- [PASS] **Preflight passed.** Consumed from orchestrator.
+- [N/A] **Boot check 6th dimension.** Not re-run for this round; consumed from orchestrator PASS.
+
+### Stale DataMission references (P0 — Constitution + specs don't match actual project)
+
+- [FAIL] **`spec/constitution.md` Scope section says "consumindo dataset via API DataMission".** This is the foundational governance document and it references the wrong dataset. After ADR-003 reversed to OULAD, the constitution was not updated.
+  - **Fix:** Change Scope line from "consumindo dataset via API DataMission" to "consumindo dataset OULAD (Open University Learning Analytics Dataset, 32.593 alunos, 7 módulos, 2013–2014)". **Owner:** data-architect (constitution changes are typically the project lead's responsibility).
+- [FAIL] **`spec/specs/000-bootstrap/spec.md` references DataMission API, 1000 records, 7 columns.** The bootstrap spec describes the old dataset entirely (project ID, enrollment_status, grade_point_average, etc.). None of this matches OULAD.
+  - **Fix:** Rewrite `spec/specs/000-bootstrap/spec.md` to describe the actual OULAD project: 7 CSVs, 32,593 students, DuckDB, feature engineering, ML pipeline. **Owner:** data-architect.
+- [FAIL] **`spec/design-direction.md` Section 4 references `grade_point_average, attendance_rate, scholarship_percent`** as dashboard simulation sliders. These are DataMission variables that don't exist in OULAD. The actual dashboard uses OULAD features.
+  - **Fix:** Update Element 3 (Simulação Interativa) to list OULAD features: `days_active`, `total_clicks`, `weighted_avg_score`, `assessment_count`, `engagement_intensity`, etc. **Owner:** dashboard-designer.
+- [FAIL] **`requirements.txt` lists `dbt-core>=1.7.0` and `requests>=2.31.0`.** These are DataMission-era dependencies. The OULAD pipeline uses DuckDB (not dbt) and reads CSVs locally (not API requests). Missing: `duckdb` and `scipy` (which `src/main.py` imports). Stale deps mislead reproducibility.
+  - **Fix:** Remove `dbt-core` and `requests`. Add `duckdb>=0.9.0` and `scipy>=1.11.0`. **Owner:** data-architect.
+
+---
+
+## Stage 2: Project Criteria
+
+Derived from `project.yaml` stages 1–4 acceptance criteria:
+
+- [PASS] **Stage 1: `src/main.py` with `main()` defined.** Confirmed: `def main()` at entry point.
+- [FAIL] **Stage 1: `requirements.txt` lists pandas, scikit-learn, requests, dbt.** `requests` and `dbt-core` are stale (DataMission-era). Missing `duckdb` and `scipy` which the pipeline actually uses.
+  - **Fix:** Same as P0 stale deps fix above. **Owner:** data-architect.
+- [N/A] **Stage 1: `fetch_dataset()` uses `requests.get` with API URL.** This was the DataMission ingestion method. The OULAD pipeline loads CSVs via DuckDB — no API fetch. The old `fetch_dataset` function was replaced by `load_gold_table()`. Acceptance criterion is obsolete per ADR-003.
+- [PASS] **Stage 3: `preprocess_data` equivalent.** `engineer_features()` + `prepare_ml_data()` separate from `train_models()`. Pipeline chains: load → engineer → prepare → train → evaluate.
+- [PASS] **Stage 3: Categorical encoding via pandas (not sklearn LabelEncoder).** ADR-002 documents switch from LabelEncoder to pandas. In actual code, `OneHotEncoder` is used in `ColumnTransformer` (not pandas `.cat.codes`), but this is an improvement over `.cat.codes` (avoids ordinality). Acceptable deviation documented in ADR-002.
+- [PASS] **Stage 3: 6 DQ baseline checks implemented.** `artifacts/dq/checks.md` documents all 6 checks.
+- [PASS] **Stage 3: Model saved at `src/model.pkl`.** `.gitignore` confirms it's produced (gitignored as binary).
+- [PASS] **Stage 4: Dashboard exists at `artifacts/dashboard/index.html`.** Confirmed: 40KB self-contained HTML.
+- [PASS] **Stage 4: Dashboard shows conclusions.** Feature importance bars, metrics cards, distribution chart.
+- [PASS] **Stage 4: Dashboard has interactive simulation.** Sliders for OULAD features with probability output.
+- [PASS] **Stage 4: Dashboard is visually professional and responsive.** Dark theme, responsive grid, PT-BR labels.
 
 ---
 
 ## Stage 3: Coverage
 
-| Rule | Status | Detail |
-|------|--------|--------|
-| SDD scaffold (8 fixed + 1 conditional) | EXPLICITLY_VERIFIED | All 9 files exist in child repo (GitHub API listing confirmed) |
-| design-direction.md (conditional) | EXPLICITLY_VERIFIED | Present in child repo — `spec/design-direction.md` (required because `dashboard` in needs) |
-| todo.md populated | EXPLICITLY_VERIFIED | `spec/todo.md:5-8` — Stage 0 task checked |
-| contract.md ≥ 250 chars | EXPLICITLY_VERIFIED | 23 lines, > 250 chars — BUT content is stale (DataMission, not OULAD) |
-| All deliverables exist | **VIOLATED** | 3 of 12 deliverables in project.yaml do NOT exist: `data/oulad/`, `artifacts/data/etl_oulad.sql`, `artifacts/data/oulad.duckdb` |
-| No secrets | EXPLICITLY_VERIFIED | Env var indirection used; `.gitignore` covers `.env` |
-| Data spec + DQ rule | EXPLICITLY_VERIFIED | `artifacts/data/model.md` + `artifacts/dq/checks.md` both present |
-| DataFrame guards | EXPLICITLY_VERIFIED | `sys.exit(1)` + stderr in `_guard_empty_df()`, called at 3 sites in `src/main.py` |
-| ADR-mínimo-1 | EXPLICITLY_VERIFIED | `spec/adr/001-classificador-baseline.md` + `spec/adr/002-model-path-and-encoding.md` |
-| ADR path único | EXPLICITLY_VERIFIED | No `artifacts/decisions/` directory; ADRs in `spec/adr/` only |
-| P0-15 data policy | **VIOLATED** | Declared OULAD data deliverable is absent. Existing data is DataMission, not OULAD. project.yaml description and deliverables are inconsistent with actual implementation. |
-| README ≥ 400 chars | EXPLICITLY_VERIFIED | GitHub README is ~14.5 KB — exceeds 400 chars. BUT content is stale (DataMission, not OULAD). |
-| No impl code in LAOS | EXPLICITLY_VERIFIED | Glob returned empty for *.py, *.sql, *.dax, *.pbix |
-| Preflight passed | EXPLICITLY_VERIFIED | Orchestrator supplied: exit_code=0, 0 findings |
-| DESIGN.md referenced | EXPLICITLY_VERIFIED | `artifacts/design/source.md` references design direction |
-| Dashboard interativo | EXPLICITLY_VERIFIED | `artifacts/dashboard/index.html` — sliders, risk gauge, feature importance, conclusions |
-| contract.md mirrors project.yaml | **VIOLATED** | contract.md still references DataMission, does not mention OULAD deliverables |
-| README reflects OULAD | **VIOLATED** | Both local and GitHub README reference DataMission throughout |
+| Rule / Criterion | Verdict | Evidence |
+|---|---|---|
+| SDD scaffold exists | EXPLICITLY_VERIFIED | `spec/constitution.md` (GitHub SHA `0c0693`), `spec/todo.md`, `spec/adr/{_template.md,README.md}`, `spec/harness/_template.md`, `spec/specs/000-bootstrap/spec.md`, `spec/design-direction.md`, `contract.md`, `README.md` — all present |
+| spec/todo.md populated since Stage 0 | EXPLICITLY_VERIFIED | `spec/todo.md` — all phases checked off |
+| project.yaml valid | EXPLICITLY_VERIFIED | 6 needs, 11 deliverables, `repo:` field set |
+| All deliverables exist | EXPLICITLY_VERIFIED | 8/11 on GitHub; 3 gitignored (`model.pkl`, `*.csv`, `oulad.duckdb`) — expected |
+| No secrets | EXPLICITLY_VERIFIED | No API keys/tokens in any file; `.env` in `.gitignore` |
+| Data artifact spec + DQ rule | EXPLICITLY_VERIFIED | `artifacts/data/model.md` (35KB), `artifacts/dq/checks.md` (6 checks) |
+| Empty DataFrame guard | VIOLATED | `_guard_empty()` only called in `engineer_features()` (`src/main.py:72`). Missing in: `load_gold_table`, `prepare_ml_data`, `train_models`, `evaluate_on_test`, `save_model` |
+| DESIGN.md reference | VIOLATED | `artifacts/design/source.md` references "CRA scale 0–4" and "7-column table" — DataMission-era |
+| ADR minimum 1 | EXPLICITLY_VERIFIED | 3 ADRs: 001 (Superseded), 002 (Accepted), 003 (Accepted) |
+| ADR path spec/adr/ | EXPLICITLY_VERIFIED | All ADRs in `spec/adr/NNN-*.md` |
+| README ≥ 400 chars | EXPLICITLY_VERIFIED | Comprehensive, includes results, how-to-run, directory map |
+| No implementation code in LAOS | EXPLICITLY_VERIFIED | Glob `projects/**/*.sql`, `*.dax`, `*.pbix` returns empty |
+| Constitution matches project | VIOLATED | `spec/constitution.md` Scope: "consumindo dataset via API DataMission" — stale |
+| Bootstrap spec matches project | VIOLATED | `spec/specs/000-bootstrap/spec.md` describes DataMission API, 1000 records, 7 columns |
+| Design direction matches dashboard | VIOLATED | `spec/design-direction.md` Section 4 lists `grade_point_average, attendance_rate, scholarship_percent` — DataMission variables |
+| requirements.txt matches pipeline | VIOLATED | Lists `dbt-core>=1.7.0`, `requests>=2.31.0` (stale); missing `duckdb`, `scipy` (used by `src/main.py`) |
+| No synthetic data without frontmatter | N/A_justified | No synthetic data — all from OULAD (real, CC-BY 4.0) |
+| Automation trigger + SLA | N/A_justified | No automation deliverable in this project |
+| contract.md ≥ 250 chars | EXPLICITLY_VERIFIED | Contract rewritten for OULAD (GitHub SHA `1dd445`), mirrors project.yaml |
+| PR-1 calibration | EXPLICITLY_VERIFIED | Level-A rigor: permutation tests, 5-fold CV, stratified splits |
 
 ---
 
 ## Stage 4: Reflection
 
-1. **Least confident finding:** The P0-15 (data policy) classification. The issue is not that synthetic data lacks frontmatter — it's that the declared OULAD data simply doesn't exist. This is more of a "deliverable not found" violation (P0 rule 6) than a data-fabrication violation. However, the project.yaml description claims OULAD (32.593 alunos) while the actual code and data use DataMission (500 students). This inconsistency is what makes it a P0-15 concern: if the project represents itself as OULAD-based but ships DataMission data, that's a misrepresentation bordering on data provenance confusion. I classified it as P0-15 + P0 rule 6 (deliverables must exist).
+### 1. Least confident finding
 
-2. **What did I NOT check:**
-   - Runtime execution of `src/main.py` (cannot run Python)
-   - Whether `dbt-core` in requirements.txt is used (declared since Fase 1, never used — 5th consecutive review flagging this)
-   - DataMission API connectivity
-   - Model performance claims (87.5% accuracy claimed in context vs 66.5% in dashboard — unverified)
-   - Security of the DataMission API key handling beyond `.gitignore`
-   - Whether the OULAD dataset (CC-BY 4.0) requires attribution in the README/LICENSE
+The **`requirements.txt`** finding: `dbt-core` and `requests` are clearly stale, but I'm less confident about whether their presence is a P0 violation (blocks delivery) vs. P1 (should fix). The argument for P0: reproducibility is a Constitution principle (principle 2), and `pip install -r requirements.txt` would install two unused packages while missing two required ones (`duckdb`, `scipy`) — the pipeline would **fail to run** after a clean install. This makes it P0.
 
-3. **Pattern reminder:** The README + contract.md staleness is a **recurring pattern**. Round 4 flagged "README stale (referencia DataMission 500 alunos / models/ path)". The orchestrator claimed both were fixed, but my inspection shows they were NOT actually updated in the child repo. This is the **2nd consecutive review** where README staleness was claimed fixed but wasn't. If a 3rd review shows the same pattern (claimed fix, not actually pushed), this triggers DR-E8 — open issue against the orchestrator's fix verification process, not against a subagent.
+### 2. Did NOT check
 
-   Additionally, `dbt-core` in requirements.txt has been flagged as unused in **5 consecutive reviews** (Fase 1 through Round 5). This exceeds the 3-occurrence threshold for DR-E8 — the data-architect charter should include a rule to prune unused dependencies, or the project.yaml should declare it as intentional.
+1. **Dashboard accessibility (WCAG 2.1 AA)** — P1 item, not checked in detail (color contrast, screen reader order).
+2. **Dashboard JS logic correctness** — did not verify the simulation math matches the model's predict_proba.
+3. **OULAD CSV data integrity** — gitignored files can't be verified via GitHub; would need local access.
+4. **`src/model.pkl` quality** — binary file can't be reviewed; trusting the pipeline output documentation.
+5. **Performance / runtime** — no check on pipeline execution time or memory usage.
 
-4. **Permission prompts:** None observed during this review session. All file reads were within charter scope.
+### 3. Pattern reminder
 
----
+**Stale spec after dataset reversal (3rd occurrence).** This is the 3rd time across projects that a fundamental scope change (dataset reversal, API change, target redefinition) left stale references in constitution, bootstrap spec, and design-direction. Previous occurrences:
+- Round 4 of this same project (DataMission → OULAD reversal left stale `models/` directory, fixed in Round 5).
+- Round 3 of this project (old dataset references in contract.md, fixed in Round 5).
 
-## Actions required (FAIL items)
+**Pattern signal:** When a project undergoes a fundamental reversal (ADR-003 type), the subagent making the change should update ALL upstream spec documents (constitution, bootstrap spec, design-direction, requirements.txt) as part of the same commit — not just the implementation artifacts. This is a **charter gap** in `data-architect.md` and `dashboard-designer.md` — neither charter explicitly requires updating spec/ documents after a dataset reversal.
 
-| # | Finding | Fix | Owner |
-|---|---------|------|-------|
-| 1 | **README stale** — child repo README references DataMission (500 students, API URL, models/ path), not OULAD (32.593 alunos, src/model.pkl) | Rewrite README in child repo to reflect OULAD dataset. Sections: "O que é" (OULAD, 32.593 alunos, 7 módulos, CC-BY 4.0), "Como rodar" (no DATAMISSION_APIKEY — OULAD is file-based), "Onde está o quê" (src/model.pkl, data/oulad/, artifacts/data/etl_oulad.sql). Push to GitHub. | orchestrator |
-| 2 | **contract.md stale** — references DataMission, old deliverables | Rewrite contract.md to mirror updated project.yaml: OULAD dataset, new deliverables (data/oulad/, etl_oulad.sql, oulad.duckdb), LADESIGN capability for dashboard. | orchestrator |
-| 3 | **3 deliverables missing** — `data/oulad/`, `artifacts/data/etl_oulad.sql`, `artifacts/data/oulad.duckdb` declared in project.yaml but do not exist | Either (a) implement the OULAD migration (src/main.py to load 7 CSVs, etl_oulad.sql for DuckDB, oulad.duckdb as output) and push artifacts, OR (b) remove these deliverables from project.yaml if OULAD migration is not yet done. **Cannot declare what doesn't exist.** | data-architect + orchestrator |
-| 4 | **project.yaml / code / data inconsistency** — project.yaml description says OULAD (32.593 alunos, 87.5% accuracy) but src/main.py still uses DataMission API (PROJECT_ID, API_BASE, DATAMISSION_APIKEY) and data/ contains DataMission CSVs | Align code + data + project.yaml. If migrating to OULAD: rewrite fetch_dataset() to load OULAD CSVs, retrain model, update model.md and dq/checks.md with OULAD schema. If not migrating yet: revert project.yaml description to DataMission and remove OULAD-specific deliverables. | data-architect + orchestrator |
-| 5 | **models/.gitkeep stale** in child repo | ADR-002 moved model to `src/model.pkl`. The `models/` directory in the child repo still has `.gitkeep` — remove directory and update .gitignore to remove `models/*.pkl` line. | orchestrator |
+**Recommended action (DR-E8):** Open issue against `.opencode/agent/data-architect.md` §"Artefatos obrigatórios" to add: "After any ADR that changes the project's fundamental scope (dataset, target, API), update `spec/constitution.md`, `spec/specs/000-bootstrap/spec.md`, and `requirements.txt` in the same commit." Same for `dashboard-designer.md` for `spec/design-direction.md` and `artifacts/design/source.md`.
 
-### Advisory items (non-blocking)
+### 4. Permission prompts observed during execution
 
-| # | Item | Note |
-|---|------|------|
-| A1 | `dbt-core` unused in requirements.txt | 5th consecutive review flagging. Remove or justify. DR-E8 threshold exceeded (3+ occurrences). |
-| A2 | `artifacts/data/model.md` references DataMission (1000 rows, API URL) | Update to OULAD schema when migration completes |
-| A3 | `spec/constitution.md` references "Universidade Casa Grande" + "API DataMission" | Update scope section for OULAD |
-| A4 | `spec/todo.md` Fase 3 marked complete but Fase 4 tasks still unchecked | Expected — Fase 4 in progress |
-| A5 | Dashboard metrics show DataMission data (n=1.000, Accuracy 66.5%) | Will need update when OULAD migration completes |
-| A6 | `spec/adr/001-classificador-baseline.md` references DataMission (1000 registros) | Update or add ADR-003 for OULAD migration decision |
-| A7 | `spec/specs/000-bootstrap/spec.md` references DataMission | Update for OULAD when migration completes |
+None. All file reads were via GitHub MCP (no local path access required for this review).
 
 ---
 
-## Assinatura
+## Actions Required (FAIL items)
 
-- **Stage 0:** Preflight mecânico EXECUTADO pelo orchestrator. Output: `PREFLIGHT_PASS (0 findings, 6 checks). Boot check: PASS.` WDL gate: N/A (pre-WDL project).
-- **Stage 1-4:** Inspeção semântica por delivery-reviewer contra `knowledge/padroes-entrega.md` P0 + `project.yaml` deliverables.
-- **Previous reviews:** 4 prior reviews (Fase 1, Fase 2, Fase 3, Fase 4/DataMission corrections). Round 4 finding (README stale `models/` path) was claimed fixed but **NOT actually fixed** in child repo — still shows DataMission content on GitHub.
-- **This review (Round 5):** 5 blocking FAILs. Core issue: project.yaml declares OULAD migration complete but the entire codebase, data, README, and contract.md still reference DataMission. The migration was described in the review context but **not actually implemented** in the child repo.
-- **Pattern escalation:** (1) dbt-core unused × 5 consecutive deliveries — exceeds DR-E8 threshold. (2) README staleness claimed-fixed-but-not × 2 consecutive reviews — 1 more occurrence triggers DR-E8.
-- **Reviewer:** delivery-reviewer (subagent)
-- **Modelo:** z-ai/glm-5.1
+| # | Finding | Severity | Fix | Owner |
+|---|---------|----------|-----|-------|
+| 1 | `spec/constitution.md` Scope: stale "DataMission" reference | P0 | Change to "consumindo dataset OULAD (Open University Learning Analytics Dataset, 32.593 alunos, 7 módulos, 2013–2014)" | data-architect |
+| 2 | `spec/specs/000-bootstrap/spec.md`: describes DataMission (1000 records, 7 columns, API) | P0 | Rewrite to describe OULAD (7 CSVs, 32,593 students, DuckDB, feature engineering, ML pipeline) | data-architect |
+| 3 | `spec/design-direction.md` Section 4: lists DataMission variables (grade_point_average, attendance_rate, scholarship_percent) | P0 | Update simulation sliders to OULAD features (days_active, total_clicks, weighted_avg_score, assessment_count, engagement_intensity) | dashboard-designer |
+| 4 | `artifacts/design/source.md`: references "CRA scale 0–4" and "7-column table" | P0 | Rewrite to describe OULAD dashboard changes (OULAD feature importance, simulation variables, PT-BR translations of OULAD terms) | dashboard-designer |
+| 5 | `requirements.txt`: lists `dbt-core`, `requests` (stale); missing `duckdb`, `scipy` | P0 | Remove `dbt-core>=1.7.0` and `requests>=2.31.0`; add `duckdb>=0.9.0` and `scipy>=1.11.0` | data-architect |
+| 6 | Empty DataFrame guard incomplete: only in `engineer_features()`, missing in 5 other pipeline stages | P0 | Add `_guard_empty()` / empty-data guards at entry of `load_gold_table`, `prepare_ml_data`, `train_models`, `evaluate_on_test`, `save_model` | data-architect |
+
+---
+
+## Signature
+
+**Preflight Stage 0:** PASS (0 findings), consumed from orchestrator.
+**WDL gate:** N/A — project predates WDL v1 mandate (pre-2026-06-06).
+**Stages 1–4:** 6 P0 violations found (4 stale DataMission references + 1 stale requirements.txt + 1 incomplete empty-DF guard).
+
+**Reviewer:** delivery-reviewer (automated subagent)
+**Date:** 2026-06-09
+**Round:** 6
 
 ---
 
 ## Verdict
 
-**NOT DELIVERABLE** — project.yaml declares OULAD migration complete (32.593 alunos, 7 CSVs, etl_oulad.sql, oulad.duckdb) but the entire codebase, data directory, README, and contract.md still implement DataMission (500 students, API-based fetch, DATAMISSION_APIKEY). 3 declared deliverables do not exist. 2 critical documents (README, contract.md) are stale. The orchestrator must either complete the OULAD migration end-to-end or revert project.yaml to match current reality before re-review.
+**NOT DELIVERABLE** — 6 P0 violations: constitution, bootstrap spec, design-direction, design source, and requirements.txt contain stale DataMission-era references that conflict with the actual OULAD project; empty DataFrame guard coverage is incomplete per Constitution principle 4. Fix the 6 items above and re-submit for Round 7 review.
