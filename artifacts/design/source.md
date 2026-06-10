@@ -1,28 +1,38 @@
 # Design Source
 
 **Artifact:** `artifacts/dashboard/index.html`
-**Project:** Abandono Acadêmico Casa Grande
-**Task:** Full PT-BR translation + "Decisões do Modelo" section + histogram label fix
+**Project:** Abandono Academico Casa Grande (OULAD)
+**Task:** Dashboard interativo com simulacao de risco de abandono
 
-## Changes applied
+## Dataset
 
-1. **PT-BR translation** — All English labels translated to Brazilian Portuguese:
-   - Accuracy → Acurácia
-   - Feature Importance → Importância das Variáveis
-   - Model Summary → Resumo do Modelo
-   - Interactive Simulation → Simulação Interativa
-   - Data Distribution → Distribuição dos Dados
-   - Conclusions → Conclusões
-   - Slider labels, chart titles, tooltips, comments, footer text
+OULAD — Open University Learning Analytics Dataset (Kuzilek et al., 2017, Nature Scientific Data, CC-BY 4.0).
+32.593 estudantes, 7 modulos, 22 apresentacoes (semestres 2013B-2014J).
+Target binarizado: Withdrawn=1 (dropout), Pass/Fail/Distinction=0 (31.2% classe positiva).
 
-2. **Histogram CRA labels** — Changed from "0, 2, 4, 6, 8, 10" to "0, 1, 2, 3, 4" (CRA scale is 0–4)
+## Features do Modelo (top 5)
 
-3. **New section: "Decisões do Modelo"** — 5 subsections covering:
-   - Variáveis do Dataset (7-column table with keep/remove decisions)
-   - Por que RandomForest vs Regressão Linear
-   - Comparativo com Outros Modelos (3-model table)
-   - Sensibilidade das Variáveis (visual bar indicators)
-   - Por que foi necessário complicar (justification)
+| Feature | Importancia | Escala |
+|---------|------------|--------|
+| last_activity_day | 20.2% | 0–270 (dias) |
+| assessment_count | 12.4% | 0–15 (contagem) |
+| submission_rate | 8.8% | 0.0–1.0 (proporcao) |
+| num_tma | 7.8% | 0–6 (contagem TMA) |
+| avg_assessment_score | 4.6% | 0–100 (pontos) |
+
+## Metricas do Modelo
+
+- Accuracy: 87.5%
+- Recall (dropout): 93.7%
+- ROC-AUC: 0.954
+
+## Decisoes de Design
+
+1. **Dark theme (#1a1a2e)** — fundo neutro para contraste com dados coloridos
+2. **Cards de metricas** — 3 KPIs principais (accuracy, recall, AUC) em destaque
+3. **Barras horizontais** — feature importance top 15, ordenadas por importancia
+4. **Simulacao com sliders** — 5 variaveis-chave ajustadas pelo usuario, output = probabilidade de abandono
+5. **Gauge de risco** — visual semicircular (verde/amarelo/vermelho) para probabilidade
 
 ## Design direction
 

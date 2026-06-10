@@ -14,9 +14,10 @@
 
 ## Scope
 
-Pipeline de previsão de abandono acadêmico, consumindo dataset via API DataMission. 3 fases estruturadas + fase 4 opcional (dashboard + simulação).
+Pipeline de previsao de abandono academico, utilizando o Open University Learning Analytics Dataset (OULAD) — 32.593 estudantes, 7 modulos, 22 apresentacoes (2013-2014). Dataset real publicado em Nature Scientific Data (Kuzilek et al., 2017, CC-BY 4.0). Pipeline cobre ingestao de 7 tabelas CSV, feature engineering (bronze/silver/gold), treinamento de modelo preditivo (Random Forest 87.5% accuracy, 93.7% recall), e dashboard interativo com simulacao.
 
 ## Non-goals
 
-1. Não é um sistema de produção com API REST — é um pipeline batch para análise e modelagem.
-2. Não substitui sistemas acadêmicos existentes da universidade.
+1. Nao e um sistema de producao com API REST — e um pipeline batch para analise e modelagem.
+2. Nao substitui sistemas academicos existentes da universidade.
+3. Nao cobre predicao em tempo real ou integracao com LMS ativos.

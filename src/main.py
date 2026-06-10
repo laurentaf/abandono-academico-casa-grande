@@ -102,6 +102,7 @@ def load_gold_table(db_path: Path) -> pd.DataFrame:
     con = duckdb.connect(str(db_path), read_only=True)
     df = con.execute("SELECT * FROM gold_oulad_features").fetchdf()
     con.close()
+    _guard_empty(df, "load_gold_table — gold_oulad_features returned empty")
     return df
 
 
@@ -177,6 +178,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
 def prepare_ml_data(df: pd.DataFrame, derived_numeric: list[str]) -> tuple:
     """Split data into X, y and train/test sets. Returns preprocessed data."""
+    _guard_empty(df, "prepare_ml_data — input DataFrame is empty")
     all_numeric = NUMERIC_FEATURES + derived_numeric
     all_features = CATEGORICAL_FEATURES + all_numeric
 
@@ -226,6 +228,7 @@ def train_models(
 
     Returns dict with models, CV results, and fitted preprocessor.
     """
+    _guard_empty(X_train, "train_models — X_train is empty")
     preprocessor = build_preprocessor(numeric_features, categorical_features)
 
     # --- Logistic Regression ---
@@ -348,6 +351,7 @@ def get_feature_importance(rf_model: Pipeline, numeric_features: list[str], cate
 
 def evaluate_on_test(results: dict, X_test: pd.DataFrame, y_test: np.ndarray) -> dict:
     """Evaluate all models on the held-out test set."""
+    _guard_empty(X_test, "evaluate_on_test — X_test is empty")
     print("\n[T6] Test set evaluation:")
 
     test_results = {}
@@ -474,6 +478,7 @@ def statistical_tests(y_train: np.ndarray, X_train: pd.DataFrame, cv_results: di
 
 def save_model(results: dict, X_train: pd.DataFrame, all_numeric: list[str], all_features: list[str]) -> None:
     """Save the best model (Random Forest) to pickle."""
+    _guard_empty(X_train, "save_model — X_train is empty")
     best_name = "Random Forest"
     best_model = results[best_name]["model"]
 
