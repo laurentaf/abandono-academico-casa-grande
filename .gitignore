@@ -12,6 +12,9 @@ artifacts/data/oulad.duckdb
 # Model (trained, binary)
 src/model.pkl
 
+# Old DataMission reports (stale, not for OULAD)
+reports/
+
 # Old DataMission paths (no longer used)
 data/*.parquet
 data/raw.csv
