@@ -1,40 +1,37 @@
-# TODO — Abandono Acadêmico Casa Grande
+# TODO — Abandono Academico Casa Grande (OULAD)
 
 ---
 
-## Stage 0: SDD Scaffold (Missão 0)
+## Stage 0: SDD Scaffold (Missao 0)
 
-- [x] Criar estrutura de pastas (src, data, reports)
+- [x] Criar estrutura de pastas (src, data, artifacts, spec)
 - [x] Criar constitution, contract, README, ADR template, harness template, bootstrap spec
+- [x] design-direction.md (projeto tem need: dashboard)
 
-## Fase 1: Preparar ambiente e dependências
+## Stage 1: Ingestao OULAD + Feature Engineering (T1-T3)
 
-- [x] Criar requirements.txt com pandas, scikit-learn, requests, dbt
-- [x] Implementar fetch_dataset() em src/main.py
-- [x] Implementar train_model() em src/main.py
-- [x] Implementar main() em src/main.py
-- [x] ADR-001: RandomForestClassifier como baseline
-- [x] Validar pipeline end-to-end (rodar `python src/main.py`) — Acc=0.665, F1=0.152 (baseline, melhorar em F2)
+- [x] Baixar e extrair 7 CSVs OULAD em data/oulad/
+- [x] Ingerir CSVs para DuckDB bronze (7 tabelas, 10.9M rows)
+- [x] Criar silver deduplicados (2 tabelas)
+- [x] Gerar gold_oulad_features (32.593 rows x 26 cols)
+- [x] Executar 6 DQ baseline checks — todos PASS
+- [x] Documentar ETL em artifacts/data/etl_oulad.sql
 
-## Fase 2: Capturar dados via API — formato parametrizado + HTTP handling
+## Stage 2: Modelo Preditivo + Avaliacao (T4-T6)
 
-- [x] fetch_dataset aceita parametro format (parquet/json/csv)
-- [x] Tratamento de status HTTP (4xx/5xx) com mensagem amigável
-- [x] Salvar dados crus em data/raw.csv
-- [x] Print registra tamanho do arquivo baixado
-- [x] Validar pipeline end-to-end com novas mudanças — 62.0 KB baixados, raw.csv 98.8 KB, F1=0.220
+- [x] Feature engineering (derived features + null handling)
+- [x] Treinar RF + LR + Dummy baseline (5-fold CV)
+- [x] Avaliar no test set: RF 87.5% acc, 93.7% recall, 0.954 ROC-AUC
+- [x] Testes estatisticos: RF vs Dummy p=0.001 (sig), RF vs LR p=0.084 (ns)
+- [x] Salvar modelo em src/model.pkl
+- [x] Documentar em artifacts/data/model.md
 
-## Fase 3: Preprocessamento + DQ baseline checks + pipeline reestruturada
+## Stage 3: ETL SQL + Documentacao
 
-- [x] Extrair `preprocess_data(df)` de `train_model()` — separação de concerns
-- [x] Implementar limpeza de nulls em `preprocess_data` (drop/fill + logging)
-- [x] Substituir sklearn LabelEncoder por pandas encoding (get_dummies ou .cat.codes)
-- [x] Implementar 6 DQ baseline checks em `src/main.py` (check_nulls, check_columns, check_types, check_duplicates, check_target_balance, check_bounds)
-- [x] Encadear pipeline: `fetch_dataset -> DQ checks -> preprocess_data -> train_model`
-- [x] Atualizar `artifacts/dq/checks.md` com implementação dos 6 checks (DQ-01 a DQ-06)
-- [x] Decidir path de modelo: `src/model.pkl` (ADR-002 documenta decisao)
-- [x] Validar pipeline end-to-end com `python src/main.py` — metrics no console
+- [x] artifacts/data/etl_oulad.sql com pipeline bronze→silver→gold
+- [x] artifacts/data/model.md com schema, metricas, feature importance
 
-## Fase 4 (opcional): Dashboard + Simulação
+## Stage 4: Dashboard + Simulacao
 
-- [x] Dashboard com conclusões e simulação interativa (artifacts/dashboard/index.html, 25.9KB self-contained)
+- [x] Dashboard interativo em artifacts/dashboard/index.html
+- [ ] Dashboard atualizado para OULAD (metricas, features, sliders — em andamento)

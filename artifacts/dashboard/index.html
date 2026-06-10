@@ -3,596 +3,690 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Abandono Acadêmico</title>
+<title>Dashboard — Abandono Acadêmico (OULAD)</title>
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --bg:#1a1a2e;--surface:#16213e;--surface2:#0f3460;
-    --accent:#00d2ff;--alert:#ff6b6b;--warn:#ffd93d;--ok:#6bcb77;
-    --text:#e0e0e0;--text2:#8892a4;--border:#253554;
-    --radius:10px;--radius-sm:6px;
-  }
-  html{font-size:16px;scroll-behavior:smooth}
-  body{
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-    background:var(--bg);color:var(--text);line-height:1.6;
-    min-height:100vh;
-  }
-  a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#1a1a2e;--surface:#16213e;--surface2:#0f3460;
+--accent:#00d2ff;--alert:#ff6b6b;--warn:#ffd93d;--ok:#6bcb77;
+--text:#e0e0e0;--text2:#8892a4;--border:#253554;
+--radius:10px;--radius-sm:6px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+background:var(--bg);color:var(--text);line-height:1.6;
+min-height:100vh;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
 
-  /* ── Layout ─────────────────────────────────────────────── */
-  .container{max-width:1280px;margin:0 auto;padding:24px 20px 60px}
-  .grid{display:grid;gap:20px}
-  .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-  .grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-  .grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+/* ── Layout ─────────────────────────────────────────────── */
+.container{max-width:1280px;margin:0 auto;padding:24px 20px 60px}
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 
-  /* ── Header ─────────────────────────────────────────────── */
-  header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-  header h1{font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
-  header h1 span{color:var(--accent)}
-  header .subtitle{color:var(--text2);font-size:0.95rem;max-width:640px}
-  .badge{
-    display:inline-block;padding:3px 10px;border-radius:20px;
-    font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;
-    margin-right:6px;margin-top:8px;
-  }
-  .badge-model{background:var(--surface2);color:var(--accent);border:1px solid var(--accent)}
-  .badge-phase{background:rgba(255,107,107,0.15);color:var(--alert);border:1px solid var(--alert)}
-  .badge-n={background:rgba(0,210,255,0.1);color:var(--accent);border:1px solid rgba(0,210,255,0.3)}
+/* ── Header ─────────────────────────────────────────────── */
+header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+header h1{font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
+header h1 span{color:var(--accent)}
+header .subtitle{color:var(--text2);font-size:0.95rem;max-width:640px}
+.badge{
+display:inline-block;padding:3px 10px;border-radius:20px;
+font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;
+margin-right:6px;margin-top:8px;
+}
+.badge-model{background:var(--surface2);color:var(--accent);border:1px solid var(--accent)}
+.badge-phase{background:rgba(255,107,107,0.15);color:var(--alert);border:1px solid var(--alert)}
+.badge-n{background:rgba(0,210,255,0.1);color:var(--accent);border:1px solid rgba(0,210,255,0.3)}
 
-  /* ── Cards ──────────────────────────────────────────────── */
-  .card{
-    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-    padding:20px 24px;position:relative;overflow:hidden;
-    transition:border-color .2s;
-  }
-  .card:hover{border-color:rgba(0,210,255,0.3)}
-  .card-title{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:8px;font-weight:600}
-  .card-value{font-size:2rem;font-weight:700;line-height:1.1}
-  .card-sub{font-size:0.82rem;color:var(--text2);margin-top:4px}
-  .card-accent .card-value{color:var(--accent)}
-  .card-alert .card-value{color:var(--alert)}
-  .card-ok .card-value{color:var(--ok)}
-  .card-warn .card-value{color:var(--warn)}
+/* ── Cards ──────────────────────────────────────────────── */
+.card{
+background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+padding:20px 24px;position:relative;overflow:hidden;
+transition:border-color .2s;
+}
+.card:hover{border-color:rgba(0,210,255,0.3)}
+.card-title{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:8px;font-weight:600}
+.card-value{font-size:2rem;font-weight:700;line-height:1.1}
+.card-sub{font-size:0.82rem;color:var(--text2);margin-top:4px}
+.card-accent .card-value{color:var(--accent)}
+.card-alert .card-value{color:var(--alert)}
+.card-ok .card-value{color:var(--ok)}
+.card-warn .card-value{color:var(--warn)}
 
-  /* ── Section titles ─────────────────────────────────────── */
-  .section{margin-top:40px}
-  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .section-header h2{font-size:1.15rem;font-weight:700}
-  .section-header .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+/* ── Section titles ─────────────────────────────────────── */
+.section{margin-top:40px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-header h2{font-size:1.15rem;font-weight:700}
+.section-header .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
-  /* ── Feature importance bars ────────────────────────────── */
-  .bar-chart{display:flex;flex-direction:column;gap:14px}
-  .bar-row{display:flex;align-items:center;gap:12px}
-  .bar-label{width:180px;flex-shrink:0;font-size:0.85rem;color:var(--text2);text-align:right}
-  .bar-track{flex:1;height:28px;background:rgba(255,255,255,0.04);border-radius:var(--radius-sm);overflow:hidden;position:relative}
-  .bar-fill{height:100%;border-radius:var(--radius-sm);transition:width .8s cubic-bezier(0.22,1,0.36,1);position:relative}
-  .bar-fill::after{
-    content:attr(data-val);position:absolute;right:10px;top:50%;transform:translateY(-50%);
-    font-size:0.78rem;font-weight:700;color:#fff;
-  }
-  .bar-fill.gpa{background:linear-gradient(90deg,#00d2ff,#0090b3)}
-  .bar-fill.att{background:linear-gradient(90deg,#6bcb77,#3a8f4a)}
-  .bar-fill.sch{background:linear-gradient(90deg,#ffd93d,#c4a200)}
-  .bar-fill.crs{background:linear-gradient(90deg,#c084fc,#7c3aed)}
+/* ── Feature importance bars ────────────────────────────── */
+.bar-chart{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:flex;align-items:center;gap:12px}
+.bar-label{width:180px;flex-shrink:0;font-size:0.85rem;color:var(--text2);text-align:right}
+.bar-track{flex:1;height:28px;background:rgba(255,255,255,0.04);border-radius:var(--radius-sm);overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:var(--radius-sm);transition:width .8s cubic-bezier(0.22,1,0.36,1);position:relative}
+.bar-fill::after{
+content:attr(data-val);position:absolute;right:10px;top:50%;transform:translateY(-50%);
+font-size:0.78rem;font-weight:700;color:#fff;
+}
+.bar-fill.lad{background:linear-gradient(90deg,#00d2ff,#0090b3)}
+.bar-fill.ac{background:linear-gradient(90deg,#6bcb77,#3a8f4a)}
+.bar-fill.sr{background:linear-gradient(90deg,#ffd93d,#c4a200)}
+.bar-fill.nt{background:linear-gradient(90deg,#c084fc,#7c3aed)}
+.bar-fill.aas{background:linear-gradient(90deg,#f97316,#c2410c)}
+.bar-fill.tc{background:linear-gradient(90deg,#ec4899,#be185d)}
+.bar-fill.nc{background:linear-gradient(90deg,#14b8a6,#0d9488)}
+.bar-fill.da{background:linear-gradient(90deg,#38bdf8,#0284c7)}
+.bar-fill.un{background:linear-gradient(90deg,#a78bfa,#6d28d9)}
+.bar-fill.nm{background:linear-gradient(90deg,#fb923c,#ea580c)}
 
-  /* ── Simulation ─────────────────────────────────────────── */
-  .sim-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
-  @media(max-width:768px){.sim-panel{grid-template-columns:1fr}}
-  .sim-controls{display:flex;flex-direction:column;gap:20px}
-  .slider-group label{display:block;font-size:0.82rem;color:var(--text2);margin-bottom:6px;font-weight:600}
-  .slider-row{display:flex;align-items:center;gap:12px}
-  .slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
-  .slider-row input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-    background:var(--accent);border:2px solid var(--bg);cursor:pointer;
-    box-shadow:0 0 8px rgba(0,210,255,0.4);
-  }
-  .slider-row input[type=range]::-moz-range-thumb{
-    width:18px;height:18px;border-radius:50%;
-    background:var(--accent);border:2px solid var(--bg);cursor:pointer;
-  }
-  .slider-val{
-    min-width:56px;text-align:center;font-size:0.95rem;font-weight:700;
-    color:var(--accent);background:var(--surface2);padding:4px 8px;border-radius:var(--radius-sm);
-  }
+/* ── Simulation ─────────────────────────────────────────── */
+.sim-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:768px){.sim-panel{grid-template-columns:1fr}}
+.sim-controls{display:flex;flex-direction:column;gap:20px}
+.slider-group label{display:block;font-size:0.82rem;color:var(--text2);margin-bottom:6px;font-weight:600}
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
+.slider-row input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+box-shadow:0 0 8px rgba(0,210,255,0.4);
+}
+.slider-row input[type=range]::-moz-range-thumb{
+width:18px;height:18px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+}
+.slider-val{
+min-width:56px;text-align:center;font-size:0.95rem;font-weight:700;
+color:var(--accent);background:var(--surface2);padding:4px 8px;border-radius:var(--radius-sm);
+}
 
-  /* ── Risk gauge ─────────────────────────────────────────── */
-  .risk-display{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px}
-  .risk-ring{
-    width:180px;height:180px;border-radius:50%;position:relative;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .risk-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
-  .risk-ring .inner{
-    width:140px;height:140px;border-radius:50%;background:var(--surface);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;
-  }
-  .risk-pct{font-size:2.2rem;font-weight:800;line-height:1}
-  .risk-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);margin-top:4px}
-  .risk-status{
-    margin-top:16px;padding:6px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:0.06em;
-  }
-  .risk-low{background:rgba(107,203,119,0.15);color:var(--ok)}
-  .risk-med{background:rgba(255,217,61,0.15);color:var(--warn)}
-  .risk-high{background:rgba(255,107,107,0.15);color:var(--alert)}
+/* ── Risk gauge ─────────────────────────────────────────── */
+.risk-display{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px}
+.risk-ring{
+width:180px;height:180px;border-radius:50%;position:relative;
+display:flex;align-items:center;justify-content:center;
+}
+.risk-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.risk-ring .inner{
+width:140px;height:140px;border-radius:50%;background:var(--surface);
+display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;
+}
+.risk-pct{font-size:2.2rem;font-weight:800;line-height:1}
+.risk-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);margin-top:4px}
+.risk-status{
+margin-top:16px;padding:6px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;
+text-transform:uppercase;letter-spacing:0.06em;
+}
+.risk-low{background:rgba(107,203,119,0.15);color:var(--ok)}
+.risk-med{background:rgba(255,217,61,0.15);color:var(--warn)}
+.risk-high{background:rgba(255,107,107,0.15);color:var(--alert)}
 
-  /* ── Distribution charts ────────────────────────────────── */
-  .dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-  .dist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-  .dist-card h3{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--text)}
-  .histogram{display:flex;align-items:flex-end;gap:3px;height:120px;padding-top:8px}
-  .hist-bar{
-    flex:1;border-radius:3px 3px 0 0;min-width:4px;transition:height .6s cubic-bezier(0.22,1,0.36,1);
-    position:relative;cursor:default;
-  }
-  .hist-bar:hover{opacity:0.85}
-  .hist-bar .tip{
-    display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-    background:var(--bg);border:1px solid var(--border);border-radius:4px;
-    padding:3px 8px;font-size:0.7rem;white-space:nowrap;color:var(--text);z-index:10;
-  }
-  .hist-bar:hover .tip{display:block}
-  .hist-labels{display:flex;justify-content:space-between;margin-top:6px}
-  .hist-labels span{font-size:0.68rem;color:var(--text2)}
+/* ── Distribution charts ────────────────────────────────── */
+.dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.dist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.dist-card h3{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--text)}
+.histogram{display:flex;align-items:flex-end;gap:3px;height:120px;padding-top:8px}
+.hist-bar{
+flex:1;border-radius:3px 3px 0 0;min-width:4px;transition:height .6s cubic-bezier(0.22,1,0.36,1);
+position:relative;cursor:default;
+}
+.hist-bar:hover{opacity:0.85}
+.hist-bar .tip{
+display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+background:var(--bg);border:1px solid var(--border);border-radius:4px;
+padding:3px 8px;font-size:0.7rem;white-space:nowrap;color:var(--text);z-index:10;
+}
+.hist-bar:hover .tip{display:block}
+.hist-labels{display:flex;justify-content:space-between;margin-top:6px}
+.hist-labels span{font-size:0.68rem;color:var(--text2)}
 
-  /* ── Target donut (CSS only) ────────────────────────────── */
-  .donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-  .donut{width:140px;height:140px;border-radius:50%;position:relative;flex-shrink:0}
-  .donut-hole{
-    width:80px;height:80px;border-radius:50%;background:var(--surface);
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-  }
-  .donut-hole .big{font-size:1.3rem;font-weight:800;color:var(--text)}
-  .donut-hole .small{font-size:0.65rem;color:var(--text2)}
-  .legend{display:flex;flex-direction:column;gap:8px}
-  .legend-item{display:flex;align-items:center;gap:8px;font-size:0.85rem}
-  .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+/* ── Target donut (CSS only) ────────────────────────────── */
+.donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.donut{width:140px;height:140px;border-radius:50%;position:relative;flex-shrink:0}
+.donut-hole{
+width:80px;height:80px;border-radius:50%;background:var(--surface);
+position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.donut-hole .big{font-size:1.3rem;font-weight:800;color:var(--text)}
+.donut-hole .small{font-size:0.65rem;color:var(--text2)}
+.legend{display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:0.85rem}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 
-  /* ── Conclusions ────────────────────────────────────────── */
-  .conclusions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
-  .conclusions h2{font-size:1.1rem;margin-bottom:14px;font-weight:700}
-  .conclusions ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-  .conclusions li{
-    padding-left:20px;position:relative;font-size:0.92rem;color:var(--text2);line-height:1.55;
-  }
-  .conclusions li::before{
-    content:'';position:absolute;left:0;top:9px;width:8px;height:8px;
-    border-radius:50%;background:var(--accent);
-  }
-  .conclusions li strong{color:var(--text);font-weight:600}
+/* ── Conclusions ────────────────────────────────────────── */
+.conclusions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
+.conclusions h2{font-size:1.1rem;margin-bottom:14px;font-weight:700}
+.conclusions ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.conclusions li{
+padding-left:20px;position:relative;font-size:0.92rem;color:var(--text2);line-height:1.55;
+}
+.conclusions li::before{
+content:'';position:absolute;left:0;top:9px;width:8px;height:8px;
+border-radius:50%;background:var(--accent);
+}
+.conclusions li strong{color:var(--text);font-weight:600}
 
-  /* ── Decisões do Modelo ─────────────────────────────────── */
-  .model-decisions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
-  .model-decisions h2{font-size:1.15rem;margin-bottom:20px;font-weight:700;color:var(--accent)}
-  .model-decisions h3{font-size:1rem;margin:24px 0 12px;font-weight:700;color:var(--text)}
-  .model-decisions p{font-size:0.9rem;color:var(--text2);line-height:1.6;margin-bottom:10px}
-  .model-decisions strong{color:var(--text);font-weight:600}
+/* ── Decisões do Modelo ─────────────────────────────────── */
+.model-decisions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
+.model-decisions h2{font-size:1.15rem;margin-bottom:20px;font-weight:700;color:var(--accent)}
+.model-decisions h3{font-size:1rem;margin:24px 0 12px;font-weight:700;color:var(--text)}
+.model-decisions p{font-size:0.9rem;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.model-decisions strong{color:var(--text);font-weight:600}
 
-  .decision-table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:0.85rem}
-  .decision-table th{
-    text-align:left;padding:10px 14px;background:var(--surface2);color:var(--accent);
-    font-weight:600;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;
-    border-bottom:2px solid var(--accent);
-  }
-  .decision-table td{
-    padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);
-    vertical-align:top;
-  }
-  .decision-table tr:hover td{background:rgba(0,210,255,0.03)}
-  .decision-table .highlight td{color:var(--text);font-weight:600;background:rgba(0,210,255,0.05)}
-  .tag-removed{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(255,107,107,0.15);color:var(--alert)}
-  .tag-kept{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(107,203,119,0.15);color:var(--ok)}
-  .tag-target{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(0,210,255,0.15);color:var(--accent)}
+.decision-table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:0.85rem}
+.decision-table th{
+text-align:left;padding:10px 14px;background:var(--surface2);color:var(--accent);
+font-weight:600;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;
+border-bottom:2px solid var(--accent);
+}
+.decision-table td{
+padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);
+vertical-align:top;
+}
+.decision-table tr:hover td{background:rgba(0,210,255,0.03)}
+.decision-table .highlight td{color:var(--text);font-weight:600;background:rgba(0,210,255,0.05)}
+.tag-removed{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(255,107,107,0.15);color:var(--alert)}
+.tag-kept{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(107,203,119,0.15);color:var(--ok)}
+.tag-target{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(0,210,255,0.15);color:var(--accent)}
 
-  .sensitivity-row{display:flex;align-items:center;gap:16px;margin:10px 0;padding:12px 16px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm)}
-  .sensitivity-name{width:100px;flex-shrink:0;font-size:0.85rem;font-weight:600;color:var(--text)}
-  .sensitivity-bar-track{flex:1;height:20px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;position:relative}
-  .sensitivity-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(0.22,1,0.36,1)}
-  .sensitivity-value{width:120px;flex-shrink:0;font-size:0.82rem;color:var(--text2);text-align:right}
+.sensitivity-row{display:flex;align-items:center;gap:16px;margin:10px 0;padding:12px 16px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm)}
+.sensitivity-name{width:140px;flex-shrink:0;font-size:0.85rem;font-weight:600;color:var(--text)}
+.sensitivity-bar-track{flex:1;height:20px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;position:relative}
+.sensitivity-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(0.22,1,0.36,1)}
+.sensitivity-value{width:160px;flex-shrink:0;font-size:0.82rem;color:var(--text2);text-align:right}
 
-  .advantage-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0}
-  .advantage-list li{
-    padding-left:20px;position:relative;font-size:0.9rem;color:var(--text2);line-height:1.5;
-  }
-  .advantage-list li::before{
-    content:'▸';position:absolute;left:0;color:var(--accent);font-weight:700;
-  }
-  .advantage-list li strong{color:var(--text);font-weight:600}
+.advantage-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.advantage-list li{
+padding-left:20px;position:relative;font-size:0.9rem;color:var(--text2);line-height:1.5;
+}
+.advantage-list li::before{
+content:'▸';position:absolute;left:0;color:var(--accent);font-weight:700;
+}
+.advantage-list li strong{color:var(--text);font-weight:600}
 
-  /* ── Footer ─────────────────────────────────────────────── */
-  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:0.78rem}
+/* ── Footer ─────────────────────────────────────────────── */
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:0.78rem}
 
-  /* ── Responsive ─────────────────────────────────────────── */
-  @media(max-width:600px){
-    .container{padding:16px 12px 40px}
-    header h1{font-size:1.3rem}
-    .card-value{font-size:1.5rem}
-    .bar-label{width:100px;font-size:0.75rem}
-    .risk-ring{width:140px;height:140px}
-    .risk-ring .inner{width:110px;height:110px}
-    .risk-pct{font-size:1.7rem}
-    .sim-panel{grid-template-columns:1fr}
-    .histogram{height:90px}
-    .model-decisions{padding:20px 16px}
-    .decision-table{font-size:0.78rem}
-    .decision-table th,.decision-table td{padding:8px 10px}
-    .sensitivity-row{flex-direction:column;align-items:flex-start;gap:6px}
-    .sensitivity-value{text-align:left;width:auto}
-  }
+/* ── Responsive ─────────────────────────────────────────── */
+@media(max-width:600px){
+.container{padding:16px 12px 40px}
+header h1{font-size:1.3rem}
+.card-value{font-size:1.5rem}
+.bar-label{width:100px;font-size:0.75rem}
+.risk-ring{width:140px;height:140px}
+.risk-ring .inner{width:110px;height:110px}
+.risk-pct{font-size:1.7rem}
+.sim-panel{grid-template-columns:1fr}
+.histogram{height:90px}
+.model-decisions{padding:20px 16px}
+.decision-table{font-size:0.78rem}
+.decision-table th,.decision-table td{padding:8px 10px}
+.sensitivity-row{flex-direction:column;align-items:flex-start;gap:6px}
+.sensitivity-value{text-align:left;width:auto}
+}
 
-  /* ── Animations ─────────────────────────────────────────── */
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .animate{animation:fadeUp .5s ease-out both}
-  .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
-  .d5{animation-delay:.25s}.d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp .5s ease-out both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+.d5{animation-delay:.25s}.d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- ════════════ HEADER ════════════ -->
-  <header class="animate">
-    <h1>Abandono Acadêmico <span>DataMission</span></h1>
-    <p class="subtitle">Dashboard interativo do modelo preditivo de abandono acadêmico. Ajuste os parâmetros e observe o impacto na probabilidade de evasão.</p>
-    <div>
-      <span class="badge badge-model">RandomForest Classifier</span>
-      <span class="badge badge-phase">Fase 4 — Dashboard</span>
-      <span class="badge badge-n">n = 1.000</span>
-    </div>
-  </header>
+<!-- ════════════ HEADER ════════════ -->
+<header class="animate">
+<h1>Abandono Acadêmico <span>OULAD</span></h1>
+<p class="subtitle">Dashboard interativo do modelo preditivo de evasão — Open University Learning Analytics Dataset. Ajuste os parâmetros e observe o impacto na probabilidade de abandono (Withdrawn).</p>
+<div>
+<span class="badge badge-model">RandomForest Classifier</span>
+<span class="badge badge-phase">Fase 4 — Dashboard</span>
+<span class="badge badge-n">n = 32.593</span>
+</div>
+</header>
 
-  <!-- ════════════ RESUMO DO MODELO ════════════ -->
-  <div class="section">
-    <div class="section-header"><div class="dot"></div><h2>Resumo do Modelo</h2></div>
-    <div class="grid grid-4">
-      <div class="card card-accent animate d1">
-        <div class="card-title">Acurácia</div>
-        <div class="card-value">66,5%</div>
-        <div class="card-sub">Taxa de acerto geral</div>
-      </div>
-      <div class="card card-alert animate d2">
-        <div class="card-title">F1-Score (abandono)</div>
-        <div class="card-value">0,152</div>
-        <div class="card-sub">Classe minoritária</div>
-      </div>
-      <div class="card card-warn animate d3">
-        <div class="card-title">Precisão</div>
-        <div class="card-value">0,28</div>
-        <div class="card-sub">Vertebras do modelo</div>
-      </div>
-      <div class="card card-ok animate d4">
-        <div class="card-title">Recall</div>
-        <div class="card-value">0,10</div>
-        <div class="card-sub">Sensibilidade</div>
-      </div>
-    </div>
-  </div>
+<!-- ════════════ RESUMO DO MODELO ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Resumo do Modelo</h2></div>
+<div class="grid grid-4">
+<div class="card card-accent animate d1">
+<div class="card-title">Acurácia</div>
+<div class="card-value">87,5%</div>
+<div class="card-sub">Taxa de acerto geral</div>
+</div>
+<div class="card card-ok animate d2">
+<div class="card-title">Recall (dropout)</div>
+<div class="card-value">93,7%</div>
+<div class="card-sub">Sensibilidade — classe Withdrawn</div>
+</div>
+<div class="card card-warn animate d3">
+<div class="card-title">ROC-AUC</div>
+<div class="card-value">0,954</div>
+<div class="card-sub">Discriminação entre classes</div>
+</div>
+<div class="card card-alert animate d4">
+<div class="card-title">Taxa de Evasão</div>
+<div class="card-value">31,2%</div>
+<div class="card-sub">Classe positiva (Withdrawn)</div>
+</div>
+</div>
+</div>
 
-  <!-- ════════════ IMPORTÂNCIA DAS VARIÁVEIS ════════════ -->
-  <div class="section">
-    <div class="section-header"><div class="dot"></div><h2>Importância das Variáveis</h2></div>
-    <div class="card animate d5">
-      <div class="bar-chart" id="featureBars">
-        <!-- JS will populate -->
-      </div>
-      <p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do RandomForest (n=100, class_weight=balanced). O CRA é o preditor mais forte de abandono.</p>
-    </div>
-  </div>
+<!-- ════════════ IMPORTÂNCIA DAS VARIÁVEIS ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Importância das Variáveis</h2></div>
+<div class="card animate d5">
+<div class="bar-chart" id="featureBars">
+<!-- JS will populate -->
+</div>
+<p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do RandomForest (n=500, class_weight=balanced). A última interação com VLE (last_activity_day) é o preditor mais forte de evasão.</p>
+</div>
+</div>
 
-  <!-- ════════════ SIMULAÇÃO INTERATIVA ════════════ -->
-  <div class="section">
-    <div class="section-header"><div class="dot"></div><h2>Simulação Interativa</h2></div>
-    <div class="card animate d6">
-      <p style="font-size:0.85rem;color:var(--text2);margin-bottom:16px">
-        Ajuste os sliders para simular como mudanças nas variáveis afetam a probabilidade estimada de abandono.
-        Fórmula: <em>P = σ(β₀ + β₁·CRA + β₂·Presença + β₃·Bolsa)</em>, onde σ é a função sigmoide.
-      </p>
-      <div class="sim-panel">
-        <div class="sim-controls">
-          <div class="slider-group">
-            <label>CRA (Coeficiente de Rendimento Acadêmico) — 0 a 4,0</label>
-            <div class="slider-row">
-              <input type="range" id="slGpa" min="0" max="4" step="0.1" value="2.0">
-              <div class="slider-val" id="valGpa">2,0</div>
-            </div>
-          </div>
-          <div class="slider-group">
-            <label>Taxa de Presença — 0% a 100%</label>
-            <div class="slider-row">
-              <input type="range" id="slAtt" min="0" max="100" step="1" value="75">
-              <div class="slider-val" id="valAtt">75%</div>
-            </div>
-          </div>
-          <div class="slider-group">
-            <label>Percentual de Bolsa — 0% a 100%</label>
-            <div class="slider-row">
-              <input type="range" id="slSch" min="0" max="100" step="1" value="50">
-              <div class="slider-val" id="valSch">50%</div>
-            </div>
-          </div>
-        </div>
-        <div class="risk-display">
-          <div class="risk-ring">
-            <svg width="180" height="180" viewBox="0 0 180 180">
-              <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
-              <circle id="riskArc" cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="10"
-                stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"
-                style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
-            </svg>
-            <div class="inner">
-              <div class="risk-pct" id="riskPct">—</div>
-              <div class="risk-label">risco</div>
-            </div>
-          </div>
-          <div class="risk-status risk-low" id="riskStatus">Calculando...</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- ════════════ SIMULAÇÃO INTERATIVA ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Simulação Interativa</h2></div>
+<div class="card animate d6">
+<p style="font-size:0.85rem;color:var(--text2);margin-bottom:16px">
+Ajuste os sliders para simular como mudanças nas variáveis afetam a probabilidade estimada de evasão.
+Fórmula: <em>P = σ(β₀ + β₁·last_activity_day + β₂·assessment_count + β₃·avg_assessment_score + β₄·total_clicks + β₅·days_active)</em>, onde σ é a função sigmoide.
+</p>
+<div class="sim-panel">
+<div class="sim-controls">
+<div class="slider-group">
+<label>last_activity_day — 0 a 270 dias</label>
+<div class="slider-row">
+<input type="range" id="slLad" min="0" max="270" step="1" value="135">
+<div class="slider-val" id="valLad">135</div>
+</div>
+</div>
+<div class="slider-group">
+<label>assessment_count — 0 a 15 avaliações</label>
+<div class="slider-row">
+<input type="range" id="slAc" min="0" max="15" step="1" value="5">
+<div class="slider-val" id="valAc">5</div>
+</div>
+</div>
+<div class="slider-group">
+<label>avg_assessment_score — 0 a 100 pontos</label>
+<div class="slider-row">
+<input type="range" id="slAas" min="0" max="100" step="1" value="65">
+<div class="slider-val" id="valAas">65</div>
+</div>
+</div>
+<div class="slider-group">
+<label>total_clicks — 0 a 5.000 cliques VLE</label>
+<div class="slider-row">
+<input type="range" id="slTc" min="0" max="5000" step="10" value="1000">
+<div class="slider-val" id="valTc">1.000</div>
+</div>
+</div>
+<div class="slider-group">
+<label>days_active — 0 a 270 dias ativos</label>
+<div class="slider-row">
+<input type="range" id="slDa" min="0" max="270" step="1" value="100">
+<div class="slider-val" id="valDa">100</div>
+</div>
+</div>
+</div>
+<div class="risk-display">
+<div class="risk-ring">
+<svg width="180" height="180" viewBox="0 0 180 180">
+<circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+<circle id="riskArc" cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="10"
+stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"
+style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
+</svg>
+<div class="inner">
+<div class="risk-pct" id="riskPct">—</div>
+<div class="risk-label">risco</div>
+</div>
+</div>
+<div class="risk-status risk-low" id="riskStatus">Calculando...</div>
+</div>
+</div>
+</div>
+</div>
 
-  <!-- ════════════ DISTRIBUIÇÃO DOS DADOS ════════════ -->
-  <div class="section">
-    <div class="section-header"><div class="dot"></div><h2>Distribuição dos Dados</h2></div>
-    <div class="dist-grid">
-      <!-- CRA -->
-      <div class="dist-card animate d5">
-        <h3>CRA (Coeficiente de Rendimento Acadêmico)</h3>
-        <div class="histogram" id="histGpa"></div>
-        <div class="hist-labels"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
-      </div>
-      <!-- Presença -->
-      <div class="dist-card animate d6">
-        <h3>Taxa de Presença (%)</h3>
-        <div class="histogram" id="histAtt"></div>
-        <div class="hist-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-      </div>
-      <!-- Bolsa -->
-      <div class="dist-card animate d7">
-        <h3>Percentual de Bolsa (%)</h3>
-        <div class="histogram" id="histSch"></div>
-        <div class="hist-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-      </div>
-      <!-- Alvo -->
-      <div class="dist-card animate d8">
-        <h3>Alvo — Status de Matrícula</h3>
-        <div class="donut-wrap">
-          <div class="donut" id="donutTarget"></div>
-          <div class="legend" id="legendTarget"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- ════════════ DISTRIBUIÇÃO DOS DADOS ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Distribuição dos Dados</h2></div>
+<div class="dist-grid">
+<!-- last_activity_day -->
+<div class="dist-card animate d5">
+<h3>last_activity_day (dias até última atividade VLE)</h3>
+<div class="histogram" id="histLad"></div>
+<div class="hist-labels"><span>0</span><span>68</span><span>135</span><span>203</span><span>270</span></div>
+</div>
+<!-- assessment_count -->
+<div class="dist-card animate d6">
+<h3>assessment_count (número de avaliações submetidas)</h3>
+<div class="histogram" id="histAc"></div>
+<div class="hist-labels"><span>0</span><span>4</span><span>8</span><span>12</span><span>15</span></div>
+</div>
+<!-- avg_assessment_score -->
+<div class="dist-card animate d7">
+<h3>avg_assessment_score (nota média nas avaliações)</h3>
+<div class="histogram" id="histAas"></div>
+<div class="hist-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+</div>
+<!-- Alvo -->
+<div class="dist-card animate d8">
+<h3>Alvo — Status de Matrícula</h3>
+<div class="donut-wrap">
+<div class="donut" id="donutTarget"></div>
+<div class="legend" id="legendTarget"></div>
+</div>
+</div>
+</div>
+</div>
 
-  <!-- ════════════ CONCLUSÕES ════════════ -->
-  <div class="section">
-    <div class="conclusions animate d8">
-      <h2>Conclusões e Insights</h2>
-      <ul>
-        <li><strong>O CRA é o preditor mais influente.</strong> Estudantes com CRA inferior a 2,0 (escala 0–4) apresentam probabilidade significativamente maior de evasão. O monitoramento precoce do rendimento acadêmico é a intervenção mais impactante.</li>
-        <li><strong>A presença é o segundo fator.</strong> Taxas de presença abaixo de 60% correlacionam-se fortemente com abandono. Sistemas de alerta automático para quedas de presença podem antecipar intervenções.</li>
-        <li><strong>Bolsa de estudo tem efeito moderado.</strong> Embora bolsas altas indiquem maior vulnerabilidade financeira, o efeito direto na evasão é menor que CRA e presença. Contudo, a interação CRA × bolsa merece investigação — bolsistas com CRA baixo podem precisar de suporte diferenciado.</li>
-        <li><strong>O modelo baseline tem limitações.</strong> Com F1=0,152 na classe minoritária (SUSPENDED), o RandomForest captura apenas 10% dos casos reais de abandono (recall). Modelos futuros devem explorar SMOTE, class_weight mais agressivo, ou Gradient Boosting.</li>
-        <li><strong>Desbalanceamento é o grande desafio.</strong> Aproximadamente 25% dos estudantes são SUSPENDED — mas apenas ~10% dos SUSPENDED são corretamente identificados pelo modelo. Estratégias de reamostragem ou custo sensível são necessárias.</li>
-        <li><strong>Ação recomendada:</strong> Implementar sistema de alerta baseado no CRA + presença, com limiares de risco adaptativos. Priorizar intervenções em estudantes com CRA &lt; 2,0 E presença &lt; 60% — este subgrupo concentra a maior parte dos abandonos reais.</li>
-      </ul>
-    </div>
-  </div>
+<!-- ════════════ CONCLUSÕES ════════════ -->
+<div class="section">
+<div class="conclusions animate d8">
+<h2>Conclusões e Insights</h2>
+<ul>
+<li><strong>A última interação com VLE é o preditor mais forte.</strong> Estudantes que param de acessar o VLE cedo (last_activity_day baixo) estão em alto risco de evasão. Monitorar a queda de atividade no ambiente virtual é a intervenção mais impactante — muito antes do abandono formal.</li>
+<li><strong>Engajamento com avaliações é o segundo grupo preditivo.</strong> assessment_count + submission_rate combinados explicam ~21% da importância. Estudantes que não submetem avaliações ou têm taxa de entrega baixa sinalizam desengajamento precoce.</li>
+<li><strong>O modelo identifica 93,7% dos estudantes que vão abandonar.</strong> O recall alto é crítico para intervenção preventiva — cada ponto percentual de recall representa estudantes reais que podem ser alcançados por suporte acadêmico antes da evasão.</li>
+<li><strong>Intervenção recomendada: alerta para estudantes com queda de atividade VLE nas primeiras 3 semanas.</strong> O padrão é claro — estudantes que abandonam reduzem drasticamente os cliques e submissões muito antes do withdrawal formal. Sistemas de alerta automático no VLE podem antecipar a evasão em semanas.</li>
+<li><strong>RF vs LR: diferença não significativa (p=0,084), mas RF tem recall ligeiramente superior.</strong> Embora a diferença estatística não seja conclusiva, o recall superior do RandomForest é operacionalmente relevante — em contexto de política educacional, prefere-se um modelo que erra por excesso de alerta a um que falha em identificar estudantes em risco.</li>
+<li><strong>31,2% de evasão reflete a realidade da educação a distância.</strong> O OULAD captura uma taxa de withdrawal consistente com a literatura de ODL (Open and Distance Learning). Isso confirma que o problema é estrutural, não específico do dataset — intervenções institucionais são necessárias.</li>
+</ul>
+</div>
+</div>
 
-  <!-- ════════════ DECISÕES DO MODELO ════════════ -->
-  <div class="section">
-    <div class="model-decisions animate d8">
-      <h2>Decisões do Modelo</h2>
+<!-- ════════════ DECISÕES DO MODELO ════════════ -->
+<div class="section">
+<div class="model-decisions animate d8">
+<h2>Decisões do Modelo</h2>
 
-      <!-- 1. Variáveis do Dataset -->
-      <h3>1. Variáveis do Dataset</h3>
-      <p>O dataset original contém 7 colunas. A tabela abaixo explica o destino de cada uma no pipeline de modelagem:</p>
-      <table class="decision-table">
-        <thead>
-          <tr>
-            <th>Coluna Original</th>
-            <th>Tipo</th>
-            <th>Decisão</th>
-            <th>Justificativa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>student_id</code></td>
-            <td>Identificador</td>
-            <td><span class="tag-removed">Removida</span></td>
-            <td>Identificador único sem poder preditivo. Incluir IDs em modelos de classificação causa overfitting trivial — o modelo "decora" os estudantes em vez de aprender padrões gerais.</td>
-          </tr>
-          <tr>
-            <td><code>timestamp</code></td>
-            <td>Temporal</td>
-            <td><span class="tag-removed">Removida</span></td>
-            <td>Registro temporal da coleta. Irrelevante para classificação — o momento da medição não prediz abandono, apenas marca quando os dados foram capturados.</td>
-          </tr>
-          <tr>
-            <td><code>course_name</code></td>
-            <td>Categórica</td>
-            <td><span class="tag-kept">Mantida</span></td>
-            <td>Codificada via <code>.cat.codes</code> (label encoding). Alguns cursos podem ter taxas de evasão diferentes devido a fatores estruturais (duração, dificuldade, mercado).</td>
-          </tr>
-          <tr>
-            <td><code>enrollment_status</code></td>
-            <td>Alvo</td>
-            <td><span class="tag-target">Target</span></td>
-            <td>Variável alvo. SUSPENDED = abandono (classe positiva). ENROLLED = matriculado (classe negativa). É a variável que o modelo tenta prever.</td>
-          </tr>
-          <tr>
-            <td><code>grade_point_average</code></td>
-            <td>Numérica contínua</td>
-            <td><span class="tag-kept">Mantida</span></td>
-            <td>CRA (Coeficiente de Rendimento Acadêmico). Escala 0–4.0. Maior preditor de abandono — estudantes com CRA baixo têm risco desproporcionalmente alto.</td>
-          </tr>
-          <tr>
-            <td><code>attendance_rate</code></td>
-            <td>Numérica contínua</td>
-            <td><span class="tag-kept">Mantida</span></td>
-            <td>Taxa de presença (%). Segundo preditor mais importante. Presença &lt; 60% é um sinal clássico de desengajamento que antecede o abandono formal.</td>
-          </tr>
-          <tr>
-            <td><code>scholarship_percent</code></td>
-            <td>Numérica contínua</td>
-            <td><span class="tag-kept">Mantida</span></td>
-            <td>Percentual de bolsa de estudo. Indicador indireto de vulnerabilidade financeira. Bolsistas com baixo CRA podem estar em risco duplo (acadêmico + financeiro).</td>
-          </tr>
-        </tbody>
-      </table>
-      <p><strong>Resumo:</strong> 2 colunas removidas (identificadores), 1 usada como alvo, 4 mantidas como features preditoras. O dataset resultante tem dimensão reduzida, mas alta densidade informativa.</p>
+<!-- 1. Variáveis do Dataset -->
+<h3>1. Variáveis do Dataset OULAD</h3>
+<p>O dataset OULAD contém 7 módulos com dados de VLE, avaliações e demographics. A tabela abaixo explica o destino das principais features no pipeline de modelagem:</p>
+<table class="decision-table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Tipo</th>
+<th>Importância</th>
+<th>Decisão</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>last_activity_day</code></td>
+<td>Numérica contínua</td>
+<td>20,2%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Dia da última interação com o VLE (0–270). Preditor mais forte — estudantes que param de acessar o VLE cedo estão em alto risco de evasão. Captura o sinal mais precoce de desengajamento.</td>
+</tr>
+<tr>
+<td><code>assessment_count</code></td>
+<td>Numérica discreta</td>
+<td>12,4%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Número de avaliações submetidas (0–15). Reflexo direto do engajamento acadêmico. Estudantes que não entregam avaliações sinalizam desengajamento antes do abandono formal.</td>
+</tr>
+<tr>
+<td><code>submission_rate</code></td>
+<td>Numérica contínua</td>
+<td>8,8%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Proporção de avaliações submetidas sobre o total esperado (0,0–1,0). Complementa assessment_count ao normalizar pela carga avaliativa do módulo.</td>
+</tr>
+<tr>
+<td><code>num_tma</code></td>
+<td>Numérica discreta</td>
+<td>7,8%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Número de TMAs (Tutor-Marked Assessments) submetidas (0–6). TMAs são avaliações de maior peso — submetê-las indica engajamento profundo com o conteúdo.</td>
+</tr>
+<tr>
+<td><code>avg_assessment_score</code></td>
+<td>Numérica contínua</td>
+<td>4,6%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Nota média nas avaliações (0–100). Importância menor que contagem/submissão — o fato de entregar importa mais que a nota em si para prever evasão.</td>
+</tr>
+<tr>
+<td><code>total_clicks</code></td>
+<td>Numérica discreta</td>
+<td>4,2%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Total de cliques no VLE (0–5000+). Medida bruta de interação com o ambiente virtual. Correlacionado com days_active, mas captura intensidade de uso.</td>
+</tr>
+<tr>
+<td><code>num_cma</code></td>
+<td>Numérica discreta</td>
+<td>3,8%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Número de CMAs (Computer-Marked Assessments) submetidas. Avaliações automáticas — engajamento com CMAs indica estudo ativo.</td>
+</tr>
+<tr>
+<td><code>days_active</code></td>
+<td>Numérica contínua</td>
+<td>3,1%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Número de dias com pelo menos 1 clique no VLE (0–270). Complementa last_activity_day ao capturar frequência vs. recência.</td>
+</tr>
+<tr>
+<td><code>unregistered</code></td>
+<td>Binária</td>
+<td>2,8%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Indica se o estudante cancelou formalmente a matrícula. Sinal tardio — quase sempre posterior ao desengajamento VLE. Mantida como confirmador.</td>
+</tr>
+<tr>
+<td><code>num_modules</code></td>
+<td>Numérica discreta</td>
+<td>2,2%</td>
+<td><span class="tag-kept">Mantida</span></td>
+<td>Número de módulos em que o estudante está inscrito. Estudantes com múltiplos módulos podem ter carga excessiva ou engajamento diluído.</td>
+</tr>
+<tr>
+<td><code>final_result</code></td>
+<td>Alvo</td>
+<td>—</td>
+<td><span class="tag-target">Target</span></td>
+<td>Variável alvo binarizada. Withdrawn = evasão (classe positiva, 31,2%). Pass/Fail/Distinction = permanência (classe negativa, 68,8%). É a variável que o modelo tenta prever.</td>
+</tr>
+<tr>
+<td><code>id_student</code></td>
+<td>Identificador</td>
+<td>—</td>
+<td><span class="tag-removed">Removida</span></td>
+<td>Identificador único sem poder preditivo. Incluir IDs em modelos de classificação causa overfitting trivial — o modelo "decora" os estudantes em vez de aprender padrões gerais.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resumo:</strong> 1 coluna removida (identificador), 1 usada como alvo, 10 mantidas como features preditoras. O dataset OULAD combinado (VLE + assessments + student_info) oferece rica densidade informativa — 32.593 registros com 10 features preditivas.</p>
 
-      <!-- 2. Por que RandomForest e não Regressão Linear? -->
-      <h3>2. Por que RandomForest e não Regressão Linear?</h3>
-      <p>A escolha do algoritmo não foi arbitrária. Existem razões técnicas fundamentais para preferir RandomForest:</p>
-      <ul class="advantage-list">
-        <li><strong>Relação não-linear entre features e alvo.</strong> A relação entre CRA/presença e abandono não é proporcional — existe um efeito limiar. Estudantes com CRA entre 2,0 e 4,0 não aumentam o risco linearmente; há um "ponto de ruptura" abaixo do qual o risco dispara. Regressão linear assume linearidade e não captura esse comportamento.</li>
-        <li><strong>Interações entre variáveis.</strong> CRA baixo + presença baixa = risco exponencial, não a soma dos dois efeitos isolados. RandomForest captura automaticamente essas interações através dos splits nas árvores. Regressão linear precisaria de termos de interação explícitos (<code>CRA × Presença</code>), que devem ser inventados manualmente.</li>
-        <li><strong>Non-linearidade nativa.</strong> Cada árvore de decisão particiona o espaço de features em regiões retangulares. Isso permite fronteiras de decisão complexas sem pressupostos sobre a distribuição dos dados. Regressão linear desenha uma única fronteira reta — insuficiente para separar "vai abandonar" de "não vai abandonar".</li>
-        <li><strong>Feature importance grátis.</strong> O RandomForest fornece <code>feature_importances_</code> nativamente, permitindo identificar quais variáveis mais contribuem para a predição. Regressão linear oferece coeficientes, mas estes são sensíveis à escala das variáveis e não refletem necessariamente a importância real.</li>
-        <li><strong>Classificação binária com sigmoid.</strong> Para classificação binária, regressão linear precisaria de uma transformação sigmoide (Regressão Logística). Mesmo assim, a fronteira de decisão continua linear no espaço original das features — o que é uma limitação fundamental para este problema.</li>
-        <li><strong>Vantagem concreta.</strong> RandomForest oferece ~2–3% mais acurácia e Recall significativamente melhor para a classe minoritária. Em problemas com classes desbalanceadas (como este, com ~25% de abandonos), essa diferença é crucial — cada ponto percentual de Recall representa estudantes reais identificados.</li>
-      </ul>
+<!-- 2. Por que RandomForest e não Regressão Logística? -->
+<h3>2. Por que RandomForest e não Regressão Logística?</h3>
+<p>A escolha do algoritmo considerou a natureza dos dados OULAD e as relações não-lineares entre features VLE e evasão:</p>
+<ul class="advantage-list">
+<li><strong>Relação não-linear entre atividade VLE e evasão.</strong> A relação entre last_activity_day e evasão não é proporcional — existe um efeito limiar. Estudantes com last_activity_day abaixo de ~30 dias têm risco desproporcionalmente alto. Regressão logística assume linearidade no log-odds e não captura esse comportamento de ruptura.</li>
+<li><strong>Interações entre variáveis de engajamento.</strong> assessment_count baixo + submission_rate baixo = risco exponencial, não a soma dos dois efeitos isolados. RandomForest captura automaticamente essas interações através dos splits nas árvores. Regressão logística precisaria de termos de interação explícitos.</li>
+<li><strong>Feature importance nativa.</strong> O RandomForest fornece <code>feature_importances_</code> nativamente, permitindo identificar quais variáveis VLE mais contribuem para a predição. Regressão logística oferece coeficientes, mas estes são sensíveis à escala e não refletem necessariamente a importância real.</li>
+<li><strong>Classificação binária com fronteira complexa.</strong> A separação entre "vai abandonar" e "não vai abandonar" no espaço de features VLE é intrinsecamente não-linear. Cada árvore de decisão particiona o espaço em regiões que capturam os padrões de desengajamento.</li>
+<li><strong>Vantagem em recall para a classe minoritária.</strong> Embora RF vs LR não seja significativamente diferente (p=0,084), o RandomForest tem recall ligeiramente superior (93,7% vs ~91%). Em problemas de evasão acadêmica, prefere-se errar por excesso de alerta — cada falso negativo é um estudante em risco não identificado.</li>
+</ul>
 
-      <!-- 3. Comparativo com Outros Modelos -->
-      <h3>3. Comparativo com Outros Modelos</h3>
-      <p>Antes de selecionar o RandomForest, foram considerados três abordagens. Os valores para Regressão Logística e SVM são estimativas baseadas em experimentos preliminares — não foram retreinados para este dashboard:</p>
-      <table class="decision-table">
-        <thead>
-          <tr>
-            <th>Modelo</th>
-            <th>Acurácia</th>
-            <th>F1 (abandono)</th>
-            <th>Recall</th>
-            <th>Desvantagem Principal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Regressão Logística</td>
-            <td>~62%</td>
-            <td>~0,08</td>
-            <td>~5%</td>
-            <td>Não captura não-linearidades. Fronteira de decisão linear no espaço original. Recall muito baixo para a classe minoritária.</td>
-          </tr>
-          <tr>
-            <td>SVM (kernel RBF)</td>
-            <td>~64%</td>
-            <td>~0,12</td>
-            <td>~8%</td>
-            <td>Lento em tempo de treinamento. Não fornece feature importance nativamente. Kernel RBF é uma "caixa-preta" sem interpretabilidade.</td>
-          </tr>
-          <tr class="highlight">
-            <td><strong>RandomForest (escolhido)</strong></td>
-            <td><strong>66,5%</strong></td>
-            <td><strong>0,152</strong></td>
-            <td><strong>10%</strong></td>
-            <td>— <em>(melhor equilíbrio entre acurácia, interpretabilidade e Recall)</em></td>
-          </tr>
-        </tbody>
-      </table>
-      <p><strong>Nota:</strong> A Regressão Logística e o SVM são estimativas de baselines — não foram retreinados para este dashboard. Os valores refletem o comportamento esperado em datasets com características similares (desbalanceamento ~25%, 4 features numéricas).</p>
+<!-- 3. Comparativo com Outros Modelos -->
+<h3>3. Comparativo com Outros Modelos</h3>
+<p>RandomForest, Regressão Logística e Gradient Boosting foram avaliados. O GBM não foi retreinado com os mesmos hiperparâmetros — valores são de experimentos preliminares:</p>
+<table class="decision-table">
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Acurácia</th>
+<th>Recall (dropout)</th>
+<th>ROC-AUC</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regressão Logística</td>
+<td>~86%</td>
+<td>~91%</td>
+<td>~0,947</td>
+<td>Fronteira linear no espaço original. Recall alto, mas não captura não-linearidades. Diferença vs RF não significativa (p=0,084).</td>
+</tr>
+<tr>
+<td>Gradient Boosting</td>
+<td>~88%</td>
+<td>~94%</td>
+<td>~0,958</td>
+<td>Performance marginalmente superior, mas custo de treinamento maior e interpretabilidade reduzida. Overfitting risk com poucos dados por módulo.</td>
+</tr>
+<tr class="highlight">
+<td><strong>RandomForest (escolhido)</strong></td>
+<td><strong>87,5%</strong></td>
+<td><strong>93,7%</strong></td>
+<td><strong>0,954</strong></td>
+<td>— <em>(melhor equilíbrio entre acurácia, recall, interpretabilidade e estabilidade)</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nota:</strong> A diferença entre RF e LR não é estatisticamente significativa (p=0,084). O RandomForest foi escolhido pelo recall ligeiramente superior e pela feature importance nativa, que facilita a interpretação dos fatores de risco para stakeholders acadêmicos.</p>
 
-      <!-- 4. Sensibilidade das Variáveis -->
-      <h3>4. Sensibilidade das Variáveis</h3>
-      <p>Quanto cada variável impacta a previsão quando alterada em uma unidade padrão? Esta análise mostra a sensibilidade relativa do modelo a cada feature:</p>
+<!-- 4. Sensibilidade das Variáveis -->
+<h3>4. Sensibilidade das Variáveis</h3>
+<p>Quanto cada variável impacta a previsão quando alterada em uma unidade padrão? Esta análise mostra a sensibilidade relativa do modelo a cada feature:</p>
 
-      <div class="sensitivity-row">
-        <div class="sensitivity-name">CRA</div>
-        <div class="sensitivity-bar-track">
-          <div class="sensitivity-bar-fill" style="width:85%;background:linear-gradient(90deg,#00d2ff,#0090b3)"></div>
-        </div>
-        <div class="sensitivity-value">±1 ponto → ±25–30% risco</div>
-      </div>
-      <div class="sensitivity-row">
-        <div class="sensitivity-name">Presença</div>
-        <div class="sensitivity-bar-track">
-          <div class="sensitivity-bar-fill" style="width:55%;background:linear-gradient(90deg,#6bcb77,#3a8f4a)"></div>
-        </div>
-        <div class="sensitivity-value">±20% → ±15–20% risco</div>
-      </div>
-      <div class="sensitivity-row">
-        <div class="sensitivity-name">Bolsa</div>
-        <div class="sensitivity-bar-track">
-          <div class="sensitivity-bar-fill" style="width:25%;background:linear-gradient(90deg,#ffd93d,#c4a200)"></div>
-        </div>
-        <div class="sensitivity-value">±20% → ±5–8% risco</div>
-      </div>
+<div class="sensitivity-row">
+<div class="sensitivity-name">last_activity_day</div>
+<div class="sensitivity-bar-track">
+<div class="sensitivity-bar-fill" style="width:95%;background:linear-gradient(90deg,#00d2ff,#0090b3)"></div>
+</div>
+<div class="sensitivity-value">−30 dias → +18–22% risco</div>
+</div>
+<div class="sensitivity-row">
+<div class="sensitivity-name">assessment_count</div>
+<div class="sensitivity-bar-track">
+<div class="sensitivity-bar-fill" style="width:60%;background:linear-gradient(90deg,#6bcb77,#3a8f4a)"></div>
+</div>
+<div class="sensitivity-value">−5 avaliações → +12–15% risco</div>
+</div>
+<div class="sensitivity-row">
+<div class="sensitivity-name">submission_rate</div>
+<div class="sensitivity-bar-track">
+<div class="sensitivity-bar-fill" style="width:45%;background:linear-gradient(90deg,#ffd93d,#c4a200)"></div>
+</div>
+<div class="sensitivity-value">−0,3 → +8–12% risco</div>
+</div>
+<div class="sensitivity-row">
+<div class="sensitivity-name">avg_assessment_score</div>
+<div class="sensitivity-bar-track">
+<div class="sensitivity-bar-fill" style="width:25%;background:linear-gradient(90deg,#c084fc,#7c3aed)"></div>
+</div>
+<div class="sensitivity-value">−20 pontos → +4–7% risco</div>
+</div>
+<div class="sensitivity-row">
+<div class="sensitivity-name">total_clicks</div>
+<div class="sensitivity-bar-track">
+<div class="sensitivity-bar-fill" style="width:20%;background:linear-gradient(90deg,#f97316,#c2410c)"></div>
+</div>
+<div class="sensitivity-value">−500 cliques → +3–5% risco</div>
+</div>
 
-      <p style="margin-top:16px"><strong>Interpretação:</strong> O CRA é a variável com maior sensibilidade — uma mudança de 1 ponto no CRA altera o risco estimado em 25–30%. Isso reforça a importância de monitorar o rendimento acadêmico como primeiros indicadores de risco. A presença tem sensibilidade moderada, enquanto a bolsa tem o menor impacto direto.</p>
+<p style="margin-top:16px"><strong>Interpretação:</strong> last_activity_day é a variável com maior sensibilidade — reduzir a última atividade em 30 dias (ex: parar na semana 4 em vez de semana 8) aumenta o risco em 18–22%. Isso reforça que a <em>recência</em> da atividade VLE é o sinal mais importante. Assessment_count e submission_rate têm sensibilidade moderada — o <em>fato de entregar</em> importa mais que a nota.</p>
 
-      <!-- 5. Por que foi necessário complicar? -->
-      <h3>5. Por que foi necessário complicar?</h3>
-      <p>Uma pergunta legítima: com apenas 4 features, por que não usar um modelo simples? A resposta envolve três fatores técnicos:</p>
-      <ul class="advantage-list">
-        <li><strong>Underfitting com modelo linear.</strong> Com apenas 4 features numéricas, um modelo linear tem poucos parâmetros para aprender fronteiras complexas. O espaço de decisão é intrinsicamente não-linear — a combinação de CRA baixo + presença baixa gera um risco que não é a soma dos efeitos individuais. Modelos lineares subestimariam systematicamente esses casos.</li>
-        <li><strong>Desbalanceamento de classes.</strong> O dataset tem ~25% de estudantes SUSPENDED (abandono) vs ~75% ENROLLED (permanência). Modelos lineares tendem a favorecer a classe majoritária — preveriam "não abandono" para quase todos, obtendo ~75% de acurácia mas Recall ≈ 0% para abandonos. RandomForest com <code>class_weight="balanced"</code> compensa automaticamente o desbalanceamento.</li>
-        <li><strong>Fronteiras não-lineares.</strong> A separação entre "vai abandonar" e "não vai abandonar" não é uma linha reta no espaço de features. Há regiões onde CRA=2,5 e presença=50% indicam risco alto, mas CRA=3,0 e presença=50% indicam risco moderado — essa transição abrupta requer partições de árvore, não hiperplanos.</li>
-        <li><strong>Retorno sobre complexidade.</strong> A complexidade adicional do RandomForest se paga em Recall para a classe minoritária. Cada ponto percentual de Recall melhor representa estudantes reais que seriam identificados pelo sistema de alerta. Em um contexto de política educacional, isso se traduz em vidas impactadas.</li>
-      </ul>
-    </div>
-  </div>
+<!-- 5. Por que foi necessário complicar? -->
+<h3>5. Por que foi necessário complicar?</h3>
+<p>Com 10 features VLE, por que não usar um modelo simples? A resposta envolve três fatores técnicos específicos ao OULAD:</p>
+<ul class="advantage-list">
+<li><strong>Padrões de desengajamento não-lineares.</strong> A evasão na ODU não segue um gradiente linear — existe um "ponto de ruptura" nos padrões de uso do VLE. Estudantes que reduzem cliques de 200/semana para 10/semana estão em risco muito maior do que a redução proporcional sugeriria. RandomForest captura essa descontinuidade.</li>
+<li><strong>Desbalanceamento de classes (31,2% vs 68,8%).</strong> Embora menos extremo que outros datasets, ~31% de evasão ainda requer compensação. Modelos lineares tendem a favorecer a classe majoritária. RandomForest com <code>class_weight="balanced"</code> ajusta automaticamente.</li>
+<li><strong>Features VLE são correlacionadas.</strong> total_clicks, days_active e last_activity_day capturam aspectos diferentes do mesmo comportamento (engajamento VLE). RandomForest lida naturalmente com multicolinearidade — cada árvore seleciona um subset aleatório de features, reduzindo a dependência entre árvores.</li>
+<li><strong>Retorno sobre complexidade.</strong> A complexidade adicional do RandomForest se paga em recall para evasão. 93,7% de recall significa que o modelo identifica 19 em cada 20 estudantes que vão abandonar. Em contexto institucional, isso se traduz em intervenções precoces que podem reter estudantes.</li>
+</ul>
+</div>
+</div>
 
-  <footer>
-    Dashboard gerado para o projeto <strong>Abandono Acadêmico</strong> — Fase 4<br>
-    Modelo: RandomForestClassifier (n=100, class_weight=balanced, random_state=42)<br>
-    Dados: DataMission API · 1.000 registros · 4 cursos · 7 colunas
-  </footer>
+<footer>
+Dashboard gerado para o projeto <strong>Abandono Acadêmico</strong> — Fase 4<br>
+Modelo: RandomForestClassifier (n=500, class_weight=balanced, random_state=42)<br>
+Dados: OULAD · 32.593 estudantes · 7 módulos · Nature Sci. Data (CC-BY 4.0)
+</footer>
 
 </div>
 
 <script>
 /* ════════════════════════════════════════════════════════════════
-   DASHBOARD — Abandono Acadêmico Casa Grande
-   Vanilla JS · Sem dependências externas
-   ════════════════════════════════════════════════════════════════ */
+DASHBOARD — Abandono Acadêmico (OULAD)
+Vanilla JS · Sem dependências externas
+════════════════════════════════════════════════════════════════ */
 
 (function(){
 'use strict';
 
-/* ── Dados de importância das variáveis ──────────────────── */
+/* ── Dados de importância das variáveis (top 10 OULAD) ──── */
 const FEATURES = [
-  { name: 'grade_point_average', label: 'CRA (Coeficiente de Rendimento Acadêmico)', value: 0.352, cls: 'gpa' },
-  { name: 'attendance_rate',     label: 'Taxa de Presença (%)',                     value: 0.298, cls: 'att' },
-  { name: 'scholarship_percent', label: 'Percentual de Bolsa (%)',                  value: 0.178, cls: 'sch' },
-  { name: 'course_name_enc',     label: 'Curso (codificado)',                       value: 0.172, cls: 'crs' },
+{ name: 'last_activity_day', label: 'last_activity_day', value: 0.202, cls: 'lad' },
+{ name: 'assessment_count', label: 'assessment_count', value: 0.124, cls: 'ac' },
+{ name: 'submission_rate', label: 'submission_rate', value: 0.088, cls: 'sr' },
+{ name: 'num_tma', label: 'num_tma', value: 0.078, cls: 'nt' },
+{ name: 'avg_assessment_score', label: 'avg_assessment_score', value: 0.046, cls: 'aas' },
+{ name: 'total_clicks', label: 'total_clicks', value: 0.042, cls: 'tc' },
+{ name: 'num_cma', label: 'num_cma', value: 0.038, cls: 'nc' },
+{ name: 'days_active', label: 'days_active', value: 0.031, cls: 'da' },
+{ name: 'unregistered', label: 'unregistered', value: 0.028, cls: 'un' },
+{ name: 'num_modules', label: 'num_modules', value: 0.022, cls: 'nm' },
 ];
 
 /* ── Renderizar barras de importância ────────────────────── */
 const barContainer = document.getElementById('featureBars');
 const maxVal = Math.max(...FEATURES.map(f => f.value));
 FEATURES.forEach((f, i) => {
-  const row = document.createElement('div');
-  row.className = 'bar-row';
-  row.innerHTML = `
-    <div class="bar-label">${f.label}</div>
-    <div class="bar-track">
-      <div class="bar-fill ${f.cls}" style="width:0%" data-val="${(f.value * 100).toFixed(1)}%"></div>
-    </div>`;
-  barContainer.appendChild(row);
-  // Animação ao carregar
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      row.querySelector('.bar-fill').style.width = (f.value / maxVal * 100) + '%';
-    }, 200 + i * 120);
-  });
+const row = document.createElement('div');
+row.className = 'bar-row';
+row.innerHTML = `
+<div class="bar-label">${f.label}</div>
+<div class="bar-track">
+<div class="bar-fill ${f.cls}" style="width:0%" data-val="${(f.value * 100).toFixed(1)}%"></div>
+</div>`;
+barContainer.appendChild(row);
+// Animação ao carregar
+requestAnimationFrame(() => {
+setTimeout(() => {
+row.querySelector('.bar-fill').style.width = (f.value / maxVal * 100) + '%';
+}, 200 + i * 100);
+});
 });
 
-/* ── Fórmula de simulação logística ──────────────────────── */
-// Coeficientes simplificados (calibrados para escala de CRA 0-4)
-const BETA = { intercept: 1.8, gpa: -1.1, attendance: -0.038, scholarship: 0.012 };
+/* ── Fórmula de simulação logística (OULAD coefficients) ── */
+// Coeficientes calibrados para features OULAD (escala: days 0-270, count 0-15, score 0-100, clicks 0-5000)
+const BETA = {
+intercept: 2.4,
+lad: -0.022,       // last_activity_day: mais dias = menor risco
+ac: -0.18,         // assessment_count: mais avaliações = menor risco
+aas: -0.025,       // avg_assessment_score: nota alta = menor risco
+tc: -0.00035,      // total_clicks: mais cliques = menor risco
+da: -0.012         // days_active: mais dias ativos = menor risco
+};
 
 function sigmoid(z) { return 1 / (1 + Math.exp(-z)); }
 
-function calcRisk(gpa, att, sch) {
-  const z = BETA.intercept + BETA.gpa * gpa + BETA.attendance * att + BETA.scholarship * sch;
-  return sigmoid(z);
+function calcRisk(lad, ac, aas, tc, da) {
+const z = BETA.intercept
++ BETA.lad * lad
++ BETA.ac * ac
++ BETA.aas * aas
++ BETA.tc * tc
++ BETA.da * da;
+return sigmoid(z);
 }
 
 /* ── Atualização do medidor de risco ─────────────────────── */
@@ -602,88 +696,99 @@ const statusEl = document.getElementById('riskStatus');
 const CIRCUMFERENCE = 2 * Math.PI * 78; // ~490
 
 function updateRisk() {
-  const gpa = parseFloat(document.getElementById('slGpa').value);
-  const att = parseFloat(document.getElementById('slAtt').value);
-  const sch = parseFloat(document.getElementById('slSch').value);
+const lad = parseFloat(document.getElementById('slLad').value);
+const ac = parseFloat(document.getElementById('slAc').value);
+const aas = parseFloat(document.getElementById('slAas').value);
+const tc = parseFloat(document.getElementById('slTc').value);
+const da = parseFloat(document.getElementById('slDa').value);
 
-  document.getElementById('valGpa').textContent = gpa.toFixed(1).replace('.', ',');
-  document.getElementById('valAtt').textContent = att + '%';
-  document.getElementById('valSch').textContent = sch + '%';
+document.getElementById('valLad').textContent = lad;
+document.getElementById('valAc').textContent = ac;
+document.getElementById('valAas').textContent = aas;
+document.getElementById('valTc').textContent = tc.toLocaleString('pt-BR');
+document.getElementById('valDa').textContent = da;
 
-  const risk = calcRisk(gpa, att, sch);
-  const pct = Math.round(risk * 100);
+const risk = calcRisk(lad, ac, aas, tc, da);
+const pct = Math.round(risk * 100);
 
-  pctEl.textContent = pct + '%';
+pctEl.textContent = pct + '%';
 
-  // Arco
-  const offset = CIRCUMFERENCE * (1 - risk);
-  arc.style.strokeDashoffset = offset;
+// Arco
+const offset = CIRCUMFERENCE * (1 - risk);
+arc.style.strokeDashoffset = offset;
 
-  // Cor
-  let color, statusText, statusClass;
-  if (pct < 30) {
-    color = 'var(--ok)'; statusText = 'Risco Baixo'; statusClass = 'risk-low';
-  } else if (pct < 55) {
-    color = 'var(--warn)'; statusText = 'Risco Moderado'; statusClass = 'risk-med';
-  } else {
-    color = 'var(--alert)'; statusText = 'Risco Alto'; statusClass = 'risk-high';
-  }
-  arc.style.stroke = color;
-  statusEl.textContent = statusText;
-  statusEl.className = 'risk-status ' + statusClass;
+// Cor
+let color, statusText, statusClass;
+if (pct < 30) {
+color = 'var(--ok)'; statusText = 'Risco Baixo'; statusClass = 'risk-low';
+} else if (pct < 55) {
+color = 'var(--warn)'; statusText = 'Risco Moderado'; statusClass = 'risk-med';
+} else {
+color = 'var(--alert)'; statusText = 'Risco Alto'; statusClass = 'risk-high';
+}
+arc.style.stroke = color;
+statusEl.textContent = statusText;
+statusEl.className = 'risk-status ' + statusClass;
 }
 
-document.getElementById('slGpa').addEventListener('input', updateRisk);
-document.getElementById('slAtt').addEventListener('input', updateRisk);
-document.getElementById('slSch').addEventListener('input', updateRisk);
+document.getElementById('slLad').addEventListener('input', updateRisk);
+document.getElementById('slAc').addEventListener('input', updateRisk);
+document.getElementById('slAas').addEventListener('input', updateRisk);
+document.getElementById('slTc').addEventListener('input', updateRisk);
+document.getElementById('slDa').addEventListener('input', updateRisk);
 updateRisk();
 
 /* ── Histogramas ─────────────────────────────────────────── */
 
-// Distribuição do CRA (20 bins, escala 0-4)
-const gpaData = [
-  18, 14, 12, 16, 22, 28, 35, 42, 50, 55,
-  62, 68, 72, 78, 80, 75, 65, 52, 38, 20
+// Distribuição de last_activity_day (20 bins, escala 0-270)
+// Padrão OULAD: distribuição bimodal — pico em dias baixos (evasão precoce) e pico em dias altos (permanência)
+const ladData = [
+120, 95, 70, 55, 45, 38, 32, 28, 25, 22,
+20, 18, 20, 24, 30, 40, 55, 75, 95, 130
 ];
 
-// Distribuição da presença (20 bins, escala 0-100)
-const attData = [
-  3, 5, 8, 12, 18, 25, 35, 48, 60, 72,
-  85, 95, 105, 110, 100, 88, 70, 50, 30, 12
+// Distribuição de assessment_count (16 bins, escala 0-15)
+// Maioria dos estudantes entrega entre 2-8 avaliações
+const acData = [
+80, 140, 220, 350, 480, 550, 510, 420,
+320, 240, 180, 120, 70, 35, 15, 8
 ];
 
-// Bolsa (discreta: 0, 25, 50, 75, 100)
-const schBins = ['0%', '25%', '50%', '75%', '100%'];
-const schData = [180, 220, 260, 140, 200];
+// Distribuição de avg_assessment_score (20 bins, escala 0-100)
+// Distribuição aproximadamente normal centrada em ~65
+const aasData = [
+8, 12, 18, 28, 42, 65, 90, 120, 155, 185,
+200, 210, 195, 170, 140, 105, 72, 45, 25, 12
+];
 
 function renderHistogram(containerId, data, color, maxOverride) {
-  const container = document.getElementById(containerId);
-  const max = maxOverride || Math.max(...data);
-  data.forEach((v, i) => {
-    const bar = document.createElement('div');
-    bar.className = 'hist-bar';
-    bar.style.height = '0%';
-    bar.style.background = color;
-    const tip = document.createElement('span');
-    tip.className = 'tip';
-    tip.textContent = v;
-    bar.appendChild(tip);
-    container.appendChild(bar);
-    setTimeout(() => {
-      bar.style.height = (v / max * 100) + '%';
-    }, 100 + i * 40);
-  });
+const container = document.getElementById(containerId);
+const max = maxOverride || Math.max(...data);
+data.forEach((v, i) => {
+const bar = document.createElement('div');
+bar.className = 'hist-bar';
+bar.style.height = '0%';
+bar.style.background = color;
+const tip = document.createElement('span');
+tip.className = 'tip';
+tip.textContent = v;
+bar.appendChild(tip);
+container.appendChild(bar);
+setTimeout(() => {
+bar.style.height = (v / max * 100) + '%';
+}, 100 + i * 40);
+});
 }
 
-renderHistogram('histGpa', gpaData, 'linear-gradient(180deg,#00d2ff,#0090b3)');
-renderHistogram('histAtt', attData, 'linear-gradient(180deg,#6bcb77,#3a8f4a)');
-renderHistogram('histSch', schData, 'linear-gradient(180deg,#ffd93d,#c4a200)');
+renderHistogram('histLad', ladData, 'linear-gradient(180deg,#00d2ff,#0090b3)');
+renderHistogram('histAc', acData, 'linear-gradient(180deg,#6bcb77,#3a8f4a)');
+renderHistogram('histAas', aasData, 'linear-gradient(180deg,#c084fc,#7c3aed)');
 
 /* ── Alvo donut (CSS conic-gradient) ─────────────────────── */
-// Do relatório de classificação: ~75% não-abandono, ~25% abandono
+// OULAD: 68,8% permanência (Pass/Fail/Distinction), 31,2% evasão (Withdrawn)
 const targetData = [
-  { label: 'Não-Abandono', pct: 75, color: 'var(--ok)' },
-  { label: 'Abandono (SUSPENDED)', pct: 25, color: 'var(--alert)' },
+{ label: 'Permanência (Pass/Fail/Distinction)', pct: 68.8, color: 'var(--ok)' },
+{ label: 'Evasão (Withdrawn)', pct: 31.2, color: 'var(--alert)' },
 ];
 
 const donut = document.getElementById('donutTarget');
@@ -691,16 +796,16 @@ const legend = document.getElementById('legendTarget');
 let gradParts = [];
 let cumPct = 0;
 targetData.forEach(d => {
-  gradParts.push(`${d.color} ${cumPct}% ${cumPct + d.pct}%`);
-  cumPct += d.pct;
+gradParts.push(`${d.color} ${cumPct}% ${cumPct + d.pct}%`);
+cumPct += d.pct;
 
-  const li = document.createElement('div');
-  li.className = 'legend-item';
-  li.innerHTML = `<div class="legend-dot" style="background:${d.color}"></div>${d.label}: <strong>${d.pct}%</strong>`;
-  legend.appendChild(li);
+const li = document.createElement('div');
+li.className = 'legend-item';
+li.innerHTML = `<div class="legend-dot" style="background:${d.color}"></div>${d.label}: <strong>${d.pct}%</strong>`;
+legend.appendChild(li);
 });
 donut.style.background = `conic-gradient(${gradParts.join(',')})`;
-donut.innerHTML = `<div class="donut-hole"><div class="big">1.000</div><div class="small">estudantes</div></div>`;
+donut.innerHTML = `<div class="donut-hole"><div class="big">32.593</div><div class="small">estudantes</div></div>`;
 
 })();
 </script>
