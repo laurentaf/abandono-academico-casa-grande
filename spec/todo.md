@@ -27,6 +27,16 @@
 - [x] artifacts/data/etl_oulad.sql com pipeline bronze→silver→gold
 - [x] artifacts/data/model.md com schema, metricas, feature importance
 
-## Stage 4: Dashboard + Simulacao
+## Stage 4: Dashboard + Simulação
 - [x] Dashboard interativo em artifacts/dashboard/index.html
-- [x] Dashboard atualizado para OULAD (metricas, features, sliders)
+- [x] Dashboard atualizado para OULAD (métricas, features, sliders)
+- [x] **PONTO 2 — Dashboard com meta configurável + 3 sliders + esforço por indicador**
+  - [x] Slider de meta (5%–50%, default 20%) + Gap visual (barra/marker)
+  - [x] 3 sliders (last_activity_day, assessment_count, submission_rate) com impacto local e esforço p/ meta
+  - [x] Risk ring com probabilidade atual + cor (verde < 20%, amarelo 20–40%, vermelho > 40%)
+  - [x] Esforço total padronizado + interpretação (baixo/médio/alto)
+  - [x] Feature importance (top 10 XGBoost) — bar chart horizontal
+  - [x] Comparativo de 6 modelos (tabela ROC-AUC, Recall, Tempo, Prós/Contras)
+  - [x] Conclusões e Ações (3 bullets de conclusions-and-actions.md)
+  - [x] 3 disclaimers (correlação, OULAD, proxy linear)
+  - [x] ADR-004 documentando decisão do proxy linear vs RF completo

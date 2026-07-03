@@ -1,0 +1,205 @@
+{
+  "cv_results": {
+    "Dummy": {
+      "accuracy": 0.5696862775178339,
+      "precision": 0.306683322923173,
+      "recall": 0.30215384615384616,
+      "f1": 0.30440173589584624,
+      "roc_auc": 0.4964722097224187,
+      "train_time": 0.1747532999725081,
+      "cv_time": 1.9139564000070095,
+      "model_size_kb": 4.9443359375,
+      "inference_time_1000": 0.01897039997857064
+    },
+    "Logistic Regression": {
+      "accuracy": 0.8643092736058909,
+      "precision": 0.7271916790490341,
+      "recall": 0.9035076923076923,
+      "f1": 0.8058177826564216,
+      "roc_auc": 0.9419846282415562,
+      "train_time": 0.9182727999868803,
+      "cv_time": 6.342481100000441,
+      "model_size_kb": 5.70703125,
+      "inference_time_1000": 0.018367099983152002
+    },
+    "Random Forest": {
+      "accuracy": 0.8738206642632508,
+      "precision": 0.75122103294191,
+      "recall": 0.889723076923077,
+      "f1": 0.8146270002253775,
+      "roc_auc": 0.9497797091759987,
+      "train_time": 14.42920429998776,
+      "cv_time": 96.288914499979,
+      "model_size_kb": 57943.17578125,
+      "inference_time_1000": 0.06294249999336898
+    },
+    "Gradient Boosting": {
+      "accuracy": 0.8770039119429317,
+      "precision": 0.780387685290764,
+      "recall": 0.8423384615384616,
+      "f1": 0.810180526783072,
+      "roc_auc": 0.951989128170843,
+      "train_time": 44.86767270002747,
+      "cv_time": 379.79765550000593,
+      "model_size_kb": 484.62890625,
+      "inference_time_1000": 0.03648729994893074
+    },
+    "XGBoost": {
+      "accuracy": 0.8687197974994247,
+      "precision": 0.7341167098187612,
+      "recall": 0.9073230769230769,
+      "f1": 0.8115814388726812,
+      "roc_auc": 0.9511480716731594,
+      "train_time": 4.079155199986417,
+      "cv_time": 20.99287060002098,
+      "model_size_kb": 708.9150390625,
+      "inference_time_1000": 0.022138400003314018
+    },
+    "LightGBM": {
+      "accuracy": 0.8707524737286185,
+      "precision": 0.7345368452204795,
+      "recall": 0.9164307692307693,
+      "f1": 0.8154638046216187,
+      "roc_auc": 0.951426038733677,
+      "train_time": 3.9725255999946967,
+      "cv_time": 15.113589000015054,
+      "model_size_kb": 686.0,
+      "inference_time_1000": 0.02476960001513362
+    }
+  },
+  "test_results": {
+    "Dummy": {
+      "accuracy": 0.5655775425678785
+    },
+    "Logistic Regression": {
+      "accuracy": 0.8694585059058137,
+      "precision": 0.7352472089314195,
+      "recall": 0.9079271294928607,
+      "f1": 0.8125137695527649,
+      "roc_auc": 0.9457755283304854,
+      "confusion_matrix": [
+        [
+          3824,
+          664
+        ],
+        [
+          187,
+          1844
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n Non-dropout       0.95      0.85      0.90      4488\n   Withdrawn       0.74      0.91      0.81      2031\n\n    accuracy                           0.87      6519\n   macro avg       0.84      0.88      0.86      6519\nweighted avg       0.89      0.87      0.87      6519\n"
+    },
+    "Random Forest": {
+      "accuracy": 0.8786623715293757,
+      "precision": 0.7587646076794657,
+      "recall": 0.8951255539143279,
+      "f1": 0.8213236955048565,
+      "roc_auc": 0.9537231951103703,
+      "confusion_matrix": [
+        [
+          3910,
+          578
+        ],
+        [
+          213,
+          1818
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n Non-dropout       0.95      0.87      0.91      4488\n   Withdrawn       0.76      0.90      0.82      2031\n\n    accuracy                           0.88      6519\n   macro avg       0.85      0.88      0.86      6519\nweighted avg       0.89      0.88      0.88      6519\n"
+    },
+    "Gradient Boosting": {
+      "accuracy": 0.8811167356956588,
+      "precision": 0.7849364791288567,
+      "recall": 0.8517971442639094,
+      "f1": 0.8170011806375442,
+      "roc_auc": 0.9545541214561112,
+      "confusion_matrix": [
+        [
+          4014,
+          474
+        ],
+        [
+          301,
+          1730
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n Non-dropout       0.93      0.89      0.91      4488\n   Withdrawn       0.78      0.85      0.82      2031\n\n    accuracy                           0.88      6519\n   macro avg       0.86      0.87      0.86      6519\nweighted avg       0.88      0.88      0.88      6519\n"
+    },
+    "XGBoost": {
+      "accuracy": 0.8760546096026998,
+      "precision": 0.741986545310645,
+      "recall": 0.9231905465288035,
+      "f1": 0.822729267222466,
+      "roc_auc": 0.9547187927585876,
+      "confusion_matrix": [
+        [
+          3836,
+          652
+        ],
+        [
+          156,
+          1875
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n Non-dropout       0.96      0.85      0.90      4488\n   Withdrawn       0.74      0.92      0.82      2031\n\n    accuracy                           0.88      6519\n   macro avg       0.85      0.89      0.86      6519\nweighted avg       0.89      0.88      0.88      6519\n"
+    },
+    "LightGBM": {
+      "accuracy": 0.8777419849670195,
+      "precision": 0.7404520654715511,
+      "recall": 0.9354997538158543,
+      "f1": 0.8266260604742223,
+      "roc_auc": 0.9547342066946289,
+      "confusion_matrix": [
+        [
+          3822,
+          666
+        ],
+        [
+          131,
+          1900
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n Non-dropout       0.97      0.85      0.91      4488\n   Withdrawn       0.74      0.94      0.83      2031\n\n    accuracy                           0.88      6519\n   macro avg       0.85      0.89      0.87      6519\nweighted avg       0.90      0.88      0.88      6519\n"
+    }
+  },
+  "stat_tests": [
+    {
+      "test": "Logistic Regression vs Dummy (permutation)",
+      "statistic": 0.2946229960880571,
+      "p_value": 0.000999000999000999,
+      "significant_005": true,
+      "interpretation": "Logistic Regression (0.8643) vs Dummy (0.5697), \u0394=0.2946"
+    },
+    {
+      "test": "Random Forest vs Dummy (permutation)",
+      "statistic": 0.30413438674541693,
+      "p_value": 0.000999000999000999,
+      "significant_005": true,
+      "interpretation": "Random Forest (0.8738) vs Dummy (0.5697), \u0394=0.3041"
+    },
+    {
+      "test": "Gradient Boosting vs Dummy (permutation)",
+      "statistic": 0.30731763442509785,
+      "p_value": 0.000999000999000999,
+      "significant_005": true,
+      "interpretation": "Gradient Boosting (0.8770) vs Dummy (0.5697), \u0394=0.3073"
+    },
+    {
+      "test": "XGBoost vs Dummy (permutation)",
+      "statistic": 0.2990335199815909,
+      "p_value": 0.000999000999000999,
+      "significant_005": true,
+      "interpretation": "XGBoost (0.8687) vs Dummy (0.5697), \u0394=0.2990"
+    },
+    {
+      "test": "LightGBM vs Dummy (permutation)",
+      "statistic": 0.3010661962107847,
+      "p_value": 0.000999000999000999,
+      "significant_005": true,
+      "interpretation": "LightGBM (0.8708) vs Dummy (0.5697), \u0394=0.3011"
+    },
+    {
+      "test": "Logistic Regression vs Random Forest (paired t-test, 5-fold)",
+      "statistic": -7.276326132447802,
+      "p_value": 0.001895416097814979,
+      "significant_005": 

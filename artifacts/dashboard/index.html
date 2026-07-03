@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Abandono Acadêmico (OULAD)</title>
+<title>Dashboard — Abandono Acadêmico (OULAD) — Meta & Esforço</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -12,7 +12,9 @@
 --text:#e0e0e0;--text2:#8892a4;--border:#253554;
 --radius:10px;--radius-sm:6px;
 }
+@media(prefers-reduced-motion){*,*::before,*::after{animation:none!important;transition:none!important}}
 html{font-size:16px;scroll-behavior:smooth}
+@media(prefers-reduced-motion){html{scroll-behavior:auto}}
 body{
 font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 background:var(--bg);color:var(--text);line-height:1.6;
@@ -63,6 +65,90 @@ transition:border-color .2s;
 .section-header h2{font-size:1.15rem;font-weight:700}
 .section-header .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
+/* ── Meta conﬁg ─────────────────────────────────────────── */
+.meta-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.meta-panel{grid-template-columns:1fr}}
+.meta-controls{display:flex;flex-direction:column;gap:16px}
+.meta-slider-row{display:flex;align-items:center;gap:12px}
+.meta-slider-row label{font-size:0.85rem;font-weight:600;color:var(--text2);white-space:nowrap}
+.meta-slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
+.meta-slider-row input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+box-shadow:0 0 8px rgba(0,210,255,0.4);
+}
+.meta-slider-row input[type=range]::-moz-range-thumb{
+width:20px;height:20px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+}
+.meta-display{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
+.meta-stat{text-align:center}
+.meta-stat .val{font-size:1.8rem;font-weight:800;line-height:1.1}
+.meta-stat .label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-top:4px}
+.meta-gap-bar{width:100%;max-width:400px;height:28px;background:rgba(255,255,255,0.04);border-radius:var(--radius-sm);overflow:hidden;position:relative;margin-top:8px}
+.meta-gap-fill{height:100%;border-radius:var(--radius-sm);transition:width .4s ease}
+.meta-gap-marker{position:absolute;top:0;width:2px;height:100%;background:#fff;z-index:2;transition:left .4s ease}
+.meta-gap-marker::after{content:attr(data-label);position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.65rem;white-space:nowrap;color:var(--accent);font-weight:700}
+
+/* ── Risk gauge ─────────────────────────────────────────── */
+.risk-display{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 24px}
+.risk-ring{width:180px;height:180px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
+.risk-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.risk-ring .inner{
+width:140px;height:140px;border-radius:50%;background:var(--surface);
+display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;
+}
+.risk-pct{font-size:2.2rem;font-weight:800;line-height:1}
+.risk-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);margin-top:4px}
+.risk-status{
+margin-top:16px;padding:6px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;
+text-transform:uppercase;letter-spacing:0.06em;
+}
+.risk-low{background:rgba(107,203,119,0.15);color:var(--ok)}
+.risk-med{background:rgba(255,217,61,0.15);color:var(--warn)}
+.risk-high{background:rgba(255,107,107,0.15);color:var(--alert)}
+
+/* ── Slider groups (3 indicadores) ──────────────────────── */
+.slider-card{
+background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+padding:20px 24px;margin-bottom:16px;transition:border-color .2s;
+}
+.slider-card:hover{border-color:rgba(0,210,255,0.2)}
+.slider-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.slider-card-header .name{font-size:0.9rem;font-weight:700;color:var(--text)}
+.slider-card-header .range{font-size:0.72rem;color:var(--text2)}
+.slider-card .slider-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.slider-card input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
+.slider-card input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+box-shadow:0 0 8px rgba(0,210,255,0.4);
+}
+.slider-card input[type=range]::-moz-range-thumb{
+width:20px;height:20px;border-radius:50%;
+background:var(--accent);border:2px solid var(--bg);cursor:pointer;
+}
+.slider-val{
+min-width:60px;text-align:center;font-size:0.95rem;font-weight:700;
+color:var(--accent);background:var(--surface2);padding:4px 10px;border-radius:var(--radius-sm);
+}
+.slider-stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.slider-stat{padding:6px 12px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text2)}
+.slider-stat strong{color:var(--text);font-weight:600}
+.slider-legend{font-size:0.78rem;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.5}
+
+/* ── Effort total card ──────────────────────────────────── */
+.effort-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px}
+.effort-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.effort-header .effort-label{font-size:0.9rem;font-weight:700;color:var(--text)}
+.effort-header .effort-badge{padding:4px 16px;border-radius:20px;font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+.effort-baixo{background:rgba(107,203,119,0.15);color:var(--ok)}
+.effort-medio{background:rgba(255,217,61,0.15);color:var(--warn)}
+.effort-alto{background:rgba(255,107,107,0.15);color:var(--alert)}
+.effort-breakdown{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.effort-item{padding:6px 14px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text2)}
+.effort-item strong{color:var(--text);font-weight:600}
+
 /* ── Feature importance bars ────────────────────────────── */
 .bar-chart{display:flex;flex-direction:column;gap:14px}
 .bar-row{display:flex;align-items:center;gap:12px}
@@ -84,80 +170,18 @@ font-size:0.78rem;font-weight:700;color:#fff;
 .bar-fill.un{background:linear-gradient(90deg,#a78bfa,#6d28d9)}
 .bar-fill.nm{background:linear-gradient(90deg,#fb923c,#ea580c)}
 
-/* ── Simulation ─────────────────────────────────────────── */
-.sim-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
-@media(max-width:768px){.sim-panel{grid-template-columns:1fr}}
-.sim-controls{display:flex;flex-direction:column;gap:20px}
-.slider-group label{display:block;font-size:0.82rem;color:var(--text2);margin-bottom:6px;font-weight:600}
-.slider-row{display:flex;align-items:center;gap:12px}
-.slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
-.slider-row input[type=range]::-webkit-slider-thumb{
--webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-background:var(--accent);border:2px solid var(--bg);cursor:pointer;
-box-shadow:0 0 8px rgba(0,210,255,0.4);
+/* ── Model comparison table ──────────────────────────────── */
+.model-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:8px}
+.model-table th{
+text-align:left;padding:10px 14px;background:var(--surface2);color:var(--accent);
+font-weight:600;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;
+border-bottom:2px solid var(--accent);
 }
-.slider-row input[type=range]::-moz-range-thumb{
-width:18px;height:18px;border-radius:50%;
-background:var(--accent);border:2px solid var(--bg);cursor:pointer;
-}
-.slider-val{
-min-width:56px;text-align:center;font-size:0.95rem;font-weight:700;
-color:var(--accent);background:var(--surface2);padding:4px 8px;border-radius:var(--radius-sm);
-}
-
-/* ── Risk gauge ─────────────────────────────────────────── */
-.risk-display{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px}
-.risk-ring{
-width:180px;height:180px;border-radius:50%;position:relative;
-display:flex;align-items:center;justify-content:center;
-}
-.risk-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
-.risk-ring .inner{
-width:140px;height:140px;border-radius:50%;background:var(--surface);
-display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;
-}
-.risk-pct{font-size:2.2rem;font-weight:800;line-height:1}
-.risk-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);margin-top:4px}
-.risk-status{
-margin-top:16px;padding:6px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;
-text-transform:uppercase;letter-spacing:0.06em;
-}
-.risk-low{background:rgba(107,203,119,0.15);color:var(--ok)}
-.risk-med{background:rgba(255,217,61,0.15);color:var(--warn)}
-.risk-high{background:rgba(255,107,107,0.15);color:var(--alert)}
-
-/* ── Distribution charts ────────────────────────────────── */
-.dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.dist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-.dist-card h3{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--text)}
-.histogram{display:flex;align-items:flex-end;gap:3px;height:120px;padding-top:8px}
-.hist-bar{
-flex:1;border-radius:3px 3px 0 0;min-width:4px;transition:height .6s cubic-bezier(0.22,1,0.36,1);
-position:relative;cursor:default;
-}
-.hist-bar:hover{opacity:0.85}
-.hist-bar .tip{
-display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-background:var(--bg);border:1px solid var(--border);border-radius:4px;
-padding:3px 8px;font-size:0.7rem;white-space:nowrap;color:var(--text);z-index:10;
-}
-.hist-bar:hover .tip{display:block}
-.hist-labels{display:flex;justify-content:space-between;margin-top:6px}
-.hist-labels span{font-size:0.68rem;color:var(--text2)}
-
-/* ── Target donut (CSS only) ────────────────────────────── */
-.donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.donut{width:140px;height:140px;border-radius:50%;position:relative;flex-shrink:0}
-.donut-hole{
-width:80px;height:80px;border-radius:50%;background:var(--surface);
-position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.donut-hole .big{font-size:1.3rem;font-weight:800;color:var(--text)}
-.donut-hole .small{font-size:0.65rem;color:var(--text2)}
-.legend{display:flex;flex-direction:column;gap:8px}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:0.85rem}
-.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.model-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.model-table tr:hover td{background:rgba(0,210,255,0.03)}
+.model-table .highlight td{color:var(--text);font-weight:600;background:rgba(0,210,255,0.05)}
+.model-table .highlight .tag-choice{display:inline-block;padding:1px 8px;border-radius:10px;font-size:0.7rem;font-weight:700;background:rgba(0,210,255,0.15);color:var(--accent);margin-left:4px}
+.tag-recall{display:inline-block;padding:1px 8px;border-radius:10px;font-size:0.7rem;font-weight:700;background:rgba(107,203,119,0.2);color:var(--ok);margin-left:4px}
 
 /* ── Conclusions ────────────────────────────────────────── */
 .conclusions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
@@ -172,43 +196,12 @@ border-radius:50%;background:var(--accent);
 }
 .conclusions li strong{color:var(--text);font-weight:600}
 
-/* ── Decisões do Modelo ─────────────────────────────────── */
-.model-decisions{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px}
-.model-decisions h2{font-size:1.15rem;margin-bottom:20px;font-weight:700;color:var(--accent)}
-.model-decisions h3{font-size:1rem;margin:24px 0 12px;font-weight:700;color:var(--text)}
-.model-decisions p{font-size:0.9rem;color:var(--text2);line-height:1.6;margin-bottom:10px}
-.model-decisions strong{color:var(--text);font-weight:600}
-
-.decision-table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:0.85rem}
-.decision-table th{
-text-align:left;padding:10px 14px;background:var(--surface2);color:var(--accent);
-font-weight:600;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;
-border-bottom:2px solid var(--accent);
-}
-.decision-table td{
-padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);
-vertical-align:top;
-}
-.decision-table tr:hover td{background:rgba(0,210,255,0.03)}
-.decision-table .highlight td{color:var(--text);font-weight:600;background:rgba(0,210,255,0.05)}
-.tag-removed{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(255,107,107,0.15);color:var(--alert)}
-.tag-kept{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(107,203,119,0.15);color:var(--ok)}
-.tag-target{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600;background:rgba(0,210,255,0.15);color:var(--accent)}
-
-.sensitivity-row{display:flex;align-items:center;gap:16px;margin:10px 0;padding:12px 16px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm)}
-.sensitivity-name{width:140px;flex-shrink:0;font-size:0.85rem;font-weight:600;color:var(--text)}
-.sensitivity-bar-track{flex:1;height:20px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;position:relative}
-.sensitivity-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(0.22,1,0.36,1)}
-.sensitivity-value{width:160px;flex-shrink:0;font-size:0.82rem;color:var(--text2);text-align:right}
-
-.advantage-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0}
-.advantage-list li{
-padding-left:20px;position:relative;font-size:0.9rem;color:var(--text2);line-height:1.5;
-}
-.advantage-list li::before{
-content:'▸';position:absolute;left:0;color:var(--accent);font-weight:700;
-}
-.advantage-list li strong{color:var(--text);font-weight:600}
+/* ── Disclaimers ────────────────────────────────────────── */
+.disclaimers{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-top:32px}
+.disclaimers h3{font-size:0.9rem;font-weight:700;margin-bottom:12px;color:var(--warn)}
+.disclaimers ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.disclaimers li{padding-left:16px;position:relative;font-size:0.82rem;color:var(--text2);line-height:1.5}
+.disclaimers li::before{content:'⚠';position:absolute;left:-2px;top:0;font-size:0.75rem}
 
 /* ── Footer ─────────────────────────────────────────────── */
 footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:0.78rem}
@@ -222,13 +215,11 @@ header h1{font-size:1.3rem}
 .risk-ring{width:140px;height:140px}
 .risk-ring .inner{width:110px;height:110px}
 .risk-pct{font-size:1.7rem}
-.sim-panel{grid-template-columns:1fr}
-.histogram{height:90px}
-.model-decisions{padding:20px 16px}
-.decision-table{font-size:0.78rem}
-.decision-table th,.decision-table td{padding:8px 10px}
-.sensitivity-row{flex-direction:column;align-items:flex-start;gap:6px}
-.sensitivity-value{text-align:left;width:auto}
+.meta-display{gap:16px}
+.meta-stat .val{font-size:1.3rem}
+.model-table{font-size:0.78rem}
+.model-table th,.model-table td{padding:8px 10px}
+.slider-stats{flex-direction:column;gap:6px}
 }
 
 /* ── Animations ─────────────────────────────────────────── */
@@ -240,14 +231,33 @@ header h1{font-size:1.3rem}
 </head>
 <body>
 
+<!-- ═══════════════ INLINE MODEL PROXY ═══════════════ -->
+<script type="application/json" id="proxyData">{
+"model":"LogisticRegression",
+"features":["last_activity_day","assessment_count","submission_rate"],
+"coefficients":{"intercept":-0.8913436252801004,"last_activity_day":-0.596320926083401,"assessment_count":-4.1771284176957115,"submission_rate":1.9842038737214558},
+"feature_ranges":{
+"last_activity_day":{"min":-999.0,"max":269.0,"mean":53.554993097100784,"std":372.85312305358985},
+"assessment_count":{"min":0.0,"max":14.0,"mean":5.311397453597177,"std":4.282732965318321},
+"submission_rate":{"min":0.0,"max":0.058333333333333334,"mean":0.02085073368283075,"std":0.016994785969329115}
+},
+"default_meta_dropout":0.2,
+"meta_bounds":[0.05,0.5],
+"test_set_baseline_p":0.31155085135757016,
+"scaler_mean":[53.554993097100784,5.311397453597177,0.02085073368283075],
+"scaler_std":[372.8245245397949,4.282404471897679,0.016993482438284486],
+"best_model":"Random Forest",
+"best_model_test_roc_auc":0.9525
+}</script>
+
 <div class="container">
 
 <!-- ════════════ HEADER ════════════ -->
 <header class="animate">
 <h1>Abandono Acadêmico <span>OULAD</span></h1>
-<p class="subtitle">Dashboard interativo do modelo preditivo de evasão — Open University Learning Analytics Dataset. Ajuste os parâmetros e observe o impacto na probabilidade de abandono (Withdrawn).</p>
+<p class="subtitle">Dashboard de meta configurável &amp; esforço por indicador. Ajuste os sliders e a meta desejada para simular a probabilidade de evasão e calcular o esforço necessário em cada fator de engajamento.</p>
 <div>
-<span class="badge badge-model">RandomForest Classifier</span>
+<span class="badge badge-model">Random Forest</span>
 <span class="badge badge-phase">Fase 4 — Dashboard</span>
 <span class="badge badge-n">n = 32.593</span>
 </div>
@@ -259,23 +269,140 @@ header h1{font-size:1.3rem}
 <div class="grid grid-4">
 <div class="card card-accent animate d1">
 <div class="card-title">Acurácia</div>
-<div class="card-value">87,5%</div>
-<div class="card-sub">Taxa de acerto geral</div>
+<div class="card-value">87,7%</div>
+<div class="card-sub">Taxa de acerto geral (RF)</div>
 </div>
 <div class="card card-ok animate d2">
 <div class="card-title">Recall (dropout)</div>
-<div class="card-value">93,7%</div>
+<div class="card-value">83,4%</div>
 <div class="card-sub">Sensibilidade — classe Withdrawn</div>
 </div>
 <div class="card card-warn animate d3">
 <div class="card-title">ROC-AUC</div>
-<div class="card-value">0,954</div>
+<div class="card-value">0,953</div>
 <div class="card-sub">Discriminação entre classes</div>
 </div>
 <div class="card card-alert animate d4">
 <div class="card-title">Taxa de Evasão</div>
 <div class="card-value">31,2%</div>
 <div class="card-sub">Classe positiva (Withdrawn)</div>
+</div>
+</div>
+</div>
+
+<!-- ════════════ META + GAP ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Meta &amp; Gap</h2></div>
+<div class="card animate d5">
+<div class="meta-panel">
+
+<div class="meta-controls">
+<div style="margin-bottom:4px">
+<span style="font-size:0.82rem;color:var(--text2);font-weight:600">Meta de Evasão Aceitável:</span>
+</div>
+<div class="meta-slider-row">
+<label>5%</label>
+<input type="range" id="metaSlider" min="0.05" max="0.50" step="0.01" value="0.20">
+<label>50%</label>
+</div>
+<div style="text-align:center;margin-top:4px">
+<span style="font-size:1rem;font-weight:700;color:var(--accent)" id="metaPct">20%</span>
+</div>
+
+<div style="margin-top:12px">
+<div class="meta-gap-bar">
+<div class="meta-gap-fill" id="gapFill" style="width:0%;background:linear-gradient(90deg,var(--ok),var(--warn),var(--alert))"></div>
+<div class="meta-gap-marker" id="metaMarker" style="left:0%" data-label="Meta"></div>
+</div>
+</div>
+</div>
+
+<div class="risk-display">
+<div class="risk-ring">
+<svg width="180" height="180" viewBox="0 0 180 180">
+<circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+<circle id="riskArc" cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="10"
+stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"
+style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
+</svg>
+<div class="inner">
+<div class="risk-pct" id="riskPct">—</div>
+<div class="risk-label">risco atual</div>
+</div>
+</div>
+<div class="risk-status risk-low" id="riskStatus">Calculando...</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ════════════ 3 SLIDERS DE INDICADORES ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Indicadores de Engajamento</h2></div>
+
+<div class="slider-card animate d5">
+<div class="slider-card-header">
+<div class="name">last_activity_day</div>
+<div class="range">−999 a 269 dias</div>
+</div>
+<div class="slider-row">
+<input type="range" id="slLad" min="-999" max="269" step="1" value="54">
+<div class="slider-val" id="valLad">54</div>
+</div>
+<div class="slider-stats" id="statsLad">
+<div class="slider-stat"><strong>Impacto (+1 dia):</strong> <span id="impactLad">—</span></div>
+<div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortLad">—</span></div>
+</div>
+<div class="slider-legend">📌 <strong>O que significa:</strong> Dias desde a última interação com o VLE (Virtual Learning Environment). Quanto <em>menor</em> o valor, maior o risco de evasão — indica abandono precoce do ambiente virtual. Valores negativos representam atividade antes do início oficial do módulo.</div>
+</div>
+
+<div class="slider-card animate d6">
+<div class="slider-card-header">
+<div class="name">assessment_count</div>
+<div class="range">0 a 14 avaliações</div>
+</div>
+<div class="slider-row">
+<input type="range" id="slAc" min="0" max="14" step="1" value="5">
+<div class="slider-val" id="valAc">5</div>
+</div>
+<div class="slider-stats" id="statsAc">
+<div class="slider-stat"><strong>Impacto (+1 av.):</strong> <span id="impactAc">—</span></div>
+<div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortAc">—</span></div>
+</div>
+<div class="slider-legend">📌 <strong>O que significa:</strong> Número total de avaliações submetidas (TMAs + CMAs + exames). Quanto <em>menor</em> a contagem, menor o engajamento acadêmico e maior o risco de evasão. É a segunda feature mais importante do modelo.</div>
+</div>
+
+<div class="slider-card animate d7">
+<div class="slider-card-header">
+<div class="name">submission_rate</div>
+<div class="range">0 a 0,058 submissões/dia</div>
+</div>
+<div class="slider-row">
+<input type="range" id="slSr" min="0" max="0.05833" step="0.001" value="0.021">
+<div class="slider-val" id="valSr">0,021</div>
+</div>
+<div class="slider-stats" id="statsSr">
+<div class="slider-stat"><strong>Impacto (+0,001):</strong> <span id="impactSr">—</span></div>
+<div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortSr">—</span></div>
+</div>
+<div class="slider-legend">📌 <strong>O que significa:</strong> Taxa de submissão de avaliações por dia do módulo (assessment_count ÷ duração do módulo). Taxa baixa indica entrega inconsistente e desengajamento progressivo. Quanto <em>maior</em> a taxa, menor o risco.</div>
+</div>
+</div>
+
+<!-- ════════════ ESFORÇO TOTAL ════════════ -->
+<div class="section">
+<div class="section-header"><div class="dot"></div><h2>Esforço Total para Atingir a Meta</h2></div>
+<div class="effort-card animate d8">
+<div class="effort-header">
+<div class="effort-label">Esforço combinado dos 3 indicadores</div>
+<div class="effort-badge effort-baixo" id="effortBadge">Calculando...</div>
+</div>
+<p style="font-size:0.82rem;color:var(--text2);margin-top:8px" id="effortDesc">A soma padronizada dos deltas necessários em cada indicador para atingir a meta de evasão.</p>
+<div class="effort-breakdown" id="effortBreakdown">
+<div class="effort-item">last_activity_day: <strong id="effLadVal">—</strong></div>
+<div class="effort-item">assessment_count: <strong id="effAcVal">—</strong></div>
+<div class="effort-item">submission_rate: <strong id="effSrVal">—</strong></div>
 </div>
 </div>
 </div>
@@ -287,526 +414,382 @@ header h1{font-size:1.3rem}
 <div class="bar-chart" id="featureBars">
 <!-- JS will populate -->
 </div>
-<p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do RandomForest (n=500, class_weight=balanced). A última interação com VLE (last_activity_day) é o preditor mais forte de evasão.</p>
+<p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do XGBoost (modelo de melhor recall). A última interação com VLE (last_activity_day) é o preditor mais forte — 28,2% da importância total.</p>
 </div>
 </div>
 
-<!-- ════════════ SIMULAÇÃO INTERATIVA ════════════ -->
+<!-- ════════════ COMPARATIVO DE MODELOS ════════════ -->
 <div class="section">
-<div class="section-header"><div class="dot"></div><h2>Simulação Interativa</h2></div>
+<div class="section-header"><div class="dot"></div><h2>Comparativo de Modelos</h2></div>
 <div class="card animate d6">
-<p style="font-size:0.85rem;color:var(--text2);margin-bottom:16px">
-Ajuste os sliders para simular como mudanças nas variáveis afetam a probabilidade estimada de evasão.
-Fórmula: <em>P = σ(β₀ + β₁·last_activity_day + β₂·assessment_count + β₃·avg_assessment_score + β₄·total_clicks + β₅·days_active)</em>, onde σ é a função sigmoide.
-</p>
-<div class="sim-panel">
-<div class="sim-controls">
-<div class="slider-group">
-<label>last_activity_day — 0 a 270 dias</label>
-<div class="slider-row">
-<input type="range" id="slLad" min="0" max="270" step="1" value="135">
-<div class="slider-val" id="valLad">135</div>
-</div>
-</div>
-<div class="slider-group">
-<label>assessment_count — 0 a 15 avaliações</label>
-<div class="slider-row">
-<input type="range" id="slAc" min="0" max="15" step="1" value="5">
-<div class="slider-val" id="valAc">5</div>
-</div>
-</div>
-<div class="slider-group">
-<label>avg_assessment_score — 0 a 100 pontos</label>
-<div class="slider-row">
-<input type="range" id="slAas" min="0" max="100" step="1" value="65">
-<div class="slider-val" id="valAas">65</div>
-</div>
-</div>
-<div class="slider-group">
-<label>total_clicks — 0 a 5.000 cliques VLE</label>
-<div class="slider-row">
-<input type="range" id="slTc" min="0" max="5000" step="10" value="1000">
-<div class="slider-val" id="valTc">1.000</div>
-</div>
-</div>
-<div class="slider-group">
-<label>days_active — 0 a 270 dias ativos</label>
-<div class="slider-row">
-<input type="range" id="slDa" min="0" max="270" step="1" value="100">
-<div class="slider-val" id="valDa">100</div>
-</div>
-</div>
-</div>
-<div class="risk-display">
-<div class="risk-ring">
-<svg width="180" height="180" viewBox="0 0 180 180">
-<circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
-<circle id="riskArc" cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="10"
-stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"
-style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
-</svg>
-<div class="inner">
-<div class="risk-pct" id="riskPct">—</div>
-<div class="risk-label">risco</div>
-</div>
-</div>
-<div class="risk-status risk-low" id="riskStatus">Calculando...</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- ════════════ DISTRIBUIÇÃO DOS DADOS ════════════ -->
-<div class="section">
-<div class="section-header"><div class="dot"></div><h2>Distribuição dos Dados</h2></div>
-<div class="dist-grid">
-<!-- last_activity_day -->
-<div class="dist-card animate d5">
-<h3>last_activity_day (dias até última atividade VLE)</h3>
-<div class="histogram" id="histLad"></div>
-<div class="hist-labels"><span>0</span><span>68</span><span>135</span><span>203</span><span>270</span></div>
-</div>
-<!-- assessment_count -->
-<div class="dist-card animate d6">
-<h3>assessment_count (número de avaliações submetidas)</h3>
-<div class="histogram" id="histAc"></div>
-<div class="hist-labels"><span>0</span><span>4</span><span>8</span><span>12</span><span>15</span></div>
-</div>
-<!-- avg_assessment_score -->
-<div class="dist-card animate d7">
-<h3>avg_assessment_score (nota média nas avaliações)</h3>
-<div class="histogram" id="histAas"></div>
-<div class="hist-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-</div>
-<!-- Alvo -->
-<div class="dist-card animate d8">
-<h3>Alvo — Status de Matrícula</h3>
-<div class="donut-wrap">
-<div class="donut" id="donutTarget"></div>
-<div class="legend" id="legendTarget"></div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- ════════════ CONCLUSÕES ════════════ -->
-<div class="section">
-<div class="conclusions animate d8">
-<h2>Conclusões e Insights</h2>
-<ul>
-<li><strong>A última interação com VLE é o preditor mais forte.</strong> Estudantes que param de acessar o VLE cedo (last_activity_day baixo) estão em alto risco de evasão. Monitorar a queda de atividade no ambiente virtual é a intervenção mais impactante — muito antes do abandono formal.</li>
-<li><strong>Engajamento com avaliações é o segundo grupo preditivo.</strong> assessment_count + submission_rate combinados explicam ~21% da importância. Estudantes que não submetem avaliações ou têm taxa de entrega baixa sinalizam desengajamento precoce.</li>
-<li><strong>O modelo identifica 93,7% dos estudantes que vão abandonar.</strong> O recall alto é crítico para intervenção preventiva — cada ponto percentual de recall representa estudantes reais que podem ser alcançados por suporte acadêmico antes da evasão.</li>
-<li><strong>Intervenção recomendada: alerta para estudantes com queda de atividade VLE nas primeiras 3 semanas.</strong> O padrão é claro — estudantes que abandonam reduzem drasticamente os cliques e submissões muito antes do withdrawal formal. Sistemas de alerta automático no VLE podem antecipar a evasão em semanas.</li>
-<li><strong>RF vs LR: diferença não significativa (p=0,084), mas RF tem recall ligeiramente superior.</strong> Embora a diferença estatística não seja conclusiva, o recall superior do RandomForest é operacionalmente relevante — em contexto de política educacional, prefere-se um modelo que erra por excesso de alerta a um que falha em identificar estudantes em risco.</li>
-<li><strong>31,2% de evasão reflete a realidade da educação a distância.</strong> O OULAD captura uma taxa de withdrawal consistente com a literatura de ODL (Open and Distance Learning). Isso confirma que o problema é estrutural, não específico do dataset — intervenções institucionais são necessárias.</li>
-</ul>
-</div>
-</div>
-
-<!-- ════════════ DECISÕES DO MODELO ════════════ -->
-<div class="section">
-<div class="model-decisions animate d8">
-<h2>Decisões do Modelo</h2>
-
-<!-- 1. Variáveis do Dataset -->
-<h3>1. Variáveis do Dataset OULAD</h3>
-<p>O dataset OULAD contém 7 módulos com dados de VLE, avaliações e demographics. A tabela abaixo explica o destino das principais features no pipeline de modelagem:</p>
-<table class="decision-table">
-<thead>
-<tr>
-<th>Feature</th>
-<th>Tipo</th>
-<th>Importância</th>
-<th>Decisão</th>
-<th>Justificativa</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>last_activity_day</code></td>
-<td>Numérica contínua</td>
-<td>20,2%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Dia da última interação com o VLE (0–270). Preditor mais forte — estudantes que param de acessar o VLE cedo estão em alto risco de evasão. Captura o sinal mais precoce de desengajamento.</td>
-</tr>
-<tr>
-<td><code>assessment_count</code></td>
-<td>Numérica discreta</td>
-<td>12,4%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Número de avaliações submetidas (0–15). Reflexo direto do engajamento acadêmico. Estudantes que não entregam avaliações sinalizam desengajamento antes do abandono formal.</td>
-</tr>
-<tr>
-<td><code>submission_rate</code></td>
-<td>Numérica contínua</td>
-<td>8,8%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Proporção de avaliações submetidas sobre o total esperado (0,0–1,0). Complementa assessment_count ao normalizar pela carga avaliativa do módulo.</td>
-</tr>
-<tr>
-<td><code>num_tma</code></td>
-<td>Numérica discreta</td>
-<td>7,8%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Número de TMAs (Tutor-Marked Assessments) submetidas (0–6). TMAs são avaliações de maior peso — submetê-las indica engajamento profundo com o conteúdo.</td>
-</tr>
-<tr>
-<td><code>avg_assessment_score</code></td>
-<td>Numérica contínua</td>
-<td>4,6%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Nota média nas avaliações (0–100). Importância menor que contagem/submissão — o fato de entregar importa mais que a nota em si para prever evasão.</td>
-</tr>
-<tr>
-<td><code>total_clicks</code></td>
-<td>Numérica discreta</td>
-<td>4,2%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Total de cliques no VLE (0–5000+). Medida bruta de interação com o ambiente virtual. Correlacionado com days_active, mas captura intensidade de uso.</td>
-</tr>
-<tr>
-<td><code>num_cma</code></td>
-<td>Numérica discreta</td>
-<td>3,8%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Número de CMAs (Computer-Marked Assessments) submetidas. Avaliações automáticas — engajamento com CMAs indica estudo ativo.</td>
-</tr>
-<tr>
-<td><code>days_active</code></td>
-<td>Numérica contínua</td>
-<td>3,1%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Número de dias com pelo menos 1 clique no VLE (0–270). Complementa last_activity_day ao capturar frequência vs. recência.</td>
-</tr>
-<tr>
-<td><code>unregistered</code></td>
-<td>Binária</td>
-<td>2,8%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Indica se o estudante cancelou formalmente a matrícula. Sinal tardio — quase sempre posterior ao desengajamento VLE. Mantida como confirmador.</td>
-</tr>
-<tr>
-<td><code>num_modules</code></td>
-<td>Numérica discreta</td>
-<td>2,2%</td>
-<td><span class="tag-kept">Mantida</span></td>
-<td>Número de módulos em que o estudante está inscrito. Estudantes com múltiplos módulos podem ter carga excessiva ou engajamento diluído.</td>
-</tr>
-<tr>
-<td><code>final_result</code></td>
-<td>Alvo</td>
-<td>—</td>
-<td><span class="tag-target">Target</span></td>
-<td>Variável alvo binarizada. Withdrawn = evasão (classe positiva, 31,2%). Pass/Fail/Distinction = permanência (classe negativa, 68,8%). É a variável que o modelo tenta prever.</td>
-</tr>
-<tr>
-<td><code>id_student</code></td>
-<td>Identificador</td>
-<td>—</td>
-<td><span class="tag-removed">Removida</span></td>
-<td>Identificador único sem poder preditivo. Incluir IDs em modelos de classificação causa overfitting trivial — o modelo "decora" os estudantes em vez de aprender padrões gerais.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Resumo:</strong> 1 coluna removida (identificador), 1 usada como alvo, 10 mantidas como features preditoras. O dataset OULAD combinado (VLE + assessments + student_info) oferece rica densidade informativa — 32.593 registros com 10 features preditivas.</p>
-
-<!-- 2. Por que RandomForest e não Regressão Logística? -->
-<h3>2. Por que RandomForest e não Regressão Logística?</h3>
-<p>A escolha do algoritmo considerou a natureza dos dados OULAD e as relações não-lineares entre features VLE e evasão:</p>
-<ul class="advantage-list">
-<li><strong>Relação não-linear entre atividade VLE e evasão.</strong> A relação entre last_activity_day e evasão não é proporcional — existe um efeito limiar. Estudantes com last_activity_day abaixo de ~30 dias têm risco desproporcionalmente alto. Regressão logística assume linearidade no log-odds e não captura esse comportamento de ruptura.</li>
-<li><strong>Interações entre variáveis de engajamento.</strong> assessment_count baixo + submission_rate baixo = risco exponencial, não a soma dos dois efeitos isolados. RandomForest captura automaticamente essas interações através dos splits nas árvores. Regressão logística precisaria de termos de interação explícitos.</li>
-<li><strong>Feature importance nativa.</strong> O RandomForest fornece <code>feature_importances_</code> nativamente, permitindo identificar quais variáveis VLE mais contribuem para a predição. Regressão logística oferece coeficientes, mas estes são sensíveis à escala e não refletem necessariamente a importância real.</li>
-<li><strong>Classificação binária com fronteira complexa.</strong> A separação entre "vai abandonar" e "não vai abandonar" no espaço de features VLE é intrinsecamente não-linear. Cada árvore de decisão particiona o espaço em regiões que capturam os padrões de desengajamento.</li>
-<li><strong>Vantagem em recall para a classe minoritária.</strong> Embora RF vs LR não seja significativamente diferente (p=0,084), o RandomForest tem recall ligeiramente superior (93,7% vs ~91%). Em problemas de evasão acadêmica, prefere-se errar por excesso de alerta — cada falso negativo é um estudante em risco não identificado.</li>
-</ul>
-
-<!-- 3. Comparativo com Outros Modelos -->
-<h3>3. Comparativo com Outros Modelos</h3>
-<p>RandomForest, Regressão Logística e Gradient Boosting foram avaliados. O GBM não foi retreinado com os mesmos hiperparâmetros — valores são de experimentos preliminares:</p>
-<table class="decision-table">
+<p style="font-size:0.82rem;color:var(--text2);margin-bottom:12px">Benchmark dos 6 modelos treinados no OULAD (test set, 5-fold CV). O Random Forest é o modelo padrão; o proxy linear nos 3 indicadores perde ~0,02 ROC-AUC pela simplicidade.</p>
+<table class="model-table">
 <thead>
 <tr>
 <th>Modelo</th>
-<th>Acurácia</th>
-<th>Recall (dropout)</th>
 <th>ROC-AUC</th>
-<th>Observação</th>
+<th>Recall</th>
+<th>Tempo (treino)</th>
+<th>Prós</th>
+<th>Contras</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>Dummy</td>
+<td>—</td>
+<td>—</td>
+<td>0,13s</td>
+<td>baseline gratuita</td>
+<td>sem poder preditivo</td>
+</tr>
+<tr>
 <td>Regressão Logística</td>
-<td>~86%</td>
-<td>~91%</td>
-<td>~0,947</td>
-<td>Fronteira linear no espaço original. Recall alto, mas não captura não-linearidades. Diferença vs RF não significativa (p=0,084).</td>
+<td>0,946</td>
+<td>0,908</td>
+<td>0,76s</td>
+<td>interpretável</td>
+<td>sem não-linearidades</td>
+</tr>
+<tr class="highlight">
+<td>Random Forest <span class="tag-choice">✓ padrão</span></td>
+<td>0,953</td>
+<td>0,834</td>
+<td>2,25s</td>
+<td>robusto, nativa feature importance</td>
+<td>recall menor</td>
 </tr>
 <tr>
 <td>Gradient Boosting</td>
-<td>~88%</td>
-<td>~94%</td>
-<td>~0,958</td>
-<td>Performance marginalmente superior, mas custo de treinamento maior e interpretabilidade reduzida. Overfitting risk com poucos dados por módulo.</td>
+<td>0,955</td>
+<td>0,852</td>
+<td>47,71s</td>
+<td>melhor accuracy</td>
+<td>20× mais lento</td>
 </tr>
-<tr class="highlight">
-<td><strong>RandomForest (escolhido)</strong></td>
-<td><strong>87,5%</strong></td>
-<td><strong>93,7%</strong></td>
-<td><strong>0,954</strong></td>
-<td>— <em>(melhor equilíbrio entre acurácia, recall, interpretabilidade e estabilidade)</em></td>
+<tr>
+<td>XGBoost</td>
+<td>0,953</td>
+<td>0,924</td>
+<td>2,98s</td>
+<td>estado-da-arte</td>
+<td>tuning sensível</td>
+</tr>
+<tr>
+<td>LightGBM <span class="tag-recall">melhor recall</span></td>
+<td>0,955</td>
+<td>0,931</td>
+<td>1,73s</td>
+<td>recall 93%</td>
+<td>overfit em dados pequenos</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Nota:</strong> A diferença entre RF e LR não é estatisticamente significativa (p=0,084). O RandomForest foi escolhido pelo recall ligeiramente superior e pela feature importance nativa, que facilita a interpretação dos fatores de risco para stakeholders acadêmicos.</p>
-
-<!-- 4. Sensibilidade das Variáveis -->
-<h3>4. Sensibilidade das Variáveis</h3>
-<p>Quanto cada variável impacta a previsão quando alterada em uma unidade padrão? Esta análise mostra a sensibilidade relativa do modelo a cada feature:</p>
-
-<div class="sensitivity-row">
-<div class="sensitivity-name">last_activity_day</div>
-<div class="sensitivity-bar-track">
-<div class="sensitivity-bar-fill" style="width:95%;background:linear-gradient(90deg,#00d2ff,#0090b3)"></div>
 </div>
-<div class="sensitivity-value">−30 dias → +18–22% risco</div>
-</div>
-<div class="sensitivity-row">
-<div class="sensitivity-name">assessment_count</div>
-<div class="sensitivity-bar-track">
-<div class="sensitivity-bar-fill" style="width:60%;background:linear-gradient(90deg,#6bcb77,#3a8f4a)"></div>
-</div>
-<div class="sensitivity-value">−5 avaliações → +12–15% risco</div>
-</div>
-<div class="sensitivity-row">
-<div class="sensitivity-name">submission_rate</div>
-<div class="sensitivity-bar-track">
-<div class="sensitivity-bar-fill" style="width:45%;background:linear-gradient(90deg,#ffd93d,#c4a200)"></div>
-</div>
-<div class="sensitivity-value">−0,3 → +8–12% risco</div>
-</div>
-<div class="sensitivity-row">
-<div class="sensitivity-name">avg_assessment_score</div>
-<div class="sensitivity-bar-track">
-<div class="sensitivity-bar-fill" style="width:25%;background:linear-gradient(90deg,#c084fc,#7c3aed)"></div>
-</div>
-<div class="sensitivity-value">−20 pontos → +4–7% risco</div>
-</div>
-<div class="sensitivity-row">
-<div class="sensitivity-name">total_clicks</div>
-<div class="sensitivity-bar-track">
-<div class="sensitivity-bar-fill" style="width:20%;background:linear-gradient(90deg,#f97316,#c2410c)"></div>
-</div>
-<div class="sensitivity-value">−500 cliques → +3–5% risco</div>
 </div>
 
-<p style="margin-top:16px"><strong>Interpretação:</strong> last_activity_day é a variável com maior sensibilidade — reduzir a última atividade em 30 dias (ex: parar na semana 4 em vez de semana 8) aumenta o risco em 18–22%. Isso reforça que a <em>recência</em> da atividade VLE é o sinal mais importante. Assessment_count e submission_rate têm sensibilidade moderada — o <em>fato de entregar</em> importa mais que a nota.</p>
-
-<!-- 5. Por que foi necessário complicar? -->
-<h3>5. Por que foi necessário complicar?</h3>
-<p>Com 10 features VLE, por que não usar um modelo simples? A resposta envolve três fatores técnicos específicos ao OULAD:</p>
-<ul class="advantage-list">
-<li><strong>Padrões de desengajamento não-lineares.</strong> A evasão na ODU não segue um gradiente linear — existe um "ponto de ruptura" nos padrões de uso do VLE. Estudantes que reduzem cliques de 200/semana para 10/semana estão em risco muito maior do que a redução proporcional sugeriria. RandomForest captura essa descontinuidade.</li>
-<li><strong>Desbalanceamento de classes (31,2% vs 68,8%).</strong> Embora menos extremo que outros datasets, ~31% de evasão ainda requer compensação. Modelos lineares tendem a favorecer a classe majoritária. RandomForest com <code>class_weight="balanced"</code> ajusta automaticamente.</li>
-<li><strong>Features VLE são correlacionadas.</strong> total_clicks, days_active e last_activity_day capturam aspectos diferentes do mesmo comportamento (engajamento VLE). RandomForest lida naturalmente com multicolinearidade — cada árvore seleciona um subset aleatório de features, reduzindo a dependência entre árvores.</li>
-<li><strong>Retorno sobre complexidade.</strong> A complexidade adicional do RandomForest se paga em recall para evasão. 93,7% de recall significa que o modelo identifica 19 em cada 20 estudantes que vão abandonar. Em contexto institucional, isso se traduz em intervenções precoces que podem reter estudantes.</li>
+<!-- ════════════ CONCLUSÕES E AÇÕES ════════════ -->
+<div class="section">
+<div class="conclusions animate d8">
+<h2>Conclusões e Ações</h2>
+<ul>
+<li><strong>Queda de Atividade (Semana 3):</strong> Estudantes com <code>last_activity_day ≤ 21</code> + <code>clicks &lt; 500</code> — alerta automático no VLE + contato do tutor. Ação de baixo custo que pode reverter o desengajamento precoce.</li>
+<li><strong>Mentoria para Baixa Submissão:</strong> Estudantes com <code>assessment_count ≤ 2</code> até o meio do módulo — mentor dedicado 1h/semana. A feature assessment_count é a 2ª mais importante (~12%).</li>
+<li><strong>Nudge de Consistência:</strong> Estudantes com <code>submission_rate &lt; 0,30</code> (proporção de entregas) — e-mail automatizado + lembrete no VLE a cada nova avaliação. Custo baixo, efeito gradual.</li>
 </ul>
 </div>
+</div>
+
+<!-- ════════════ DISCLAIMERS ════════════ -->
+<div class="disclaimers">
+<h3>⚠ Avisos e Limitações</h3>
+<ul>
+<li><strong>Correlação não é causalidade.</strong> O modelo é <strong>PREDITIVO</strong>, não <strong>CAUSAL</strong>. Baixa atividade VLE é um sinal de desengajamento, não a causa da evasão. Intervenções devem focar em reverter o desengajamento, não em "corrigir" a feature.</li>
+<li><strong>OULAD = 1 universidade UK (2013–2014).</strong> Dados de uma única instituição de ensino a distância no Reino Unido (pré-pandemia). Não generalizável diretamente para ensino presencial, outros países, ou contextos pós-2020. Recalibração necessária para outras instituições.</li>
+<li><strong>Proxy linear nos 3 indicadores</strong> (Logistic Regression com last_activity_day, assessment_count, submission_rate) perde ~0,02 ROC-AUC vs Random Forest completo. A simplificação é intencional para permitir cálculos analíticos de esforço por indicador em <code>file://</code> sem servidor.</li>
+</ul>
 </div>
 
 <footer>
 Dashboard gerado para o projeto <strong>Abandono Acadêmico</strong> — Fase 4<br>
-Modelo: RandomForestClassifier (n=500, class_weight=balanced, random_state=42)<br>
-Dados: OULAD · 32.593 estudantes · 7 módulos · Nature Sci. Data (CC-BY 4.0)
+Modelo: Random Forest (padrão) · Proxy: Logistic Regression 3 features · n = 32.593<br>
+Dados: OULAD · Kuzilek et al. · Nature Sci. Data (CC-BY 4.0)
 </footer>
 
 </div>
 
 <script>
-/* ════════════════════════════════════════════════════════════════
-DASHBOARD — Abandono Acadêmico (OULAD)
-Vanilla JS · Sem dependências externas
-════════════════════════════════════════════════════════════════ */
-
 (function(){
 'use strict';
 
-/* ── Dados de importância das variáveis (top 10 OULAD) ──── */
+/* ── Carregar proxy data ────────────────────────────── */
+const PROXY = JSON.parse(document.getElementById('proxyData').textContent);
+const CF = PROXY.coefficients;
+const FR = PROXY.feature_ranges;
+
+/* ── Top 10 feature importances (XGBoost, do model.md) ── */
 const FEATURES = [
-{ name: 'last_activity_day', label: 'last_activity_day', value: 0.202, cls: 'lad' },
-{ name: 'assessment_count', label: 'assessment_count', value: 0.124, cls: 'ac' },
-{ name: 'submission_rate', label: 'submission_rate', value: 0.088, cls: 'sr' },
-{ name: 'num_tma', label: 'num_tma', value: 0.078, cls: 'nt' },
-{ name: 'avg_assessment_score', label: 'avg_assessment_score', value: 0.046, cls: 'aas' },
-{ name: 'total_clicks', label: 'total_clicks', value: 0.042, cls: 'tc' },
-{ name: 'num_cma', label: 'num_cma', value: 0.038, cls: 'nc' },
-{ name: 'days_active', label: 'days_active', value: 0.031, cls: 'da' },
-{ name: 'unregistered', label: 'unregistered', value: 0.028, cls: 'un' },
-{ name: 'num_modules', label: 'num_modules', value: 0.022, cls: 'nm' },
+{ label:'last_activity_day',          val:0.2816, cls:'lad' },
+{ label:'code_module_GGG',            val:0.0571, cls:'nt' },
+{ label:'code_module_CCC',            val:0.0383, cls:'nc' },
+{ label:'num_exams',                  val:0.0255, cls:'nm' },
+{ label:'code_presentation_2014J',    val:0.0252, cls:'da' },
+{ label:'num_tma',                    val:0.0243, cls:'aas' },
+{ label:'submission_rate',            val:0.0241, cls:'sr' },
+{ label:'code_module_DDD',            val:0.0231, cls:'tc' },
+{ label:'code_module_EEE',            val:0.0197, cls:'un' },
+{ label:'code_module_BBB',            val:0.0165, cls:'ac' },
 ];
 
-/* ── Renderizar barras de importância ────────────────────── */
+/* ── Renderizar barras ────────────────────────────────── */
 const barContainer = document.getElementById('featureBars');
-const maxVal = Math.max(...FEATURES.map(f => f.value));
+const maxVal = FEATURES[0].val;
 FEATURES.forEach((f, i) => {
 const row = document.createElement('div');
 row.className = 'bar-row';
-row.innerHTML = `
-<div class="bar-label">${f.label}</div>
-<div class="bar-track">
-<div class="bar-fill ${f.cls}" style="width:0%" data-val="${(f.value * 100).toFixed(1)}%"></div>
-</div>`;
+const pct = (f.val * 100).toFixed(1);
+row.innerHTML =
+`<div class="bar-label">${f.label}</div>` +
+`<div class="bar-track">` +
+`<div class="bar-fill ${f.cls}" style="width:0%" data-val="${pct}%"></div>` +
+`</div>`;
 barContainer.appendChild(row);
-// Animação ao carregar
 requestAnimationFrame(() => {
 setTimeout(() => {
-row.querySelector('.bar-fill').style.width = (f.value / maxVal * 100) + '%';
-}, 200 + i * 100);
+row.querySelector('.bar-fill').style.width = (f.val / maxVal * 100) + '%';
+}, 200 + i * 80);
 });
 });
 
-/* ── Fórmula de simulação logística (OULAD coefficients) ── */
-// Coeficientes calibrados para features OULAD (escala: days 0-270, count 0-15, score 0-100, clicks 0-5000)
-const BETA = {
-intercept: 2.4,
-lad: -0.022,       // last_activity_day: mais dias = menor risco
-ac: -0.18,         // assessment_count: mais avaliações = menor risco
-aas: -0.025,       // avg_assessment_score: nota alta = menor risco
-tc: -0.00035,      // total_clicks: mais cliques = menor risco
-da: -0.012         // days_active: mais dias ativos = menor risco
-};
+/* ── Funções matemáticas ──────────────────────────────── */
+function sigmoid(z){ return 1 / (1 + Math.exp(-z)); }
 
-function sigmoid(z) { return 1 / (1 + Math.exp(-z)); }
+function normalize(val, mean, std){ return (val - mean) / std; }
 
-function calcRisk(lad, ac, aas, tc, da) {
-const z = BETA.intercept
-+ BETA.lad * lad
-+ BETA.ac * ac
-+ BETA.aas * aas
-+ BETA.tc * tc
-+ BETA.da * da;
-return sigmoid(z);
+function calcLogOdds(lad, ac, sr){
+const ladN = normalize(lad, FR.last_activity_day.mean, FR.last_activity_day.std);
+const acN  = normalize(ac,  FR.assessment_count.mean, FR.assessment_count.std);
+const srN  = normalize(sr,  FR.submission_rate.mean,  FR.submission_rate.std);
+return CF.intercept + CF.last_activity_day * ladN + CF.assessment_count * acN + CF.submission_rate * srN;
 }
 
-/* ── Atualização do medidor de risco ─────────────────────── */
-const arc = document.getElementById('riskArc');
-const pctEl = document.getElementById('riskPct');
-const statusEl = document.getElementById('riskStatus');
-const CIRCUMFERENCE = 2 * Math.PI * 78; // ~490
+function calcProb(lad, ac, sr){
+return sigmoid(calcLogOdds(lad, ac, sr));
+}
 
-function updateRisk() {
-const lad = parseFloat(document.getElementById('slLad').value);
-const ac = parseFloat(document.getElementById('slAc').value);
-const aas = parseFloat(document.getElementById('slAas').value);
-const tc = parseFloat(document.getElementById('slTc').value);
-const da = parseFloat(document.getElementById('slDa').value);
+function impactOf(which, lad, ac, sr){
+// Delta de probabilidade se +1 unidade (ou +0.001 para submission_rate)
+const curr = calcProb(lad, ac, sr);
+let nLad = lad, nAc = ac, nSr = sr;
+const step = (which === 'sr') ? 0.001 : 1;
+if(which === 'lad') nLad = Math.min(lad + step, FR.last_activity_day.max);
+if(which === 'ac')  nAc  = Math.min(ac  + step, FR.assessment_count.max);
+if(which === 'sr')  nSr  = Math.min(sr  + step, FR.submission_rate.max);
+const nxt = calcProb(nLad, nAc, nSr);
+return (nxt - curr); // em pontos decimais (0-1)
+}
 
-document.getElementById('valLad').textContent = lad;
-document.getElementById('valAc').textContent = ac;
-document.getElementById('valAas').textContent = aas;
-document.getElementById('valTc').textContent = tc.toLocaleString('pt-BR');
-document.getElementById('valDa').textContent = da;
+function effortFor(which, lad, ac, sr, targetP){
+// Quanto este indicador precisa mudar SOZINHO para atingir targetP
+const targetLogOdds = Math.log(targetP / (1 - targetP));
+const currLogOdds = calcLogOdds(lad, ac, sr);
 
-const risk = calcRisk(lad, ac, aas, tc, da);
-const pct = Math.round(risk * 100);
+// Soma das contribuições dos outros 2 indicadores
+const ladN = normalize(lad, FR.last_activity_day.mean, FR.last_activity_day.std);
+const acN  = normalize(ac,  FR.assessment_count.mean, FR.assessment_count.std);
+const srN  = normalize(sr,  FR.submission_rate.mean,  FR.submission_rate.std);
 
-pctEl.textContent = pct + '%';
-
-// Arco
-const offset = CIRCUMFERENCE * (1 - risk);
-arc.style.strokeDashoffset = offset;
-
-// Cor
-let color, statusText, statusClass;
-if (pct < 30) {
-color = 'var(--ok)'; statusText = 'Risco Baixo'; statusClass = 'risk-low';
-} else if (pct < 55) {
-color = 'var(--warn)'; statusText = 'Risco Moderado'; statusClass = 'risk-med';
+let sumOthers, coeff, mean, std, minV, maxV, currVal, label;
+if(which === 'lad'){
+sumOthers = CF.assessment_count * acN + CF.submission_rate * srN;
+coeff = CF.last_activity_day; mean = FR.last_activity_day.mean;
+std = FR.last_activity_day.std; minV = FR.last_activity_day.min;
+maxV = FR.last_activity_day.max; currVal = lad;
+label = 'last_activity_day';
+} else if(which === 'ac'){
+sumOthers = CF.last_activity_day * ladN + CF.submission_rate * srN;
+coeff = CF.assessment_count; mean = FR.assessment_count.mean;
+std = FR.assessment_count.std; minV = FR.assessment_count.min;
+maxV = FR.assessment_count.max; currVal = ac;
+label = 'assessment_count';
 } else {
-color = 'var(--alert)'; statusText = 'Risco Alto'; statusClass = 'risk-high';
-}
-arc.style.stroke = color;
-statusEl.textContent = statusText;
-statusEl.className = 'risk-status ' + statusClass;
-}
-
-document.getElementById('slLad').addEventListener('input', updateRisk);
-document.getElementById('slAc').addEventListener('input', updateRisk);
-document.getElementById('slAas').addEventListener('input', updateRisk);
-document.getElementById('slTc').addEventListener('input', updateRisk);
-document.getElementById('slDa').addEventListener('input', updateRisk);
-updateRisk();
-
-/* ── Histogramas ─────────────────────────────────────────── */
-
-// Distribuição de last_activity_day (20 bins, escala 0-270)
-// Padrão OULAD: distribuição bimodal — pico em dias baixos (evasão precoce) e pico em dias altos (permanência)
-const ladData = [
-120, 95, 70, 55, 45, 38, 32, 28, 25, 22,
-20, 18, 20, 24, 30, 40, 55, 75, 95, 130
-];
-
-// Distribuição de assessment_count (16 bins, escala 0-15)
-// Maioria dos estudantes entrega entre 2-8 avaliações
-const acData = [
-80, 140, 220, 350, 480, 550, 510, 420,
-320, 240, 180, 120, 70, 35, 15, 8
-];
-
-// Distribuição de avg_assessment_score (20 bins, escala 0-100)
-// Distribuição aproximadamente normal centrada em ~65
-const aasData = [
-8, 12, 18, 28, 42, 65, 90, 120, 155, 185,
-200, 210, 195, 170, 140, 105, 72, 45, 25, 12
-];
-
-function renderHistogram(containerId, data, color, maxOverride) {
-const container = document.getElementById(containerId);
-const max = maxOverride || Math.max(...data);
-data.forEach((v, i) => {
-const bar = document.createElement('div');
-bar.className = 'hist-bar';
-bar.style.height = '0%';
-bar.style.background = color;
-const tip = document.createElement('span');
-tip.className = 'tip';
-tip.textContent = v;
-bar.appendChild(tip);
-container.appendChild(bar);
-setTimeout(() => {
-bar.style.height = (v / max * 100) + '%';
-}, 100 + i * 40);
-});
+sumOthers = CF.last_activity_day * ladN + CF.assessment_count * acN;
+coeff = CF.submission_rate; mean = FR.submission_rate.mean;
+std = FR.submission_rate.std; minV = FR.submission_rate.min;
+maxV = FR.submission_rate.max; currVal = sr;
+label = 'submission_rate';
 }
 
-renderHistogram('histLad', ladData, 'linear-gradient(180deg,#00d2ff,#0090b3)');
-renderHistogram('histAc', acData, 'linear-gradient(180deg,#6bcb77,#3a8f4a)');
-renderHistogram('histAas', aasData, 'linear-gradient(180deg,#c084fc,#7c3aed)');
+// coeff * norm(val) + intercept + sumOthers = targetLogOdds
+// norm(val) = (targetLogOdds - intercept - sumOthers) / coeff
+// val = norm(val) * std + mean
+if(Math.abs(coeff) < 1e-10) return {possible:false, msg:'coeficiente zero'};
 
-/* ── Alvo donut (CSS conic-gradient) ─────────────────────── */
-// OULAD: 68,8% permanência (Pass/Fail/Distinction), 31,2% evasão (Withdrawn)
-const targetData = [
-{ label: 'Permanência (Pass/Fail/Distinction)', pct: 68.8, color: 'var(--ok)' },
-{ label: 'Evasão (Withdrawn)', pct: 31.2, color: 'var(--alert)' },
-];
+const neededNorm = (targetLogOdds - CF.intercept - sumOthers) / coeff;
+const neededVal = neededNorm * std + mean;
 
-const donut = document.getElementById('donutTarget');
-const legend = document.getElementById('legendTarget');
-let gradParts = [];
-let cumPct = 0;
-targetData.forEach(d => {
-gradParts.push(`${d.color} ${cumPct}% ${cumPct + d.pct}%`);
-cumPct += d.pct;
+if(neededVal >= minV && neededVal <= maxV){
+const delta = Math.abs(neededVal - currVal);
+const range = maxV - minV;
+const prop = range > 0 ? delta / range : 0;
+const dir = neededVal > currVal ? 'aumentar' : 'reduzir';
+return {
+possible: true,
+neededVal: neededVal,
+delta: delta,
+proportion: prop,
+dir: dir,
+msg: `${dir} de ${fmt(currVal, which)} para ${fmt(neededVal, which)}`
+};
+} else {
+const capped = neededVal < minV ? minV : maxV;
+const cappedDelta = Math.abs(capped - currVal);
+const cappedProp = (maxV - minV) > 0 ? cappedDelta / (maxV - minV) : 0;
+const shortfall = neededVal < minV ? (minV - neededVal) : (neededVal - maxV);
+return {
+possible: false,
+neededVal: neededVal,
+capped: capped,
+shortfall: shortfall,
+proportion: cappedProp,
+msg: `impossível — precisaria ${fmt(neededVal, which)} (limite: ${fmt(capped, which)})`
+};
+}
+}
 
-const li = document.createElement('div');
-li.className = 'legend-item';
-li.innerHTML = `<div class="legend-dot" style="background:${d.color}"></div>${d.label}: <strong>${d.pct}%</strong>`;
-legend.appendChild(li);
-});
-donut.style.background = `conic-gradient(${gradParts.join(',')})`;
-donut.innerHTML = `<div class="donut-hole"><div class="big">32.593</div><div class="small">estudantes</div></div>`;
+function fmt(val, which){
+if(which === 'sr') return (typeof val === 'number') ? val.toFixed(3) : val;
+return (typeof val === 'number') ? Math.round(val).toString() : val;
+}
 
+/* ── Slider references ────────────────────────────────── */
+const slLad = document.getElementById('slLad');
+const slAc  = document.getElementById('slAc');
+const slSr  = document.getElementById('slSr');
+const vLad  = document.getElementById('valLad');
+const vAc   = document.getElementById('valAc');
+const vSr   = document.getElementById('valSr');
+
+const iLad  = document.getElementById('impactLad');
+const iAc   = document.getElementById('impactAc');
+const iSr   = document.getElementById('impactSr');
+const eLad  = document.getElementById('effortLad');
+const eAc   = document.getElementById('effortAc');
+const eSr   = document.getElementById('effortSr');
+
+const metaSlider = document.getElementById('metaSlider');
+const metaPct    = document.getElementById('metaPct');
+
+const riskPct    = document.getElementById('riskPct');
+const riskArc    = document.getElementById('riskArc');
+const riskStatus = document.getElementById('riskStatus');
+
+const gapFill    = document.getElementById('gapFill');
+const metaMarker = document.getElementById('metaMarker');
+
+const effBadge   = document.getElementById('effortBadge');
+const effDesc    = document.getElementById('effortDesc');
+const effLadVal  = document.getElementById('effLadVal');
+const effAcVal   = document.getElementById('effAcVal');
+const effSrVal   = document.getElementById('effSrVal');
+
+const CIRC = 2 * Math.PI * 78; // ~490
+
+function updateAll(){
+// Ler valores
+const lad = parseFloat(slLad.value);
+const ac  = parseFloat(slAc.value);
+const sr  = parseFloat(slSr.value);
+const meta = parseFloat(metaSlider.value);
+
+// Mostrar valores
+vLad.textContent = lad;
+vAc.textContent  = ac;
+vSr.textContent  = sr.toFixed(3);
+metaPct.textContent = Math.round(meta * 100) + '%';
+
+// Calcular probabilidade atual
+const p = calcProb(lad, ac, sr);
+const pct = Math.round(p * 100);
+const gap = (p - meta) * 100; // pp
+
+// ── Risk ring ──
+riskPct.textContent = pct + '%';
+const offset = CIRC * (1 - p);
+riskArc.style.strokeDashoffset = offset;
+
+let color, statusText, statusClass;
+if(pct < 20){ color = 'var(--ok)'; statusText = 'Baixo Risco'; statusClass = 'risk-low'; }
+else if(pct < 40){ color = 'var(--warn)'; statusText = 'Risco Moderado'; statusClass = 'risk-med'; }
+else{ color = 'var(--alert)'; statusText = 'Risco Alto'; statusClass = 'risk-high'; }
+riskArc.style.stroke = color;
+riskStatus.textContent = statusText;
+riskStatus.className = 'risk-status ' + statusClass;
+
+// ── Meta bar – fill from 0 to p, marker at meta ──
+// Bar represents 0–50% full range, fill shows current P, marker shows meta
+// Fill width: (p / 0.50) * 100
+const fillW = Math.min(100, (p / 0.50) * 100);
+gapFill.style.width = fillW + '%';
+// Marker at meta position
+const markerPos = (meta / 0.50) * 100;
+metaMarker.style.left = Math.min(100, markerPos) + '%';
+metaMarker.setAttribute('data-label', 'Meta ' + Math.round(meta * 100) + '%');
+
+// ── Impacto local ──
+const impLad = impactOf('lad', lad, ac, sr);
+const impAc  = impactOf('ac',  lad, ac, sr);
+const impSr  = impactOf('sr',  lad, ac, sr);
+
+iLad.textContent = (impLad * 100 >= 0 ? '+' : '') + (impLad * 100).toFixed(2) + 'pp';
+iAc.textContent  = (impAc * 100 >= 0 ? '+' : '') + (impAc * 100).toFixed(2) + 'pp';
+iSr.textContent  = (impSr * 100 >= 0 ? '+' : '') + (impSr * 100).toFixed(2) + 'pp';
+
+// ── Esforço p/ meta ──
+const eL = effortFor('lad', lad, ac, sr, meta);
+const eA = effortFor('ac',  lad, ac, sr, meta);
+const eS = effortFor('sr',  lad, ac, sr, meta);
+
+eLad.textContent = eL.msg;
+eAc.textContent  = eA.msg;
+eSr.textContent  = eS.msg;
+
+// ── Esforço total ──
+const totalProp = (eL.possible ? eL.proportion : eL.proportion) +
+(eA.possible ? eA.proportion : eA.proportion) +
+(eS.possible ? eS.proportion : eS.proportion);
+
+effLadVal.textContent = (eL.proportion * 100).toFixed(0) + '%' + (eL.possible ? '' : ' ⚠');
+effAcVal.textContent  = (eA.proportion * 100).toFixed(0) + '%' + (eA.possible ? '' : ' ⚠');
+effSrVal.textContent  = (eS.proportion * 100).toFixed(0) + '%' + (eS.possible ? '' : ' ⚠');
+
+let effLabel, effClass;
+if(totalProp < 0.3){ effLabel = 'Esforço Baixo'; effClass = 'effort-baixo'; }
+else if(totalProp < 0.7){ effLabel = 'Esforço Médio'; effClass = 'effort-medio'; }
+else { effLabel = 'Esforço Alto'; effClass = 'effort-alto'; }
+
+effBadge.textContent = effLabel;
+effBadge.className = 'effort-badge ' + effClass;
+
+const pNow = Math.round(p * 100);
+const pMeta = Math.round(meta * 100);
+const gapSign = gap > 0 ? '+' : '';
+if(p >= meta){
+effDesc.textContent = `Probabilidade atual (${pNow}%) ≥ Meta (${pMeta}%). Gap de ${gapSign}${gap.toFixed(1)}pp — a meta já está atendida. Os esforços abaixo indicam quanto cada indicador precisaria mudar para REDUZIR ainda mais o risco.`;
+} else {
+effDesc.textContent = `Probabilidade atual (${pNow}%) < Meta (${pMeta}%). Gap de ${gapSign}${gap.toFixed(1)}pp. A soma padronizada dos deltas (${(totalProp * 100).toFixed(0)}%) indica o esforço combinado para atingir a meta.`;
+}
+}
+
+// ── Event listeners ──
+function onChange(){ updateAll(); }
+slLad.addEventListener('input', onChange);
+slAc.addEventListener('input', onChange);
+slSr.addEventListener('input', onChange);
+metaSlider.addEventListener('input', onChange);
+
+// ── Init ──
+updateAll();
 })();
 </script>
 

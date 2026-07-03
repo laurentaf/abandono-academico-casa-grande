@@ -1,0 +1,52 @@
+{
+  "model": "LogisticRegression",
+  "features": [
+    "last_activity_day",
+    "assessment_count",
+    "submission_rate"
+  ],
+  "coefficients": {
+    "intercept": -0.8913436252801004,
+    "last_activity_day": -0.596320926083401,
+    "assessment_count": -4.1771284176957115,
+    "submission_rate": 1.9842038737214558
+  },
+  "feature_ranges": {
+    "last_activity_day": {
+      "min": -999.0,
+      "max": 269.0,
+      "mean": 53.554993097100784,
+      "std": 372.85312305358985
+    },
+    "assessment_count": {
+      "min": 0.0,
+      "max": 14.0,
+      "mean": 5.311397453597177,
+      "std": 4.282732965318321
+    },
+    "submission_rate": {
+      "min": 0.0,
+      "max": 0.058333333333333334,
+      "mean": 0.02085073368283075,
+      "std": 0.016994785969329115
+    }
+  },
+  "default_meta_dropout": 0.2,
+  "meta_bounds": [
+    0.05,
+    0.5
+  ],
+  "test_set_baseline_p": 0.31155085135757016,
+  "scaler_mean": [
+    53.554993097100784,
+    5.311397453597177,
+    0.02085073368283075
+  ],
+  "scaler_std": [
+    372.8245245397949,
+    4.282404471897679,
+    0.016993482438284486
+  ],
+  "best_model": "Random Forest",
+  "best_model_test_roc_auc": 0.9537231951103703
+}
