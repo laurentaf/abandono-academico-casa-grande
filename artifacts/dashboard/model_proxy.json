@@ -1,60 +1,154 @@
 {
-  "model": "LogisticRegression (hibrido)",
+  "model": "LogisticRegression (hibrido humanizado)",
   "features": [
-    "last_activity_day",
-    "submission_rate",
+    "dias_sem_atividade",
+    "avg_submission_delta",
     "avg_assessment_score"
   ],
   "feature_labels": {
-    "last_activity_day": "Ultimo dia de atividade VLE (0-270 dias do modulo)",
-    "submission_rate": "Taxa de envio de avaliacoes (0 = nenhuma, ~0.058 = max)",
-    "avg_assessment_score": "Nota media nas provas (0-100)"
+    "dias_sem_atividade": "Dias sem acessar o ambiente virtual",
+    "avg_submission_delta": "Dias de atraso medio na entrega de avaliacoes",
+    "avg_assessment_score": "Nota media nas avaliacoes"
+  },
+  "feature_descriptions": {
+    "dias_sem_atividade": "Quantos dias o aluno ficou sem acessar o VLE ate o final do modulo. Quanto MAIOR, maior o risco.",
+    "avg_submission_delta": "Media de dias de atraso (positivo) ou adiantamento (negativo) na entrega de avaliacoes. Quanto MAIOR, maior o risco.",
+    "avg_assessment_score": "Nota media em todas as avaliacoes (0-100). Quanto MENOR, maior o risco."
+  },
+  "feature_units": {
+    "dias_sem_atividade": "dias",
+    "avg_submission_delta": "dias",
+    "avg_assessment_score": "pontos (0-100)"
+  },
+  "feature_defaults": {
+    "dias_sem_atividade": 26.0,
+    "avg_submission_delta": 0.0,
+    "avg_assessment_score": 74.0
+  },
+  "feature_insights": {
+    "dias_sem_atividade": "Alunos que evadem ficam em media 136 dias sem acessar o VLE. Alunos que concluem ficam 43 dias.",
+    "avg_submission_delta": "63,8% dos alunos entregam no prazo (delta <= 0). Atraso medio de quem evade: 2 dias vs 1 dia de quem conclui.",
+    "avg_assessment_score": "Nota media de quem evade: 46 pts vs 72 pts de quem conclui — diferenca de 26 pontos."
   },
   "coefficients": {
-    "intercept": -0.8640083526451613,
-    "last_activity_day": -1.4872953407777256,
-    "submission_rate": -0.733352517759722,
+    "intercept": -0.7446852126440932,
+    "dias_sem_atividade": 1.964135437287256,
+    "avg_submission_delta": 0.11339153564521087,
     "avg_assessment_score": -0.880623140646473
   },
-  "intercept_aas": -0.1634196962744514,
   "feature_ranges": {
-    "last_activity_day": {
+    "dias_sem_atividade": {
       "min": 0,
       "max": 270,
-      "mean": 182.04975438596492,
-      "std": 86.16927986666373
+      "mean": 74.06,
+      "std": 85.74
     },
-    "submission_rate": {
-      "min": 0.0,
-      "max": 0.058,
-      "mean": 0.023948102706333903,
-      "std": 0.01633883952007488
+    "avg_submission_delta": {
+      "min": -30,
+      "max": 30,
+      "mean": -10.72,
+      "std": 25.17
     },
     "avg_assessment_score": {
       "min": 0,
       "max": 100,
-      "mean": 65.78451817656027,
-      "std": 26.512990899384317
+      "mean": 65.78,
+      "std": 26.51
     }
   },
   "scaler_mean": [
-    182.04975438596492,
-    0.023948102706333903
+    74.0559,
+    -10.7164
   ],
   "scaler_std": [
-    86.16776811165056,
-    0.016338552871253027
+    85.7411,
+    25.1685
   ],
-  "scaler_aas_mean": 65.78451817656027,
-  "scaler_aas_std": 26.51252575511285,
+  "scaler_aas_mean": 65.7845,
+  "scaler_aas_std": 26.5125,
+  "percentiles": {
+    "dias_sem_atividade": {
+      "0": 0.0695,
+      "7": 0.2472,
+      "15": 0.3831,
+      "30": 0.548,
+      "60": 0.6361,
+      "90": 0.6692,
+      "120": 0.7132,
+      "180": 0.8114,
+      "270": 1.0
+    },
+    "avg_submission_delta": {
+      "-30": 0.174,
+      "-15": 0.2128,
+      "-7": 0.2442,
+      "0": 0.6382,
+      "7": 0.9718,
+      "15": 0.9926,
+      "30": 0.9976,
+      "60": 0.999
+    },
+    "avg_assessment_score": {
+      "10": 0.8981,
+      "20": 0.8941,
+      "30": 0.8857,
+      "40": 0.8666,
+      "50": 0.8234,
+      "60": 0.7385,
+      "70": 0.5863,
+      "80": 0.3533,
+      "90": 0.0951
+    }
+  },
+  "descriptive_stats": {
+    "dias_sem_atividade": {
+      "min": 0.0,
+      "max": 269.0,
+      "mean": 74.1,
+      "median": 26.0,
+      "std": 85.7,
+      "p10": 1.0,
+      "p25": 8.0,
+      "p75": 147.0,
+      "p90": 222.0,
+      "dropout_mean": 178.6,
+      "retention_mean": 43.0
+    },
+    "avg_submission_delta": {
+      "min": -236.0,
+      "max": 187.0,
+      "mean": -10.7,
+      "median": 0.0,
+      "std": 25.2,
+      "p10": -49.5,
+      "p25": -6.2,
+      "p75": 1.3,
+      "p90": 3.1,
+      "dropout_mean": -5.6,
+      "retention_mean": -12.2
+    },
+    "avg_assessment_score": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 65.8,
+      "median": 74.0,
+      "std": 26.5,
+      "p10": 1.0,
+      "p25": 58.9,
+      "p75": 83.7,
+      "p90": 89.7,
+      "dropout_mean": 45.6,
+      "retention_mean": 71.8
+    }
+  },
+  "baseline_dropout_rate": 0.2292,
   "default_meta_dropout": 0.2,
   "meta_bounds": [
     0.05,
     0.5
   ],
-  "test_set_baseline_p": 0.2292280701754386,
   "best_model": "Random Forest",
   "best_model_test_roc_auc": 0.9525,
-  "proxy_roc_auc": 0.9115,
-  "note": "Proxy hibrido: lad+sr de LR completo, aas de LR univariado (coeficiente negativo verdadeiro). last_activity_day >= 0."
+  "proxy_roc_auc": 0.9125,
+  "note": "Proxy hibrido humanizado: dias_sem_atividade+delta (LR) + nota (LR univariado). Sub-indices com percentis reais do OULAD."
 }
