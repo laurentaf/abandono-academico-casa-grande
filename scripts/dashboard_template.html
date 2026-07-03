@@ -86,7 +86,7 @@ footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);text-
 <body>
 <div class="container">
 
-<script type="application/json" id="proxyData">{"model": "LR hibrido humanizado", "features": ["dias_sem_atividade", "avg_submission_delta", "avg_assessment_score"], "feature_labels": {"dias_sem_atividade": "Dias sem atividade no VLE", "avg_submission_delta": "Atraso medio na entrega", "avg_assessment_score": "Nota media nas provas"}, "feature_units": {"dias_sem_atividade": "dias", "avg_submission_delta": "dias", "avg_assessment_score": "pontos"}, "feature_descriptions": {"dias_sem_atividade": "Tempo que o aluno fica sem acessar a plataforma. Quanto mais dias, maior a chance de desistir.", "avg_submission_delta": "Media de quanto o aluno atrasa as entregas (positivo = atraso, negativo = adiantamento). Quanto maior, pior.", "avg_assessment_score": "Nota media em todas as provas. Quanto menor, maior o risco."}, "feature_defaults": {"dias_sem_atividade": 26.0, "avg_submission_delta": 0.0, "avg_assessment_score": 74.0}, "feature_ranges": {"dias_sem_atividade": {"min": 0, "max": 270, "mean": 74.06, "std": 85.74}, "avg_submission_delta": {"min": -30, "max": 30, "mean": -10.72, "std": 25.17}, "avg_assessment_score": {"min": 0, "max": 100, "mean": 65.78, "std": 26.51}}, "coefficients": {"intercept": -0.7446852126440932, "dias_sem_atividade": 1.964135437287256, "avg_submission_delta": 0.11339153564521087, "avg_assessment_score": -0.880623140646473}, "scaler_mean": [74.0559, -10.7164], "scaler_std": [85.7411, 25.1685], "scaler_aas_mean": 65.7845, "scaler_aas_std": 26.5125, "percentiles": {"dias_sem_atividade": {"0": 0.0695, "7": 0.2472, "15": 0.3831, "30": 0.548, "60": 0.6361, "90": 0.6692, "120": 0.7132, "180": 0.8114, "270": 1.0}, "avg_submission_delta": {"-30": 0.174, "-15": 0.2128, "-7": 0.2442, "0": 0.6382, "7": 0.9718, "15": 0.9926, "30": 0.9976}, "avg_assessment_score": {"10": 0.8981, "20": 0.8941, "30": 0.8857, "40": 0.8666, "50": 0.8234, "60": 0.7385, "70": 0.5863, "80": 0.3533, "90": 0.0951}}, "descriptive_stats": {"dias_sem_atividade": {"min": 0.0, "max": 269.0, "mean": 74.1, "median": 26.0, "std": 85.7, "pct_dropout": 178.6, "pct_retention": 43.0}, "avg_submission_delta": {"min": -236.0, "max": 187.0, "mean": -10.7, "median": 0.0, "std": 25.2, "pct_dropout": -5.6, "pct_retention": -12.2}, "avg_assessment_score": {"min": 0.0, "max": 100.0, "mean": 65.8, "median": 74.0, "std": 26.5, "pct_dropout": 45.6, "pct_retention": 71.8}}, "baseline_stats": {"total_students": 28500, "baseline_rate": 0.2292, "baseline_at_risk": 6533, "median_risk": 0.1189, "q25_risk": 0.0641, "q75_risk": 0.7086}, "thresholds": {"dias_sem_atividade": {"0.15": 40.6, "0.2": 55.9, "0.25": 68.6, "0.3": 79.4, "0.4": 98.6, "0.5": 116.5}, "avg_submission_delta": {"0.15": 30.0, "0.2": 30.0, "0.25": 30.0, "0.3": 30.0, "0.4": 30.0, "0.5": 30.0}, "avg_assessment_score": {"0.15": 0.0, "0.2": 0.0, "0.25": 100.0, "0.3": 100.0, "0.4": 100.0, "0.5": 100.0}}, "impacto_populacional": {"dias_sem_atividade": {"7": {"pct_afetados": 75.3, "risco_atual_afetados": 43.5, "risco_depois_afetados": 14.3, "reducao_media_pop": 21.99}, "15": {"pct_afetados": 61.7, "risco_atual_afetados": 51.3, "risco_depois_afetados": 17.9, "reducao_media_pop": 20.6}, "30": {"pct_afetados": 45.2, "risco_atual_afetados": 66.0, "risco_depois_afetados": 25.9, "reducao_media_pop": 18.13}, "60": {"pct_afetados": 36.4, "risco_atual_afetados": 78.0, "risco_depois_afetados": 40.7, "reducao_media_pop": 13.6}, "90": {"pct_afetados": 33.1, "risco_atual_afetados": 82.4, "risco_depois_afetados": 54.8, "reducao_media_pop": 9.14}, "120": {"pct_afetados": 28.7, "risco_atual_afetados": 87.3, "risco_depois_afetados": 69.0, "reducao_media_pop": 5.25}, "180": {"pct_afetados": 18.9, "risco_atual_afetados": 94.7, "risco_depois_afetados": 90.1, "reducao_media_pop": 0.87}}, "avg_submission_delta": {"7": {"pct_afetados": 2.8, "risco_atual_afetados": 51.1, "risco_depois_afetados": 50.4, "reducao_media_pop": -0.2}, "15": {"pct_afetados": 0.7, "risco_atual_afetados": 56.7, "risco_depois_afetados": 55.1, "reducao_media_pop": -0.21}, "30": {"pct_afetados": 0.2, "risco_atual_afetados": 60.0, "risco_depois_afetados": 56.8, "reducao_media_pop": -0.22}, "60": {"pct_afetados": 0.1, "risco_atual_afetados": 61.7, "risco_depois_afetados": 57.6, "reducao_media_pop": -0.22}, "90": {"pct_afetados": 0.1, "risco_atual_afetados": 51.9, "risco_depois_afetados": 47.6, "reducao_media_pop": -0.22}, "120": {"pct_afetados": 0.0, "risco_atual_afetados": 44.1, "risco_depois_afetados": 41.0, "reducao_media_pop": -0.22}, "180": {"pct_afetados": 0.0, "risco_atual_afetados": 32.8, "risco_depois_afetados": 32.3, "reducao_media_pop": -0.22}}, "avg_assessment_score": {"7": {"pct_afetados": 89.9, "risco_atual_afetados": 27.1, "risco_depois_afetados": 27.1, "reducao_media_pop": 0.04}, "15": {"pct_afetados": 89.6, "risco_atual_afetados": 26.8, "risco_depois_afetados": 26.8, "reducao_media_pop": 0.09}, "30": {"pct_afetados": 88.4, "risco_atual_afetados": 26.1, "risco_depois_afetados": 26.1, "reducao_media_pop": 0.23}, "60": {"pct_afetados": 73.3, "risco_atual_afetados": 21.2, "risco_depois_afetados": 21.2, "reducao_media_pop": 1.46}, "90": {"pct_afetados": 9.0, "risco_atual_afetados": 14.4, "risco_depois_afetados": 14.4, "reducao_media_pop": 7.18}}}, "default_meta_dropout": 0.2, "meta_bounds": [0.05, 0.5], "proxy_roc_auc": 0.9125}</script>
+<script type="application/json" id="proxyData">{{PROXY_JSON}}</script>
 
 <div class="tabs">
 <button class="tab-btn active" data-tab="human">Aba 1 — Humanizado</button>
@@ -100,13 +100,13 @@ footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);text-
 <div class="section-header"><div class="dot"></div><h2>Visao Geral</h2></div>
 <div class="enroll-row">
 <label>Alunos matriculados:</label>
-<input type="number" id="enrollInput" value="28500" min="1000" max="500000" step="100">
-<input type="range" id="enrollSlider" min="1000" max="100000" step="100" value="28500">
+<input type="number" id="enrollInput" value="{{N_STUDENTS}}" min="1000" max="500000" step="100">
+<input type="range" id="enrollSlider" min="1000" max="100000" step="100" value="{{N_STUDENTS}}">
 </div>
 <div class="impact-highlight" id="popImpact">
-<div class="impact-item"><div class="num accent" id="popTotal">28500</div><div class="lbl">Alunos matriculados</div></div>
-<div class="impact-item"><div class="num red" id="popAtRisk">6533</div><div class="lbl">Em risco hoje (~0.2292)</div></div>
-<div class="impact-item"><div class="num green" id="popTarget">6533</div><div class="lbl">Meta: <span id="metaLabel">20%</span></div></div>
+<div class="impact-item"><div class="num accent" id="popTotal">{{N_STUDENTS}}</div><div class="lbl">Alunos matriculados</div></div>
+<div class="impact-item"><div class="num red" id="popAtRisk">{{BASELINE_AT_RISK}}</div><div class="lbl">Em risco hoje (~{{BASELINE_RATE}})</div></div>
+<div class="impact-item"><div class="num green" id="popTarget">{{BASELINE_AT_RISK}}</div><div class="lbl">Meta: <span id="metaLabel">20%</span></div></div>
 <div class="impact-item"><div class="num warn" id="popSaved">0</div><div class="lbl">Alunos a salvar</div></div>
 </div>
 </div>
@@ -166,8 +166,8 @@ footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);text-
 <div class="slider-header"><div class="name">Dias sem acessar a plataforma</div><div class="range">0 a 270 dias</div></div>
 <div class="percentile-label">No OULAD, <span class="pct-fill" id="pctLad">—</span> dos alunos ficaram esse tempo ou menos sem acessar</div>
 <div class="slider-row">
-<input type="range" id="slLad" min="0" max="270" step="1" value="26">
-<div class="slider-val" id="valLad">26</div>
+<input type="range" id="slLad" min="0" max="270" step="1" value="{{DEF_LAD}}">
+<div class="slider-val" id="valLad">{{DEF_LAD}}</div>
 </div>
 <div class="slider-meta">
 <span>Impacto +1 dia: <strong id="impactLad">—</strong></span>
@@ -187,8 +187,8 @@ Sinais de alerta:
 <div class="slider-header"><div class="name">Atraso medio nas entregas</div><div class="range">-30 (adiantado) a +30 (atrasado) dias</div></div>
 <div class="percentile-label">Dos alunos, <span class="pct-fill" id="pctDelta">—</span> entregam com esse atraso ou menos</div>
 <div class="slider-row">
-<input type="range" id="slDelta" min="-30" max="30" step="1" value="0">
-<div class="slider-val" id="valDelta">0</div>
+<input type="range" id="slDelta" min="-30" max="30" step="1" value="{{DEF_DEL}}">
+<div class="slider-val" id="valDelta">{{DEF_DEL}}</div>
 </div>
 <div class="slider-meta">
 <span>Impacto +1 dia: <strong id="impactDelta">—</strong></span>
@@ -203,8 +203,8 @@ Sinais de alerta:
 <div class="slider-header"><div class="name">Nota media nas provas</div><div class="range">0 a 100 pontos</div></div>
 <div class="percentile-label">Dos alunos, <span class="pct-fill" id="pctNota">—</span> tem nota igual ou superior</div>
 <div class="slider-row">
-<input type="range" id="slNota" min="0" max="100" step="1" value="74">
-<div class="slider-val" id="valNota">74</div>
+<input type="range" id="slNota" min="0" max="100" step="1" value="{{DEF_NOT}}">
+<div class="slider-val" id="valNota">{{DEF_NOT}}</div>
 </div>
 <div class="slider-meta">
 <span>Impacto +1 ponto: <strong id="impactNota">—</strong></span>
@@ -220,15 +220,15 @@ Sinais de alerta:
 <div class="disclaimers">
 <h3>Como ler este painel</h3>
 <ul>
-<li><strong>Alunos em risco hoje:</strong> estimativa com base nos 28500 alunos do OULAD e taxa de evasao historica de 0.2292.</li>
+<li><strong>Alunos em risco hoje:</strong> estimativa com base nos {{N_STUDENTS}} alunos do OULAD e taxa de evasao historica de {{BASELINE_RATE}}.</li>
 <li><strong>Alunos a salvar:</strong> (risco do perfil - meta) x matricula. Mostra quantos alunos deixariam de evadir se o perfil atual fosse o do aluno medio.</li>
 <li><strong>Cenarios por politica:</strong> calculados simulando uma intervencao em TODOS os alunos com indicador acima do threshold. Alunos podem estar em multiplos cenarios.</li>
 <li><strong>Thresholds de alerta:</strong> 7 dias sem acesso dispara nudge, 15 dias dispara tutor, 30+ dias mentor. Baseado no modelo preditivo.</li>
-<li><strong>ROC-AUC do proxy:</strong> 0.9125 (vs 0,953 do Random Forest completo).</li>
+<li><strong>ROC-AUC do proxy:</strong> {{ROC_AUC}} (vs 0,953 do Random Forest completo).</li>
 </ul>
 </div>
 
-<footer>Dashboard Humanizado — OULAD<br>Proxy LR hibrido · ROC-AUC: 0.9125</footer>
+<footer>Dashboard Humanizado — OULAD<br>Proxy LR hibrido · ROC-AUC: {{ROC_AUC}}</footer>
 </div>
 
 <!-- ═══ MACHINE ═══ -->
@@ -293,7 +293,7 @@ Sinais de alerta:
 </div>
 <div class="impact-highlight" style="grid-template-columns:repeat(3,1fr);margin-top:10px">
 <div class="impact-item"><div class="num accent" id="riskPctM">—</div><div class="lbl">Risco predito</div></div>
-<div class="impact-item"><div class="num" id="rocAucM" style="color:var(--accent)">0.9125</div><div class="lbl">ROC-AUC proxy</div></div>
+<div class="impact-item"><div class="num" id="rocAucM" style="color:var(--accent)">{{ROC_AUC}}</div><div class="lbl">ROC-AUC proxy</div></div>
 <div class="impact-item"><div class="num" style="color:var(--text2)" id="baselineRateM">31,2%</div><div class="lbl">Baseline OULAD</div></div>
 </div>
 </div>
@@ -301,7 +301,7 @@ Sinais de alerta:
 <div class="disclaimers">
 <h3>Technical Notes</h3>
 <ul>
-<li><strong>Proxy:</strong> LogisticRegression hibrido (dias_sem_atividade + avg_submission_delta = LR completo; avg_assessment_score = LR univariado). ROC-AUC 0.9125.</li>
+<li><strong>Proxy:</strong> LogisticRegression hibrido (dias_sem_atividade + avg_submission_delta = LR completo; avg_assessment_score = LR univariado). ROC-AUC {{ROC_AUC}}.</li>
 <li><strong>Dataset:</strong> OULAD, 32.593 alunos, 7 modulos, 2013-2014. CC-BY 4.0 (Kuzilek et al., Nature Sci. Data).</li>
 <li><strong>Target:</strong> is_dropout (Withdrawn=1, Pass/Fail/Distinction=0). 31,2% classe positiva.</li>
 <li><strong>Features:</strong> 7 derivadas + 8 categoricas one-hot + 16 numericas = ~31 features.</li>
@@ -309,7 +309,7 @@ Sinais de alerta:
 </ul>
 </div>
 
-<footer>Dashboard Machine — OULAD<br>Proxy ROC-AUC: 0.9125</footer>
+<footer>Dashboard Machine — OULAD<br>Proxy ROC-AUC: {{ROC_AUC}}</footer>
 </div>
 
 </div><!-- /container -->

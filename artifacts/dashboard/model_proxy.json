@@ -1,40 +1,29 @@
 {
-  "model": "LogisticRegression (hibrido humanizado)",
+  "model": "LR hibrido humanizado",
   "features": [
     "dias_sem_atividade",
     "avg_submission_delta",
     "avg_assessment_score"
   ],
   "feature_labels": {
-    "dias_sem_atividade": "Dias sem acessar o ambiente virtual",
-    "avg_submission_delta": "Dias de atraso medio na entrega de avaliacoes",
-    "avg_assessment_score": "Nota media nas avaliacoes"
-  },
-  "feature_descriptions": {
-    "dias_sem_atividade": "Quantos dias o aluno ficou sem acessar o VLE ate o final do modulo. Quanto MAIOR, maior o risco.",
-    "avg_submission_delta": "Media de dias de atraso (positivo) ou adiantamento (negativo) na entrega de avaliacoes. Quanto MAIOR, maior o risco.",
-    "avg_assessment_score": "Nota media em todas as avaliacoes (0-100). Quanto MENOR, maior o risco."
+    "dias_sem_atividade": "Dias sem atividade no VLE",
+    "avg_submission_delta": "Atraso medio na entrega",
+    "avg_assessment_score": "Nota media nas provas"
   },
   "feature_units": {
     "dias_sem_atividade": "dias",
     "avg_submission_delta": "dias",
-    "avg_assessment_score": "pontos (0-100)"
+    "avg_assessment_score": "pontos"
+  },
+  "feature_descriptions": {
+    "dias_sem_atividade": "Tempo que o aluno fica sem acessar a plataforma. Quanto mais dias, maior a chance de desistir.",
+    "avg_submission_delta": "Media de quanto o aluno atrasa as entregas (positivo = atraso, negativo = adiantamento). Quanto maior, pior.",
+    "avg_assessment_score": "Nota media em todas as provas. Quanto menor, maior o risco."
   },
   "feature_defaults": {
     "dias_sem_atividade": 26.0,
     "avg_submission_delta": 0.0,
     "avg_assessment_score": 74.0
-  },
-  "feature_insights": {
-    "dias_sem_atividade": "Alunos que evadem ficam em media 136 dias sem acessar o VLE. Alunos que concluem ficam 43 dias.",
-    "avg_submission_delta": "63,8% dos alunos entregam no prazo (delta <= 0). Atraso medio de quem evade: 2 dias vs 1 dia de quem conclui.",
-    "avg_assessment_score": "Nota media de quem evade: 46 pts vs 72 pts de quem conclui — diferenca de 26 pontos."
-  },
-  "coefficients": {
-    "intercept": -0.7446852126440932,
-    "dias_sem_atividade": 1.964135437287256,
-    "avg_submission_delta": 0.11339153564521087,
-    "avg_assessment_score": -0.880623140646473
   },
   "feature_ranges": {
     "dias_sem_atividade": {
@@ -55,6 +44,12 @@
       "mean": 65.78,
       "std": 26.51
     }
+  },
+  "coefficients": {
+    "intercept": -0.7446852126440932,
+    "dias_sem_atividade": 1.964135437287256,
+    "avg_submission_delta": 0.11339153564521087,
+    "avg_assessment_score": -0.880623140646473
   },
   "scaler_mean": [
     74.0559,
@@ -85,8 +80,7 @@
       "0": 0.6382,
       "7": 0.9718,
       "15": 0.9926,
-      "30": 0.9976,
-      "60": 0.999
+      "30": 0.9976
     },
     "avg_assessment_score": {
       "10": 0.8981,
@@ -107,12 +101,8 @@
       "mean": 74.1,
       "median": 26.0,
       "std": 85.7,
-      "p10": 1.0,
-      "p25": 8.0,
-      "p75": 147.0,
-      "p90": 222.0,
-      "dropout_mean": 178.6,
-      "retention_mean": 43.0
+      "pct_dropout": 178.6,
+      "pct_retention": 43.0
     },
     "avg_submission_delta": {
       "min": -236.0,
@@ -120,12 +110,8 @@
       "mean": -10.7,
       "median": 0.0,
       "std": 25.2,
-      "p10": -49.5,
-      "p25": -6.2,
-      "p75": 1.3,
-      "p90": 3.1,
-      "dropout_mean": -5.6,
-      "retention_mean": -12.2
+      "pct_dropout": -5.6,
+      "pct_retention": -12.2
     },
     "avg_assessment_score": {
       "min": 0.0,
@@ -133,22 +119,170 @@
       "mean": 65.8,
       "median": 74.0,
       "std": 26.5,
-      "p10": 1.0,
-      "p25": 58.9,
-      "p75": 83.7,
-      "p90": 89.7,
-      "dropout_mean": 45.6,
-      "retention_mean": 71.8
+      "pct_dropout": 45.6,
+      "pct_retention": 71.8
     }
   },
-  "baseline_dropout_rate": 0.2292,
+  "baseline_stats": {
+    "total_students": 28500,
+    "baseline_rate": 0.2292,
+    "baseline_at_risk": 6533,
+    "median_risk": 0.1189,
+    "q25_risk": 0.0641,
+    "q75_risk": 0.7086
+  },
+  "thresholds": {
+    "dias_sem_atividade": {
+      "0.15": 40.6,
+      "0.2": 55.9,
+      "0.25": 68.6,
+      "0.3": 79.4,
+      "0.4": 98.6,
+      "0.5": 116.5
+    },
+    "avg_submission_delta": {
+      "0.15": 30.0,
+      "0.2": 30.0,
+      "0.25": 30.0,
+      "0.3": 30.0,
+      "0.4": 30.0,
+      "0.5": 30.0
+    },
+    "avg_assessment_score": {
+      "0.15": 0.0,
+      "0.2": 0.0,
+      "0.25": 100.0,
+      "0.3": 100.0,
+      "0.4": 100.0,
+      "0.5": 100.0
+    }
+  },
+  "impacto_populacional": {
+    "dias_sem_atividade": {
+      "7": {
+        "pct_afetados": 75.3,
+        "risco_atual_afetados": 43.5,
+        "risco_depois_afetados": 14.3,
+        "reducao_media_pop": 21.99
+      },
+      "15": {
+        "pct_afetados": 61.7,
+        "risco_atual_afetados": 51.3,
+        "risco_depois_afetados": 17.9,
+        "reducao_media_pop": 20.6
+      },
+      "30": {
+        "pct_afetados": 45.2,
+        "risco_atual_afetados": 66.0,
+        "risco_depois_afetados": 25.9,
+        "reducao_media_pop": 18.13
+      },
+      "60": {
+        "pct_afetados": 36.4,
+        "risco_atual_afetados": 78.0,
+        "risco_depois_afetados": 40.7,
+        "reducao_media_pop": 13.6
+      },
+      "90": {
+        "pct_afetados": 33.1,
+        "risco_atual_afetados": 82.4,
+        "risco_depois_afetados": 54.8,
+        "reducao_media_pop": 9.14
+      },
+      "120": {
+        "pct_afetados": 28.7,
+        "risco_atual_afetados": 87.3,
+        "risco_depois_afetados": 69.0,
+        "reducao_media_pop": 5.25
+      },
+      "180": {
+        "pct_afetados": 18.9,
+        "risco_atual_afetados": 94.7,
+        "risco_depois_afetados": 90.1,
+        "reducao_media_pop": 0.87
+      }
+    },
+    "avg_submission_delta": {
+      "7": {
+        "pct_afetados": 2.8,
+        "risco_atual_afetados": 51.1,
+        "risco_depois_afetados": 50.4,
+        "reducao_media_pop": -0.2
+      },
+      "15": {
+        "pct_afetados": 0.7,
+        "risco_atual_afetados": 56.7,
+        "risco_depois_afetados": 55.1,
+        "reducao_media_pop": -0.21
+      },
+      "30": {
+        "pct_afetados": 0.2,
+        "risco_atual_afetados": 60.0,
+        "risco_depois_afetados": 56.8,
+        "reducao_media_pop": -0.22
+      },
+      "60": {
+        "pct_afetados": 0.1,
+        "risco_atual_afetados": 61.7,
+        "risco_depois_afetados": 57.6,
+        "reducao_media_pop": -0.22
+      },
+      "90": {
+        "pct_afetados": 0.1,
+        "risco_atual_afetados": 51.9,
+        "risco_depois_afetados": 47.6,
+        "reducao_media_pop": -0.22
+      },
+      "120": {
+        "pct_afetados": 0.0,
+        "risco_atual_afetados": 44.1,
+        "risco_depois_afetados": 41.0,
+        "reducao_media_pop": -0.22
+      },
+      "180": {
+        "pct_afetados": 0.0,
+        "risco_atual_afetados": 32.8,
+        "risco_depois_afetados": 32.3,
+        "reducao_media_pop": -0.22
+      }
+    },
+    "avg_assessment_score": {
+      "7": {
+        "pct_afetados": 89.9,
+        "risco_atual_afetados": 27.1,
+        "risco_depois_afetados": 27.1,
+        "reducao_media_pop": 0.04
+      },
+      "15": {
+        "pct_afetados": 89.6,
+        "risco_atual_afetados": 26.8,
+        "risco_depois_afetados": 26.8,
+        "reducao_media_pop": 0.09
+      },
+      "30": {
+        "pct_afetados": 88.4,
+        "risco_atual_afetados": 26.1,
+        "risco_depois_afetados": 26.1,
+        "reducao_media_pop": 0.23
+      },
+      "60": {
+        "pct_afetados": 73.3,
+        "risco_atual_afetados": 21.2,
+        "risco_depois_afetados": 21.2,
+        "reducao_media_pop": 1.46
+      },
+      "90": {
+        "pct_afetados": 9.0,
+        "risco_atual_afetados": 14.4,
+        "risco_depois_afetados": 14.4,
+        "reducao_media_pop": 7.18
+      }
+    }
+  },
   "default_meta_dropout": 0.2,
   "meta_bounds": [
     0.05,
     0.5
   ],
-  "best_model": "Random Forest",
-  "best_model_test_roc_auc": 0.9525,
-  "proxy_roc_auc": 0.9125,
-  "note": "Proxy hibrido humanizado: dias_sem_atividade+delta (LR) + nota (LR univariado). Sub-indices com percentis reais do OULAD."
+  "proxy_roc_auc": 0.9125
 }
