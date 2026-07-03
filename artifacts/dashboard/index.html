@@ -233,21 +233,26 @@ header h1{font-size:1.3rem}
 
 <!-- ═══════════════ INLINE MODEL PROXY ═══════════════ -->
 <script type="application/json" id="proxyData">{
-"model":"LogisticRegression",
-"features":["last_activity_day","assessment_count","submission_rate"],
-"coefficients":{"intercept":-0.8913436252801004,"last_activity_day":-0.596320926083401,"assessment_count":-4.1771284176957115,"submission_rate":1.9842038737214558},
+"model":"LogisticRegression (hibrido)",
+"features":["last_activity_day","submission_rate","avg_assessment_score"],
+"coefficients":{"intercept":-0.8640,"last_activity_day":-1.4873,"submission_rate":-0.7334,"avg_assessment_score":-0.8806},
+"intercept_aas":-0.1634,
 "feature_ranges":{
-"last_activity_day":{"min":-999.0,"max":269.0,"mean":53.554993097100784,"std":372.85312305358985},
-"assessment_count":{"min":0.0,"max":14.0,"mean":5.311397453597177,"std":4.282732965318321},
-"submission_rate":{"min":0.0,"max":0.058333333333333334,"mean":0.02085073368283075,"std":0.016994785969329115}
+"last_activity_day":{"min":0,"max":270,"mean":182.05,"std":86.17},
+"submission_rate":{"min":0,"max":0.058,"mean":0.0239,"std":0.0163},
+"avg_assessment_score":{"min":0,"max":100,"mean":65.78,"std":26.51}
 },
+"scaler_mean":[182.05,0.0239],
+"scaler_std":[86.17,0.0163],
+"scaler_aas_mean":65.78,
+"scaler_aas_std":26.51,
 "default_meta_dropout":0.2,
 "meta_bounds":[0.05,0.5],
-"test_set_baseline_p":0.31155085135757016,
-"scaler_mean":[53.554993097100784,5.311397453597177,0.02085073368283075],
-"scaler_std":[372.8245245397949,4.282404471897679,0.016993482438284486],
+"test_set_baseline_p":0.229,
 "best_model":"Random Forest",
-"best_model_test_roc_auc":0.9525
+"best_model_test_roc_auc":0.9525,
+"proxy_roc_auc":0.9115,
+"note":"Proxy hibrido: lad+sr de LR completo, aas de LR univariado. last_activity_day >= 0."
 }</script>
 
 <div class="container">
@@ -344,49 +349,49 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <div class="slider-card animate d5">
 <div class="slider-card-header">
 <div class="name">last_activity_day</div>
-<div class="range">−999 a 269 dias</div>
+<div class="range">0 a 270 dias do módulo</div>
 </div>
 <div class="slider-row">
-<input type="range" id="slLad" min="-999" max="269" step="1" value="54">
-<div class="slider-val" id="valLad">54</div>
+<input type="range" id="slLad" min="0" max="270" step="1" value="182">
+<div class="slider-val" id="valLad">182</div>
 </div>
 <div class="slider-stats" id="statsLad">
 <div class="slider-stat"><strong>Impacto (+1 dia):</strong> <span id="impactLad">—</span></div>
 <div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortLad">—</span></div>
 </div>
-<div class="slider-legend">📌 <strong>O que significa:</strong> Dias desde a última interação com o VLE (Virtual Learning Environment). Quanto <em>menor</em> o valor, maior o risco de evasão — indica abandono precoce do ambiente virtual. Valores negativos representam atividade antes do início oficial do módulo.</div>
+<div class="slider-legend"><strong>O que significa:</strong> Dia da última interação com o VLE (0 = início do módulo, 270 = fim). Quanto <em>menor</em> o valor, mais cedo o estudante parou de acessar e maior o risco de evasão. Feature mais importante do modelo (~28%).</div>
 </div>
 
 <div class="slider-card animate d6">
 <div class="slider-card-header">
-<div class="name">assessment_count</div>
-<div class="range">0 a 14 avaliações</div>
-</div>
-<div class="slider-row">
-<input type="range" id="slAc" min="0" max="14" step="1" value="5">
-<div class="slider-val" id="valAc">5</div>
-</div>
-<div class="slider-stats" id="statsAc">
-<div class="slider-stat"><strong>Impacto (+1 av.):</strong> <span id="impactAc">—</span></div>
-<div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortAc">—</span></div>
-</div>
-<div class="slider-legend">📌 <strong>O que significa:</strong> Número total de avaliações submetidas (TMAs + CMAs + exames). Quanto <em>menor</em> a contagem, menor o engajamento acadêmico e maior o risco de evasão. É a segunda feature mais importante do modelo.</div>
-</div>
-
-<div class="slider-card animate d7">
-<div class="slider-card-header">
 <div class="name">submission_rate</div>
-<div class="range">0 a 0,058 submissões/dia</div>
+<div class="range">0 a 0,058 entregas/dia</div>
 </div>
 <div class="slider-row">
-<input type="range" id="slSr" min="0" max="0.05833" step="0.001" value="0.021">
-<div class="slider-val" id="valSr">0,021</div>
+<input type="range" id="slSr" min="0" max="0.058" step="0.001" value="0.024">
+<div class="slider-val" id="valSr">0,024</div>
 </div>
 <div class="slider-stats" id="statsSr">
 <div class="slider-stat"><strong>Impacto (+0,001):</strong> <span id="impactSr">—</span></div>
 <div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortSr">—</span></div>
 </div>
-<div class="slider-legend">📌 <strong>O que significa:</strong> Taxa de submissão de avaliações por dia do módulo (assessment_count ÷ duração do módulo). Taxa baixa indica entrega inconsistente e desengajamento progressivo. Quanto <em>maior</em> a taxa, menor o risco.</div>
+<div class="slider-legend"><strong>O que significa:</strong> Taxa de entrega de avaliações por dia do módulo (avaliações entregues ÷ duração total). Quanto <em>maior</em> a taxa, mais consistente é o estudante e menor o risco de evasão.</div>
+</div>
+
+<div class="slider-card animate d7">
+<div class="slider-card-header">
+<div class="name">avg_assessment_score</div>
+<div class="range">0 a 100 pontos</div>
+</div>
+<div class="slider-row">
+<input type="range" id="slAas" min="0" max="100" step="1" value="66">
+<div class="slider-val" id="valAas">66</div>
+</div>
+<div class="slider-stats" id="statsAas">
+<div class="slider-stat"><strong>Impacto (+1 ponto):</strong> <span id="impactAas">—</span></div>
+<div class="slider-stat"><strong>Esforço p/ meta:</strong> <span id="effortAas">—</span></div>
+</div>
+<div class="slider-legend"><strong>O que significa:</strong> Nota média do estudante em todas as avaliações submetidas. Quanto <em>maior</em> a nota, melhor o desempenho e menor o risco de evasão. Nota ≥ 70 reduz significativamente a probabilidade predita.</div>
 </div>
 </div>
 
@@ -401,8 +406,8 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <p style="font-size:0.82rem;color:var(--text2);margin-top:8px" id="effortDesc">A soma padronizada dos deltas necessários em cada indicador para atingir a meta de evasão.</p>
 <div class="effort-breakdown" id="effortBreakdown">
 <div class="effort-item">last_activity_day: <strong id="effLadVal">—</strong></div>
-<div class="effort-item">assessment_count: <strong id="effAcVal">—</strong></div>
 <div class="effort-item">submission_rate: <strong id="effSrVal">—</strong></div>
+<div class="effort-item">avg_assessment_score: <strong id="effAasVal">—</strong></div>
 </div>
 </div>
 </div>
@@ -414,7 +419,7 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <div class="bar-chart" id="featureBars">
 <!-- JS will populate -->
 </div>
-<p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do XGBoost (modelo de melhor recall). A última interação com VLE (last_activity_day) é o preditor mais forte — 28,2% da importância total.</p>
+<p style="margin-top:14px;font-size:0.78rem;color:var(--text2)">Valores de <code>feature_importances_</code> do XGBoost. A última interação com VLE (last_activity_day) é o preditor mais forte — 28,2% da importância total.</p>
 </div>
 </div>
 
@@ -422,7 +427,7 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <div class="section">
 <div class="section-header"><div class="dot"></div><h2>Comparativo de Modelos</h2></div>
 <div class="card animate d6">
-<p style="font-size:0.82rem;color:var(--text2);margin-bottom:12px">Benchmark dos 6 modelos treinados no OULAD (test set, 5-fold CV). O Random Forest é o modelo padrão; o proxy linear nos 3 indicadores perde ~0,02 ROC-AUC pela simplicidade.</p>
+<p style="font-size:0.82rem;color:var(--text2);margin-bottom:12px">Benchmark dos 6 modelos treinados no OULAD (test set). O Random Forest é o modelo padrão. O proxy linear hibrido (lad+sr+aas) tem ROC-AUC 0,911 vs 0,953 do RF.</p>
 <table class="model-table">
 <thead>
 <tr>
@@ -494,7 +499,7 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <h2>Conclusões e Ações</h2>
 <ul>
 <li><strong>Queda de Atividade (Semana 3):</strong> Estudantes com <code>last_activity_day ≤ 21</code> + <code>clicks &lt; 500</code> — alerta automático no VLE + contato do tutor. Ação de baixo custo que pode reverter o desengajamento precoce.</li>
-<li><strong>Mentoria para Baixa Submissão:</strong> Estudantes com <code>assessment_count ≤ 2</code> até o meio do módulo — mentor dedicado 1h/semana. A feature assessment_count é a 2ª mais importante (~12%).</li>
+<li><strong>Mentoria para Baixa Submissão:</strong> Estudantes com baixa taxa de entrega de avaliações — mentor dedicado 1h/semana. A taxa de submissão (submission_rate) é a 3ª mais importante (~8,8%) e é acionável via mentoria.</li>
 <li><strong>Nudge de Consistência:</strong> Estudantes com <code>submission_rate &lt; 0,30</code> (proporção de entregas) — e-mail automatizado + lembrete no VLE a cada nova avaliação. Custo baixo, efeito gradual.</li>
 </ul>
 </div>
@@ -506,13 +511,13 @@ style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
 <ul>
 <li><strong>Correlação não é causalidade.</strong> O modelo é <strong>PREDITIVO</strong>, não <strong>CAUSAL</strong>. Baixa atividade VLE é um sinal de desengajamento, não a causa da evasão. Intervenções devem focar em reverter o desengajamento, não em "corrigir" a feature.</li>
 <li><strong>OULAD = 1 universidade UK (2013–2014).</strong> Dados de uma única instituição de ensino a distância no Reino Unido (pré-pandemia). Não generalizável diretamente para ensino presencial, outros países, ou contextos pós-2020. Recalibração necessária para outras instituições.</li>
-<li><strong>Proxy linear nos 3 indicadores</strong> (Logistic Regression com last_activity_day, assessment_count, submission_rate) perde ~0,02 ROC-AUC vs Random Forest completo. A simplificação é intencional para permitir cálculos analíticos de esforço por indicador em <code>file://</code> sem servidor.</li>
+<li><strong>Proxy linear nos 3 indicadores</strong> (Logistic Regression hibrida: last_activity_day, submission_rate, avg_assessment_score) perde ~0,04 ROC-AUC vs Random Forest completo (0,911 vs 0,953). A simplificação permite cálculos analíticos de esforço por indicador em <code>file://</code> sem servidor.</li>
 </ul>
 </div>
 
 <footer>
 Dashboard gerado para o projeto <strong>Abandono Acadêmico</strong> — Fase 4<br>
-Modelo: Random Forest (padrão) · Proxy: Logistic Regression 3 features · n = 32.593<br>
+Modelo: Random Forest (padrão) · Proxy: LR hibrido (lad+sr+aas) · ROC-AUC proxy: 0,911<br>
 Dados: OULAD · Kuzilek et al. · Nature Sci. Data (CC-BY 4.0)
 </footer>
 
@@ -522,12 +527,11 @@ Dados: OULAD · Kuzilek et al. · Nature Sci. Data (CC-BY 4.0)
 (function(){
 'use strict';
 
-/* ── Carregar proxy data ────────────────────────────── */
 const PROXY = JSON.parse(document.getElementById('proxyData').textContent);
 const CF = PROXY.coefficients;
 const FR = PROXY.feature_ranges;
 
-/* ── Top 10 feature importances (XGBoost, do model.md) ── */
+/* ── Top 10 feature importances (XGBoost, model.md) ─── */
 const FEATURES = [
 { label:'last_activity_day',          val:0.2816, cls:'lad' },
 { label:'code_module_GGG',            val:0.0571, cls:'nt' },
@@ -541,89 +545,78 @@ const FEATURES = [
 { label:'code_module_BBB',            val:0.0165, cls:'ac' },
 ];
 
-/* ── Renderizar barras ────────────────────────────────── */
 const barContainer = document.getElementById('featureBars');
 const maxVal = FEATURES[0].val;
 FEATURES.forEach((f, i) => {
 const row = document.createElement('div');
 row.className = 'bar-row';
 const pct = (f.val * 100).toFixed(1);
-row.innerHTML =
-`<div class="bar-label">${f.label}</div>` +
-`<div class="bar-track">` +
-`<div class="bar-fill ${f.cls}" style="width:0%" data-val="${pct}%"></div>` +
-`</div>`;
+row.innerHTML = `<div class="bar-label">${f.label}</div><div class="bar-track"><div class="bar-fill ${f.cls}" style="width:0%" data-val="${pct}%"></div></div>`;
 barContainer.appendChild(row);
 requestAnimationFrame(() => {
-setTimeout(() => {
-row.querySelector('.bar-fill').style.width = (f.val / maxVal * 100) + '%';
-}, 200 + i * 80);
+setTimeout(() => { row.querySelector('.bar-fill').style.width = (f.val / maxVal * 100) + '%'; }, 200 + i * 80);
 });
 });
 
-/* ── Funções matemáticas ──────────────────────────────── */
+/* ── Funcoes matematicas (modelo hibrido) ───────────── */
 function sigmoid(z){ return 1 / (1 + Math.exp(-z)); }
 
 function normalize(val, mean, std){ return (val - mean) / std; }
 
-function calcLogOdds(lad, ac, sr){
+function calcLogOdds(lad, sr, aas){
+// lad e sr usam scaler2 (LR completo)
+// aas usa scaler_aas separado (LR univariado)
 const ladN = normalize(lad, FR.last_activity_day.mean, FR.last_activity_day.std);
-const acN  = normalize(ac,  FR.assessment_count.mean, FR.assessment_count.std);
 const srN  = normalize(sr,  FR.submission_rate.mean,  FR.submission_rate.std);
-return CF.intercept + CF.last_activity_day * ladN + CF.assessment_count * acN + CF.submission_rate * srN;
+const aasN = normalize(aas, FR.avg_assessment_score.mean, FR.avg_assessment_score.std);
+return CF.intercept + CF.last_activity_day * ladN + CF.submission_rate * srN + CF.avg_assessment_score * aasN;
 }
 
-function calcProb(lad, ac, sr){
-return sigmoid(calcLogOdds(lad, ac, sr));
+function calcProb(lad, sr, aas){
+return sigmoid(calcLogOdds(lad, sr, aas));
 }
 
-function impactOf(which, lad, ac, sr){
-// Delta de probabilidade se +1 unidade (ou +0.001 para submission_rate)
-const curr = calcProb(lad, ac, sr);
-let nLad = lad, nAc = ac, nSr = sr;
+function impactOf(which, lad, sr, aas){
+const curr = calcProb(lad, sr, aas);
+let nLad = lad, nSr = sr, nAas = aas;
 const step = (which === 'sr') ? 0.001 : 1;
 if(which === 'lad') nLad = Math.min(lad + step, FR.last_activity_day.max);
-if(which === 'ac')  nAc  = Math.min(ac  + step, FR.assessment_count.max);
 if(which === 'sr')  nSr  = Math.min(sr  + step, FR.submission_rate.max);
-const nxt = calcProb(nLad, nAc, nSr);
-return (nxt - curr); // em pontos decimais (0-1)
+if(which === 'aas') nAas = Math.min(aas + step, FR.avg_assessment_score.max);
+const nxt = calcProb(nLad, nSr, nAas);
+return (nxt - curr);
 }
 
-function effortFor(which, lad, ac, sr, targetP){
-// Quanto este indicador precisa mudar SOZINHO para atingir targetP
+function fmt(val, which){
+if(which === 'sr') return (typeof val === 'number') ? val.toFixed(3) : val;
+return (typeof val === 'number') ? Math.round(val).toString() : val;
+}
+
+function effortFor(which, lad, sr, aas, targetP){
 const targetLogOdds = Math.log(targetP / (1 - targetP));
-const currLogOdds = calcLogOdds(lad, ac, sr);
-
-// Soma das contribuições dos outros 2 indicadores
 const ladN = normalize(lad, FR.last_activity_day.mean, FR.last_activity_day.std);
-const acN  = normalize(ac,  FR.assessment_count.mean, FR.assessment_count.std);
 const srN  = normalize(sr,  FR.submission_rate.mean,  FR.submission_rate.std);
+const aasN = normalize(aas, FR.avg_assessment_score.mean, FR.avg_assessment_score.std);
 
-let sumOthers, coeff, mean, std, minV, maxV, currVal, label;
+let sumOthers, coeff, mean, std, minV, maxV, currVal;
 if(which === 'lad'){
-sumOthers = CF.assessment_count * acN + CF.submission_rate * srN;
+sumOthers = CF.submission_rate * srN + CF.avg_assessment_score * aasN;
 coeff = CF.last_activity_day; mean = FR.last_activity_day.mean;
 std = FR.last_activity_day.std; minV = FR.last_activity_day.min;
 maxV = FR.last_activity_day.max; currVal = lad;
-label = 'last_activity_day';
-} else if(which === 'ac'){
-sumOthers = CF.last_activity_day * ladN + CF.submission_rate * srN;
-coeff = CF.assessment_count; mean = FR.assessment_count.mean;
-std = FR.assessment_count.std; minV = FR.assessment_count.min;
-maxV = FR.assessment_count.max; currVal = ac;
-label = 'assessment_count';
-} else {
-sumOthers = CF.last_activity_day * ladN + CF.assessment_count * acN;
+} else if(which === 'sr'){
+sumOthers = CF.last_activity_day * ladN + CF.avg_assessment_score * aasN;
 coeff = CF.submission_rate; mean = FR.submission_rate.mean;
 std = FR.submission_rate.std; minV = FR.submission_rate.min;
 maxV = FR.submission_rate.max; currVal = sr;
-label = 'submission_rate';
+} else {
+sumOthers = CF.last_activity_day * ladN + CF.submission_rate * srN;
+coeff = CF.avg_assessment_score; mean = FR.avg_assessment_score.mean;
+std = FR.avg_assessment_score.std; minV = FR.avg_assessment_score.min;
+maxV = FR.avg_assessment_score.max; currVal = aas;
 }
 
-// coeff * norm(val) + intercept + sumOthers = targetLogOdds
-// norm(val) = (targetLogOdds - intercept - sumOthers) / coeff
-// val = norm(val) * std + mean
-if(Math.abs(coeff) < 1e-10) return {possible:false, msg:'coeficiente zero'};
+if(Math.abs(coeff) < 1e-10) return {possible:false, proportion:0, msg:'coeficiente zero'};
 
 const neededNorm = (targetLogOdds - CF.intercept - sumOthers) / coeff;
 const neededVal = neededNorm * std + mean;
@@ -633,49 +626,28 @@ const delta = Math.abs(neededVal - currVal);
 const range = maxV - minV;
 const prop = range > 0 ? delta / range : 0;
 const dir = neededVal > currVal ? 'aumentar' : 'reduzir';
-return {
-possible: true,
-neededVal: neededVal,
-delta: delta,
-proportion: prop,
-dir: dir,
-msg: `${dir} de ${fmt(currVal, which)} para ${fmt(neededVal, which)}`
-};
+return { possible: true, neededVal: neededVal, delta: delta, proportion: prop, dir: dir, msg: dir + ' de ' + fmt(currVal, which) + ' para ' + fmt(neededVal, which) };
 } else {
 const capped = neededVal < minV ? minV : maxV;
-const cappedDelta = Math.abs(capped - currVal);
-const cappedProp = (maxV - minV) > 0 ? cappedDelta / (maxV - minV) : 0;
-const shortfall = neededVal < minV ? (minV - neededVal) : (neededVal - maxV);
-return {
-possible: false,
-neededVal: neededVal,
-capped: capped,
-shortfall: shortfall,
-proportion: cappedProp,
-msg: `impossível — precisaria ${fmt(neededVal, which)} (limite: ${fmt(capped, which)})`
-};
+const cappedProp = (maxV - minV) > 0 ? Math.abs(capped - currVal) / (maxV - minV) : 0;
+return { possible: false, neededVal: neededVal, capped: capped, shortfall: Math.abs(neededVal - capped), proportion: cappedProp, msg: 'inviavel — precisaria ' + fmt(neededVal, which) + ' (limite: ' + fmt(capped, which) + ')' };
 }
 }
 
-function fmt(val, which){
-if(which === 'sr') return (typeof val === 'number') ? val.toFixed(3) : val;
-return (typeof val === 'number') ? Math.round(val).toString() : val;
-}
-
-/* ── Slider references ────────────────────────────────── */
+/* ── DOM references ──────────────────────────────────── */
 const slLad = document.getElementById('slLad');
-const slAc  = document.getElementById('slAc');
 const slSr  = document.getElementById('slSr');
+const slAas = document.getElementById('slAas');
 const vLad  = document.getElementById('valLad');
-const vAc   = document.getElementById('valAc');
 const vSr   = document.getElementById('valSr');
+const vAas  = document.getElementById('valAas');
 
 const iLad  = document.getElementById('impactLad');
-const iAc   = document.getElementById('impactAc');
 const iSr   = document.getElementById('impactSr');
+const iAas  = document.getElementById('impactAas');
 const eLad  = document.getElementById('effortLad');
-const eAc   = document.getElementById('effortAc');
 const eSr   = document.getElementById('effortSr');
+const eAas  = document.getElementById('effortAas');
 
 const metaSlider = document.getElementById('metaSlider');
 const metaPct    = document.getElementById('metaPct');
@@ -690,30 +662,26 @@ const metaMarker = document.getElementById('metaMarker');
 const effBadge   = document.getElementById('effortBadge');
 const effDesc    = document.getElementById('effortDesc');
 const effLadVal  = document.getElementById('effLadVal');
-const effAcVal   = document.getElementById('effAcVal');
 const effSrVal   = document.getElementById('effSrVal');
+const effAasVal  = document.getElementById('effAasVal');
 
-const CIRC = 2 * Math.PI * 78; // ~490
+const CIRC = 2 * Math.PI * 78;
 
 function updateAll(){
-// Ler valores
-const lad = parseFloat(slLad.value);
-const ac  = parseFloat(slAc.value);
-const sr  = parseFloat(slSr.value);
+const lad  = parseFloat(slLad.value);
+const sr   = parseFloat(slSr.value);
+const aas  = parseFloat(slAas.value);
 const meta = parseFloat(metaSlider.value);
 
-// Mostrar valores
-vLad.textContent = lad;
-vAc.textContent  = ac;
-vSr.textContent  = sr.toFixed(3);
+vLad.textContent  = lad;
+vSr.textContent   = sr.toFixed(3);
+vAas.textContent  = aas;
 metaPct.textContent = Math.round(meta * 100) + '%';
 
-// Calcular probabilidade atual
-const p = calcProb(lad, ac, sr);
+const p = calcProb(lad, sr, aas);
 const pct = Math.round(p * 100);
-const gap = (p - meta) * 100; // pp
+const gap = (p - meta) * 100;
 
-// ── Risk ring ──
 riskPct.textContent = pct + '%';
 const offset = CIRC * (1 - p);
 riskArc.style.strokeDashoffset = offset;
@@ -726,69 +694,56 @@ riskArc.style.stroke = color;
 riskStatus.textContent = statusText;
 riskStatus.className = 'risk-status ' + statusClass;
 
-// ── Meta bar – fill from 0 to p, marker at meta ──
-// Bar represents 0–50% full range, fill shows current P, marker shows meta
-// Fill width: (p / 0.50) * 100
 const fillW = Math.min(100, (p / 0.50) * 100);
 gapFill.style.width = fillW + '%';
-// Marker at meta position
 const markerPos = (meta / 0.50) * 100;
 metaMarker.style.left = Math.min(100, markerPos) + '%';
 metaMarker.setAttribute('data-label', 'Meta ' + Math.round(meta * 100) + '%');
 
-// ── Impacto local ──
-const impLad = impactOf('lad', lad, ac, sr);
-const impAc  = impactOf('ac',  lad, ac, sr);
-const impSr  = impactOf('sr',  lad, ac, sr);
+const impLad = impactOf('lad', lad, sr, aas);
+const impSr  = impactOf('sr',  lad, sr, aas);
+const impAas = impactOf('aas', lad, sr, aas);
 
 iLad.textContent = (impLad * 100 >= 0 ? '+' : '') + (impLad * 100).toFixed(2) + 'pp';
-iAc.textContent  = (impAc * 100 >= 0 ? '+' : '') + (impAc * 100).toFixed(2) + 'pp';
 iSr.textContent  = (impSr * 100 >= 0 ? '+' : '') + (impSr * 100).toFixed(2) + 'pp';
+iAas.textContent = (impAas * 100 >= 0 ? '+' : '') + (impAas * 100).toFixed(2) + 'pp';
 
-// ── Esforço p/ meta ──
-const eL = effortFor('lad', lad, ac, sr, meta);
-const eA = effortFor('ac',  lad, ac, sr, meta);
-const eS = effortFor('sr',  lad, ac, sr, meta);
+const eL = effortFor('lad', lad, sr, aas, meta);
+const eS = effortFor('sr',  lad, sr, aas, meta);
+const eA = effortFor('aas', lad, sr, aas, meta);
 
 eLad.textContent = eL.msg;
-eAc.textContent  = eA.msg;
 eSr.textContent  = eS.msg;
+eAas.textContent = eA.msg;
 
-// ── Esforço total ──
-const totalProp = (eL.possible ? eL.proportion : eL.proportion) +
-(eA.possible ? eA.proportion : eA.proportion) +
-(eS.possible ? eS.proportion : eS.proportion);
+const totalProp = eL.proportion + eS.proportion + eA.proportion;
 
-effLadVal.textContent = (eL.proportion * 100).toFixed(0) + '%' + (eL.possible ? '' : ' ⚠');
-effAcVal.textContent  = (eA.proportion * 100).toFixed(0) + '%' + (eA.possible ? '' : ' ⚠');
-effSrVal.textContent  = (eS.proportion * 100).toFixed(0) + '%' + (eS.possible ? '' : ' ⚠');
+effLadVal.textContent = (eL.proportion * 100).toFixed(0) + '%' + (eL.possible ? '' : ' (inviavel)');
+effSrVal.textContent  = (eS.proportion * 100).toFixed(0) + '%' + (eS.possible ? '' : ' (inviavel)');
+effAasVal.textContent = (eA.proportion * 100).toFixed(0) + '%' + (eA.possible ? '' : ' (inviavel)');
 
 let effLabel, effClass;
-if(totalProp < 0.3){ effLabel = 'Esforço Baixo'; effClass = 'effort-baixo'; }
-else if(totalProp < 0.7){ effLabel = 'Esforço Médio'; effClass = 'effort-medio'; }
-else { effLabel = 'Esforço Alto'; effClass = 'effort-alto'; }
+if(totalProp < 0.3){ effLabel = 'Esforco Baixo'; effClass = 'effort-baixo'; }
+else if(totalProp < 0.7){ effLabel = 'Esforco Medio'; effClass = 'effort-medio'; }
+else { effLabel = 'Esforco Alto'; effClass = 'effort-alto'; }
 
 effBadge.textContent = effLabel;
 effBadge.className = 'effort-badge ' + effClass;
 
 const pNow = Math.round(p * 100);
 const pMeta = Math.round(meta * 100);
-const gapSign = gap > 0 ? '+' : '';
 if(p >= meta){
-effDesc.textContent = `Probabilidade atual (${pNow}%) ≥ Meta (${pMeta}%). Gap de ${gapSign}${gap.toFixed(1)}pp — a meta já está atendida. Os esforços abaixo indicam quanto cada indicador precisaria mudar para REDUZIR ainda mais o risco.`;
+effDesc.textContent = 'Probabilidade atual (' + pNow + '%) >= Meta (' + pMeta + '%). Gap de ' + gap.toFixed(1) + 'pp — meta ja atendida.';
 } else {
-effDesc.textContent = `Probabilidade atual (${pNow}%) < Meta (${pMeta}%). Gap de ${gapSign}${gap.toFixed(1)}pp. A soma padronizada dos deltas (${(totalProp * 100).toFixed(0)}%) indica o esforço combinado para atingir a meta.`;
+effDesc.textContent = 'Probabilidade atual (' + pNow + '%) < Meta (' + pMeta + '%). Gap de ' + gap.toFixed(1) + 'pp. Esforco combinado: ' + (totalProp * 100).toFixed(0) + '%.';
 }
 }
 
-// ── Event listeners ──
-function onChange(){ updateAll(); }
-slLad.addEventListener('input', onChange);
-slAc.addEventListener('input', onChange);
-slSr.addEventListener('input', onChange);
-metaSlider.addEventListener('input', onChange);
+slLad.addEventListener('input', updateAll);
+slSr.addEventListener('input', updateAll);
+slAas.addEventListener('input', updateAll);
+metaSlider.addEventListener('input', updateAll);
 
-// ── Init ──
 updateAll();
 })();
 </script>

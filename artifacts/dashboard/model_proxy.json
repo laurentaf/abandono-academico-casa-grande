@@ -1,52 +1,60 @@
 {
-  "model": "LogisticRegression",
+  "model": "LogisticRegression (hibrido)",
   "features": [
     "last_activity_day",
-    "assessment_count",
-    "submission_rate"
+    "submission_rate",
+    "avg_assessment_score"
   ],
-  "coefficients": {
-    "intercept": -0.8913436252801004,
-    "last_activity_day": -0.596320926083401,
-    "assessment_count": -4.1771284176957115,
-    "submission_rate": 1.9842038737214558
+  "feature_labels": {
+    "last_activity_day": "Ultimo dia de atividade VLE (0-270 dias do modulo)",
+    "submission_rate": "Taxa de envio de avaliacoes (0 = nenhuma, ~0.058 = max)",
+    "avg_assessment_score": "Nota media nas provas (0-100)"
   },
+  "coefficients": {
+    "intercept": -0.8640083526451613,
+    "last_activity_day": -1.4872953407777256,
+    "submission_rate": -0.733352517759722,
+    "avg_assessment_score": -0.880623140646473
+  },
+  "intercept_aas": -0.1634196962744514,
   "feature_ranges": {
     "last_activity_day": {
-      "min": -999.0,
-      "max": 269.0,
-      "mean": 53.554993097100784,
-      "std": 372.85312305358985
-    },
-    "assessment_count": {
-      "min": 0.0,
-      "max": 14.0,
-      "mean": 5.311397453597177,
-      "std": 4.282732965318321
+      "min": 0,
+      "max": 270,
+      "mean": 182.04975438596492,
+      "std": 86.16927986666373
     },
     "submission_rate": {
       "min": 0.0,
-      "max": 0.058333333333333334,
-      "mean": 0.02085073368283075,
-      "std": 0.016994785969329115
+      "max": 0.058,
+      "mean": 0.023948102706333903,
+      "std": 0.01633883952007488
+    },
+    "avg_assessment_score": {
+      "min": 0,
+      "max": 100,
+      "mean": 65.78451817656027,
+      "std": 26.512990899384317
     }
   },
+  "scaler_mean": [
+    182.04975438596492,
+    0.023948102706333903
+  ],
+  "scaler_std": [
+    86.16776811165056,
+    0.016338552871253027
+  ],
+  "scaler_aas_mean": 65.78451817656027,
+  "scaler_aas_std": 26.51252575511285,
   "default_meta_dropout": 0.2,
   "meta_bounds": [
     0.05,
     0.5
   ],
-  "test_set_baseline_p": 0.31155085135757016,
-  "scaler_mean": [
-    53.554993097100784,
-    5.311397453597177,
-    0.02085073368283075
-  ],
-  "scaler_std": [
-    372.8245245397949,
-    4.282404471897679,
-    0.016993482438284486
-  ],
+  "test_set_baseline_p": 0.2292280701754386,
   "best_model": "Random Forest",
-  "best_model_test_roc_auc": 0.9537231951103703
+  "best_model_test_roc_auc": 0.9525,
+  "proxy_roc_auc": 0.9115,
+  "note": "Proxy hibrido: lad+sr de LR completo, aas de LR univariado (coeficiente negativo verdadeiro). last_activity_day >= 0."
 }
